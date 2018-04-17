@@ -1,0 +1,215 @@
+<a href="javascript:;" class="btn add_staff user_search" style="margin-right: 20px;">人才筛选</a>
+<div class="bg-fff" style="margin-top: 24px;">
+    <table class="table">
+        <thead>
+        <tr>
+            <!-- <th>编号</th> -->
+            <th>职位</th>
+            <!-- <th>期望薪资</th> -->
+            <th>求职者</th>
+            <th>学历</th>
+            <th>工作年限</th>
+            <th>所在城市</th>
+            <th>更新时间</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php foreach($jober_list as $value):?>
+        <tr>
+            <td><?php echo cut_str($value['occupation'],10);?></td>
+            <td><?php echo $value['name'];?></td>
+            <td><?php echo $value['highest_degree_name'];?></td>
+            <td><?php echo $value['work_year'];?></td>
+            <td><?php echo $value['city_name'];?></td>
+            <td><?php echo $value['update_time'];?></td>
+            <td>
+                <a href="<?php echo U('index/userinfo',array('user_id'=>$value['user_id']));?>" class="load_url load<?php echo $value['user_id'] ?>">查看简历</a>
+                <a href="<?php echo U('index/apply_interview',array('user_id'=>$value['user_id']));?>" class="load_url" title="邀面职位选择">邀请面试</a>
+            </td>
+        </tr>
+        <?php endforeach;?>
+        </tbody>
+    </table>
+    <?php echo helper()->page($pageinfo);?>
+</div>
+<script type="text/plain" id="search_div">
+<form action="" style="padding:20px 0;" id="add_staff_form" method="get">
+    <div class="register_first_column" style="margin-top:0;width:90%;">
+        <label class="register_first_label register_first_label2">职位</label>
+        <select id="occupation_parent" class="register_first_select" name="occupation_first"><option value="0">请选择</option>
+        <?php foreach ($all_user_occupations as $key => $value) {
+            echo '<option data-id="'.$value['id'].'" value="'.$value['item'].'">'.$value['item'].'</option>';
+        }?>
+        </select>
+        <select id="occupation_child" disabled=true class="register_first_select" name="occupation"><option value="0">请选择</option>
+            <?php foreach ($all_user_occupations as $key => $value) {
+                foreach ($value['child_lists'] as $_key => $_value) {
+                    echo '<option data-parent="'.$value['id'].'" value="'.$_value['item'].'">'.$_value['item'].'</option>';
+                }
+
+            }?>
+        </select>
+        <!--<input type="text" class="register_first_input" name="occupation" placeholder="职位"/>-->
+    </div>
+    <div class="register_first_column" style="margin-top:0;width:90%;">
+        <label class="register_first_label register_first_label2">所在地</label>
+        <select class="register_first_select" style="margin-right: 8px;" name="province_id">
+
+        </select><select class="register_first_select" style="" name="city_id">
+
+        </select>
+    </div>
+    <div class="register_first_column" style="margin-top:0; float:left; width:50%;">
+        <label class="register_first_label register_first_label2">工作年限</label>
+        <select class="register_first_select" style="width: 112px;margin-right: 8px;" name="work_year">
+            <option value="0">不限</option>
+            <?php for ($i=1; $i < 11; $i++) {
+                echo '<option value="'.$i.'">'.$i.'年</option>';
+            }?>
+        </select>
+        <select class="register_first_select" style="width: 112px;margin-right: 8px;" name="work_year_level">
+            <option value="0">及以上</option>
+            <option value="1">以上</option>
+            <option value="2">以下</option>
+            <option value="3">及以下</option>
+        </select>
+    </div>
+    <div class="register_first_column" style="margin-top:0; float:left;width:50%;">
+        <label class="register_first_label register_first_label2">期望薪资</label>
+         <select class="register_first_select" style="width: 112px;margin-right: 8px;" name="wage">
+            <option value="0">不限</option>
+            <?php for ($i=3; $i < 50; $i++) {
+                echo '<option value="'.$i.'">'.$i.'K</option>';
+            }?>
+        </select>
+        <select class="register_first_select" style="width: 112px;margin-right: 8px;" name="wage_level">
+            <option value="0">及以上</option>
+            <option value="1">以上</option>
+            <option value="2">以下</option>
+            <option value="3">及以下</option>
+        </select>
+    </div>
+    <div class="register_first_column" style="margin-top:0; float:left;width:50%;">
+        <label class="register_first_label register_first_label2">年龄</label>
+         <select class="register_first_select" style="width: 112px;margin-right: 8px;" name="olds">
+            <option value="0">不限</option>
+            <?php for ($i=18; $i < 65; $i++) {
+                echo '<option value="'.$i.'">'.$i.'</option>';
+            }?>
+        </select>
+        <select class="register_first_select" style="width: 112px;margin-right: 8px;" name="olds_level">
+            <option value="0">及以上</option>
+            <option value="1">以上</option>
+            <option value="2">以下</option>
+            <option value="3">及以下</option>
+        </select>
+    </div>
+    <div class="register_first_column" style="margin-top:0; float:left;width:50%;">
+        <label class="register_first_label register_first_label2">性别</label>
+         <select class="register_first_select occupation_child" style="width: 112px;margin-right: 8px;" name="sex">
+            <option value="0">不限</option>
+            <option value="1">男</option>
+            <option value="2">女</option>
+        </select>
+    </div>
+    <div class="register_first_column" style="margin-top:0; float:left;width:50%;">
+        <label class="register_first_label register_first_label2">所属行业</label>
+         <select class="register_first_select" style="margin-right: 8px;" name="industry">
+         <option value="">请选择</option>
+            <?php foreach ($all_user_industries as $key => $value) {
+                echo '<option value="'.$value.'">'.$value.'</option>';
+            }?>
+        </select>
+    </div>
+    <div class="register_first_column" style="margin-top:0;float:left;width:50%;">
+        <label class="register_first_label register_first_label2">学历</label>
+        <select class="register_first_select" style="width: 112px;" name="highest_degree"><option value="0">不限</option>
+            <option value="1">高中</option>
+            <option value="2">专科</option>
+            <option value="3">本科</option>
+            <option value="4">研究生</option>
+        </select>
+        <select class="register_first_select" style="width: 112px;margin-right: 8px;" name="degree_level">
+            <option value="0">及以上</option>
+            <option value="1">以上</option>
+            <option value="2">以下</option>
+            <option value="3">及以下</option>
+        </select>
+    </div>
+    <div class="register_first_column" style="margin-top:0;clear:left;">
+        <label class="register_first_label register_first_label2" style="width:10%;">工作经历</label>
+        <input class="register_first_select" name="experience" style="width:70%" placeholder="您需要人才工作经历中出现的关键词"/>
+    </div>
+    <div class="register_first_column" style="margin-top:0;clear:left;">
+        <label class="register_first_label register_first_label2" style="width:10%;">人才关键词</label>
+        <input class="register_first_select" style="width:70%" name="keyword" placeholder="您需要简历中出现的关键词，多个可用空格分开"/>
+    </div>
+    <div class="register_first_column" style="margin-top: 20px;text-align:center;">
+        <div class="register_first_next register_first_submit">开始搜索</div>
+    </div>
+</form>
+</script>
+<script>
+    //人才筛选
+    $(document).on("click",".user_search",function () {
+        $box2({title:"人才搜索",msg:$("#search_div").html()});
+        $(".alert_bg").css("left","173px");
+        // $(".alert_close").remove();
+        $province_city($("select[name='province_id']"),$("select[name='city_id']"));
+    });
+    //提交搜索
+    $(document).on("click",".register_first_submit",function () {
+        var name=$("select[name='occupation_first']").val();
+        if(name=="0"){
+            alert("请筛选职位");return false;
+        }
+        if($("select[name='city_id']").val()=="0"){
+            alert("请选择城市");return false;
+        }
+        $("#add_staff_form").submit();
+    });
+    $(document).on("change","#occupation_parent",function () {
+        $('#occupation_child option:first').attr("selected", 'selected');
+        var parent=$(this).find('option:selected');
+        $('#occupation_child option').css('display','none');
+        $('#occupation_child option').each(function(){
+            if($(this).data('parent')==parent.data('id') && $(this).text()!='请选择'){
+                $(this).css('display','block');
+            }
+        });
+        $('#occupation_child').attr('disabled',false);
+    });
+    $(function(){
+    <?php if(!isset($_GET["occupation"])):?>
+        $(".user_search").trigger("click");
+        $("#occupation_parent").change(function(){
+            $('#occupation_child option:first').attr("selected", 'selected');
+            var parent=$(this).find('option:selected');
+            $('#occupation_child option').css('display','none');
+            $('#occupation_child option').each(function(){
+                if($(this).data('parent')==parent.data('id') && $(this).text()!='请选择'){
+                    $(this).css('display','block');
+                }
+            });
+            $('#occupation_child').attr('disabled',false);
+        })
+        <?php endif;?>
+
+    })
+
+    $(function () {
+
+        var userid='<?php echo $userid  ?>';
+        if(userid)
+        {
+            $('.load'+userid).click();
+
+        }
+
+    })
+
+</script>
+<style>
+    .register_first_label2{width: 60px;}
+</style>

@@ -1,0 +1,32 @@
+<div class="bg-fff">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>编号</th>
+                <th>意向职位</th>
+                <th>期望薪资</th>
+                <th>求职者</th>
+                <th>工作年限</th>
+                <th>所在城市</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach($content as $value):?>
+            <tr>
+                <td><?php echo $value['id'];?></td>
+                <td><?php echo $value['position'];?></td>
+                <td><?php echo $value['salary'];?></td>
+                <td><?php echo $value['name'];?></td>
+                <td><?php echo $value['year'];?></td>
+                <td><?php echo $value['city'];?></td>
+                <td>
+                    <a href="<?php echo U('index/userinfo',array('user_id'=>$value['user_id']));?>" class="load_url">查看简历</a>
+                    <a href="<?php echo U('index/jobfair_apply_interview',array('user_id'=>$value['user_id'],'job_fair_id'=>$jobfair_id));?>" class="load_url">邀请面试</a>
+                </td>
+            </tr>
+            <?php endforeach;?>
+        </tbody>
+    </table>
+    <?php echo helper()->page($pageinfo);?>
+</div>

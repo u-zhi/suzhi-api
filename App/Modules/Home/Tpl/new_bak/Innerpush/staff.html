@@ -1,0 +1,142 @@
+<a href="javascript:;" class="btn add_staff" style="margin-right: 20px;">添加成员</a>
+<a href="javascript:;" class="btn batch_add_staff">批量导入</a>
+<div class="bg-fff" style="margin-top: 24px;padding-bottom:12px;">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>编号</th>
+                <th>部门</th>
+                <th>姓名</th>
+                <th>手机号</th>
+                <th>推荐人数</th>
+                <th>累计奖金</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach($company_staff_list as $value):?>
+            <tr>
+                <td><?php echo $value['id'];?></td>
+                <td><?php echo $value['department'];?></td>
+                <td><?php echo $value['name'];?></td>
+                <td><?php echo $value['mobile'];?></td>
+                <td><?php echo $value['jobhunter_order_sum'];?></td>
+                <td><?php echo $value['commission']/100;?></td>
+                <td>
+                    <a class="sure_commit" href="<?php echo U('innerpush/staffdel')?>" data="id=<?php echo $value['id'];?>">删除</a>
+                </td>
+            </tr>
+            <?php endforeach;?>
+        </tbody>
+    </table>
+    <?php echo helper()->page($pageinfo);?>
+</div>
+<script type="text/plain" id="add_staff_template">
+<form action="<?php echo U('innerpush/staffadd');?>" style="padding:20px 0;" id="add_staff_form" method="post" >
+    <div class="register_first_column" style="margin-top:0;">
+        <label class="register_first_label register_first_label2">部门</label>
+        <input type="text" class="register_first_input" name="department" placeholder="请填写部门名称"/>
+    </div>
+    <div class="register_first_column" style="margin-top:20px;">
+        <label class="register_first_label register_first_label2">姓名</label>
+        <input type="text" class="register_first_input" name="name" placeholder="请填写企业成员姓名"/>
+    </div>
+    <div class="register_first_column" style="margin-top:20px;">
+        <label class="register_first_label register_first_label2">手机号</label>
+        <input type="text" class="register_first_input" name="mobile" placeholder="请填写企业成员手机号"/>
+    </div>
+    <div class="register_first_column" style="margin-top: 25px;">
+        <label class="register_first_label register_first_label2"></label>
+        <div class="register_first_next register_first_submit">确定</div>
+    </div>
+</form>
+</script>
+<script type="text/plain" id="batch_add_staff_template">
+<form action="<?php echo U('innerpush/staffexcle');?>" enctype="multipart/form-data" id="batch_add_staff_form" method="post" >
+    <div class="register_first_column">
+        <label class="register_first_label register_first_label2" style="width:100px;">上传excel文件</label>
+        <input type="file" name="file"/>
+    </div>
+    <table class="table" style="margin-top: 20px;">
+        <thead>
+            <tr>
+                <th>部门</th>
+                <th>姓名</th>
+                <th>电话号码</th>
+            </tr>
+        </thead>
+        <tbody>
+             <tr>
+               <td>市场部</td>
+               <td>费辉</td>
+               <td>183***6897</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="register_first_column" style="margin-top: 25px;text-align:center;">
+        <input class="register_first_next register_first_submit1" type="submit" value="确定" style="border:none;"/>
+    </div>
+</form>
+</script>
+<script>
+//添加成员
+$(".add_staff").click(function(){
+    $box({msg:$("#add_staff_template").html()});
+});
+$(document).on("click",".register_first_submit",function(){
+    if($("#add_staff_form input[name='department']").val()==""){
+        $flash("请填写部门名称");return false;
+    }
+    if($("#add_staff_form input[name='name']").val()==""){
+        $flash("请填写姓名");return false;
+    }
+    if($("#add_staff_form input[name='mobile']").val()=="" 
+        || !$mobile($("#add_staff_form input[name='mobile']").val())
+        ){
+        $flash("请填写正确的手机号");return false;
+    }
+    if($mobile_exists2($("#add_staff_form input[name='mobile']").val())){
+        $flash("该号码已经录入其他企业");return false;
+    }
+    $("#add_staff_form").submit();
+});
+function $mobile_exists2(mobile){
+    var flag=false;
+    $.ajax({
+        async:false,
+        url:"<?php echo U('innerpush/ajax_staff_mobile');?>",
+        type:"get",
+        data:{"mobile":mobile},
+       // dataType:"json",
+        success:function(data){
+            if(data==1){
+                flag=true;
+            }
+        }
+    });
+    return flag;
+}
+</script>
+<script>
+    //批量添加
+    $(".batch_add_staff").on("click",function () {
+        $box({msg:$("#batch_add_staff_template").html()});
+    });
+    //上传添加
+    $(".batch_add_staff_form").on("submit",function(){
+        var file_name=$("#batch_add_staff_form").find("input[type='file']").val();
+        if(file_name==""){
+            alert("请上传excel文件");return false;
+        }
+    });
+</script>
+<?php if($last_innerpush_server["status"]==2 || $last_innerpush_server["end_time"]<date("Y-m-d H:i:s")):?>
+<script>
+    $(function () {
+        $alert({msg:"您开通的<?php echo $last_innerpush_server['number'];?>人内推服务名额使用完毕,请升级",sure_btn:"升级"},function () {
+            window.location='<?php echo U("server/index");?>';
+        });
+        $(".alert_bg").css("height","100%");
+    })
+</script>
+<?php endif;?>

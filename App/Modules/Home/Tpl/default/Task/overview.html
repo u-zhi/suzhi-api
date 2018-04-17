@@ -1,0 +1,13 @@
+<div class="index_wrap">
+    <div class="index_list cp" style="height: 346px;cursor: pointer;" onclick="window.location='<?php echo U('task/lists');?>'">
+        <h6 style="margin-top: 110px;">发布的职位</h6>
+        <div class="number"><?php echo $publish_number;?></div>
+    </div><div class="index_list cp" style="height: 346px;cursor: pointer;" onclick="window.location='<?php echo U('task/close');?>'">
+        <h6 style="margin-top: 110px;">关闭的职位</h6>
+        <div class="number"><?php echo $close_number;?></div>
+    </div><div class="index_list cp" style="height: 346px;cursor: pointer;" onclick="window.location='<?php echo U('task/no_success');?>'">
+        <h6 style="margin-top: 110px;">未发布成功职位</h6>
+        <div class="number"><?php echo $no_success_number;?></div>
+    </div>
+    <div style="margin-bottom: 9px;"><a class="buy_server_submit" href="<?php echo U('task/add');?>">新职位发布</a></div>
+</div>

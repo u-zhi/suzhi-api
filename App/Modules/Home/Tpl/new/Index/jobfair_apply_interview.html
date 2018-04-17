@@ -1,0 +1,80 @@
+<div class="bg-fff" style="padding-bottom: 12px;overflow-x:auto;">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>编号</th>
+                <th>职位</th>
+                <th>模式</th>
+                <th>佣金</th>
+                <th>收到简历</th>
+                <th>面试人数</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach($content as $value):?>
+            <tr>
+                <td><?php echo $value['id'];?></td>
+                <td><?php echo $value['name'];?></td>
+                <td><?php echo $value['recruit_type'];?></td>
+                <td><?php echo ($value['recruit_type_inner']==1 && $value['recruit_type_hunter']==1)?'--':$value['commission']/100;?></td>
+                <td><?php echo $value['order_number'];?></td>
+                <td><?php echo $value['interview_number'];?></td>
+                <td>
+                    <?php if($value["allow_apply_interview"]):?>
+                    <a data-id="<?php echo $value['id'];?>" href="javascript:;" class="apply_interview_btn">邀请面试</a>
+                    <?php else:?>
+                    已投递
+                    <?php endif;?>
+                </td>
+            </tr>
+            <?php endforeach;?>
+        </tbody>
+    </table>
+    <?php echo helper()->page($pageinfo);?>
+</div>
+<?php if(!$nofirst):?>
+<script>
+    //邀请面试
+    $(document).on("click",".apply_interview_btn",function () {
+        var task_id=$(this).attr("data-id");
+        var html='<div class="register_first_column fix_width_column" style="margin-top: 0;"><label class="register_first_label" style="width: 68px;">面试时间</label>';
+        html+='<input type="text" class="register_first_input" name="interview_time" placeholder="请填写面试时间" value="" id="datetimepicker"/></div>';
+        $confirm({msg:html,title:"确定邀请面试？",init:function(){
+            $.datetimepicker.setLocale('ch');
+            $('#datetimepicker').datetimepicker({
+                lang:"ch", //语言选择中文 注：旧版本 新版方法：$.datetimepicker.setLocale('ch');
+                format:"Y-m-d H:i:s",      //格式化日期
+                timepicker:true,   //关闭时间选项
+                todayButton:true,    //关闭选择今天按钮
+                minDate: 0,
+            });
+        }},function(){
+            var interview_time=$("input[name='interview_time']").val();
+            if(interview_time=="" || !/^\d{4}\-\d{2}\-\d{2}\s\d{2}\:\d{2}\:\d{2}$/.test(interview_time)){
+                layer_close=false;
+                alert("请填写正确的时间Y-m-d H:i:s");
+            }else{
+                var user_id='<?php echo $user_row["id"];?>';
+                $.ajax({
+                    url:"<?php echo U('square/jobfair_allow_apply_interview');?>",
+                    type:"get",
+                    async:false,
+                    data:{"task_id":task_id,"user_id":user_id},
+                    dataType:"json",
+                    success:function (obj) {
+                        if(obj.status=="fail"){
+                            alert(obj.msg);
+                        }else if(obj.status=="success"){
+                            layer_close=null;
+                            $post("<?php echo U('square/jobfair_apply_interview');?>",{task_id:task_id,user_id:user_id,interview_time:interview_time});
+                        }
+                    }
+                });
+            }
+        },function(){
+            layer_close=null;
+        });
+    });
+</script>
+<?php endif;?>

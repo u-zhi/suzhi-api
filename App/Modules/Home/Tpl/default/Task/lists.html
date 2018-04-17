@@ -1,0 +1,135 @@
+<div class="bg-fff" style="padding-bottom: 12px;overflow-x:auto;">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>编号</th>
+                <th>职位</th>
+                <th>模式</th>
+                <th>佣金</th>
+                <th>收到简历</th>
+                <th>面试人数</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach($content as $value):?>
+            <tr>
+                <td><?php echo $value['id'];?></td>
+                <td><?php echo $value['name'];?></td>
+                <td><?php echo $value['recruit_type'];?></td>
+                <td><?php echo ($value['recruit_type_inner']==1 && $value['recruit_type_hunter']==1)?'--':$value['commission']/100;?></td>
+                <td><?php echo $value['order_number'];?></td>
+                <td><?php echo $value['interview_number'];?></td>
+                <td>
+                    <a href="javascript:task_info('<?php echo $value["id"];?>');">详情</a>
+                    <a href="<?php echo U('task/close_task');?>" data="task_id=<?php echo $value['id'];?>" class="sure_commit" title="确认关闭该职位">关闭</a>
+                    <?php if(!$value['is_top']):?>
+                    <a href="javascript:push_top(<?php echo $value['id'];?>);" data="task_id=<?php echo $value['id'];?>"   title="确认置顶该职位">置顶</a>
+                    <?php endif;?>
+                </td>
+            </tr>
+            <?php endforeach;?>
+        </tbody>
+    </table>
+    <?php echo helper()->page($pageinfo);?>
+</div>
+<script type="text/plain" id="push_top_template"><form action="<?php echo U('task/top');?>" method="post" id="task_form">
+<div class="buy_server_list" style="height:unset;border:none;width:50%;margin-left:50px;margin-top:20px;">
+ <input type="hidden" name="task_id" id="in_task_id" value="">
+<label class="interview_label"> 
+    <input type="radio" name="top_data" id="top_data" value="1@10" data_money="10">
+ 	<span class="s1">置顶1天</span>10个速职币</label>
+   <label class="interview_label"> 
+	<input type="radio" name="top_data" id="top_data" value="10@80" data_money="80">
+ 	<span class="s1">置顶10天</span>80个速职币</label>
+   <p class="buy_server_tip" data_suzhicoin="<?php echo $suzhicoin;?>">速职币余量：<?php echo $suzhicoin;?>个<a href="javascript:suzhicoin_buy();" target="_blank">充值</a></p>
+</div>
+<div class="alert_btn"></div>
+</form>
+</script>
+<script type="text/plain" id="suzhicoin_template"><form action="" method="post" id="handle_form">
+<div class="buy_server_list" style="height:unset;border:none;width:unset;margin-left:50px;margin-top:20px;">
+    <?php foreach($suzhicoin_list as $value):?>
+    <label class="interview_label">
+        <input type="radio" name="suzhicoin_id" value="<?php echo $value['id'];?>" data-money="<?php echo $value['money']/100;?>">
+        <span class="s1"><?php echo $value['number'];?>个</span></label>
+    <?php endforeach;?>
+
+    <div id="discount" data-money="0" style="display:none;width:0;height:0;"></div>
+</div>
+<div class="btn" style="width:295px;margin:20px auto;display:block;" id="suzhicoin_submit">购买</div></form>
+</script>
+<script>
+//查看职位详情
+function task_info(task_id) {
+    $.ajax({
+        url:"<?php echo U('task/info');?>",
+        type:"get",
+        async:false,
+        data:{"task_id":task_id},
+        success:function (data) {
+            $box({title:"职位详情",width:750,msg:data});
+        }
+    });
+}
+function push_top(task_id)
+{
+	 var html=$("#push_top_template").html();
+	 $confirm({title:"支付",msg:html},function(){
+		 layer_close=false;
+		var top_data= $("input[name='top_data']:checked").attr("data_money");
+		var coin=$('.buy_server_tip').attr('data_suzhicoin');
+		 if(typeof(top_data)=="undefined")
+		 {
+			 alert("请选择置顶天数");return false;
+		 }
+		 if(parseInt(top_data)>parseInt(coin))
+		 {
+			 alert("速职币不足,请充值");return false;
+	     }
+		 $("#task_form").submit();
+
+		 
+	 });
+	 $('#in_task_id').val(task_id);
+}
+	
+
+</script>
+<script>
+//购买邀面
+function suzhicoin_buy(){
+    var html=$("#suzhicoin_template").html();
+    $box({title:"速职币",msg:html});
+}
+//确认购买
+$(document).on("click","#suzhicoin_submit",function(){
+    if($("input[name='suzhicoin_id']:checked").length>0){
+        goto_submit('suzhicoin_id');
+    }else{
+        $alert("请选择购买数量");
+    }
+});
+</script>
+<script>
+//提交表单
+function goto_submit(server_type){
+    //计算金额
+    var total=0;
+    total+=parseFloat($("input[name='"+server_type+"']:checked").attr("data-money"));
+    total-=parseFloat($("#discount").attr("data-money"));
+    var select_html='<input type="hidden" name="'+server_type+'" value="'+$("input[name='"+server_type+"']:checked").val()+'"/>';
+    var html='<form id="submit_form" method="post" action="<?php echo U('server/buy');?>">'+select_html+'<p class="buy_server_tip">金额：'+total.toFixed(2)+'元</p><p class="buy_server_tip">账户余额：'+$user_info().money+'元<a href="<?php echo U('user/safe');?>" target="_blank">充值</a></p></form>';
+    $confirm({msg:html,title:"支付"},function(){
+        layer_close=false;
+        if($user_info().money<total){
+            $alert("金额不足,请前往充值",function(){
+                layer_close=null;
+                window.open('<?php echo U("user/safe");?>');
+            });return false;
+        }else{
+            $("#submit_form").submit();
+        }
+    });
+}
+</script>

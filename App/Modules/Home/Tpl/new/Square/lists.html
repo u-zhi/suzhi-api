@@ -1,0 +1,373 @@
+<div class="container2">
+    <ul class="changeTab nav2">
+        <li class="active"><a href="/index.php/square/lists">简历搜索</a></li>
+        <li><a href="/index.php/square/lists">智能匹配人才</a></li>
+    </ul>
+    <div class="box">
+
+        <div class="tab1" style="display: block;">
+            <!-- 简历搜索开始 -->
+            <form id="add_staff_form" method="get">
+                <div class="serach-box">
+                    <div class="searchjob">
+                        <div class="row" style="margin-bottom:0;">
+                            <!--div class="model" style="padding: 0 8px">
+                                点击选择职位
+                                <i class="add" id="expectedPosition">+</i>
+                                <input type="hidden" name="occupation_first" value="0" />
+                                <input type="hidden" name="occupation" value="0" />
+                            </div-->
+
+                            <div class="row">
+                                <label>职位</label>
+                                <div class="selectbox" style="width: 318px;">
+                                    <select name="occupation_first" id="occupation_parent">
+                                        <option value="0">请选择</option>
+                                        <?php foreach($all_user_occupations as $key => $value):?>
+                                        <option
+                                            data-id="<?php echo $value['id'];?>"
+                                            value="<?php echo $value['item'];?>"
+                                            <?php if($value['item'] === $filters['occupation_first']):?>selected="selected"<?php endif;?>
+                                        ><?php echo $value['item'];?></option>
+                                        <?php endforeach;?>
+                                    </select>
+                                </div>
+                                <div class="selectbox" style="width: 318px;">
+                                    <select id="occupation_child" disabled=true name="occupation">
+                                        <option value="0">请选择</option>
+
+                                        <?php foreach($all_user_occupations as $key => $value):?>
+                                            <?php foreach($value['child_lists'] as $_key => $_value):?>
+                                            <option
+                                                data-parent="<?php echo $value['id'];?>"
+                                                value="<?php echo $_value['item'];?>"
+                                                <?php if($_value['item'] === $filters['occupation']):?>selected="selected"<?php endif;?>
+                                            ><?php echo $_value['item'];?></option>
+                                            <?php endforeach;?>
+                                        <?php endforeach;?>
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label>&nbsp;</label>
+                                <input name="keyword" value="<?php echo $filters['keyword'];?>" style="width: 640px" type="text" placeholder="请输入简历关键词,多个可用空格分隔">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="serach-box">
+                    <div class="searchjob">
+                        <div class="sleft">
+                            <div class="row">
+                                <label>学历:</label>
+                                <div class="selectbox">
+                                    <select name="highest_degree">
+                                        <option value="0" <?php if($filters['highest_degree'] === '0'):?>selected="selected"<?php endif;?>>不限</option>
+                                        <option value="1" <?php if($filters['highest_degree'] === '1'):?>selected="selected"<?php endif;?>>高中</option>
+                                        <option value="2" <?php if($filters['highest_degree'] === '2'):?>selected="selected"<?php endif;?>>专科</option>
+                                        <option value="3" <?php if($filters['highest_degree'] === '3'):?>selected="selected"<?php endif;?>>本科</option>
+                                        <option value="4" <?php if($filters['highest_degree'] === '4'):?>selected="selected"<?php endif;?>>研究生</option>
+                                    </select>
+                                </div>
+                                <div class="selectbox">
+                                    <select name="degree_level">
+                                        <option value="0" <?php if($filters['degree_level'] === '0'):?>selected="selected"<?php endif;?>>及以上</option>
+                                        <option value="1" <?php if($filters['degree_level'] === '1'):?>selected="selected"<?php endif;?>>以上</option>
+                                        <option value="2" <?php if($filters['degree_level'] === '2'):?>selected="selected"<?php endif;?>>以下</option>
+                                        <option value="3" <?php if($filters['degree_level'] === '3'):?>selected="selected"<?php endif;?>>及以下</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label>年龄:</label>
+                                <div class="selectbox">
+                                    <select name="olds">
+                                        <option value="0">不限</option>
+                                        <?php for ($i=18; $i < 65; $i++):?>
+                                        <option value="<?php echo $i;?>" <?php if($filters['olds'] == $i):?>selected="selected"<?php endif;?>><?php echo $i;?></option>
+                                        <?php endfor;?>
+                                    </select>
+                                </div>
+                                <div class="selectbox">
+                                    <select name="olds_level">
+                                        <option value="0" <?php if($filters['olds_level'] == 0):?>selected="selected"<?php endif;?>>及以上</option>
+                                        <option value="1" <?php if($filters['olds_level'] == 1):?>selected="selected"<?php endif;?>>以上</option>
+                                        <option value="2" <?php if($filters['olds_level'] == 2):?>selected="selected"<?php endif;?>>以下</option>
+                                        <option value="3" <?php if($filters['olds_level'] == 3):?>selected="selected"<?php endif;?>>及以下</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label>所在公司:</label>
+                                <input type="text" name="experience" value="<?php echo $filters['experience'];?>" placeholder="请输入公司名字 如:网易科技有限公司" style="width: 246px;">
+                            </div>
+                        </div>
+                        <div class="sright">
+                            <div class="row">
+                                <label>工作经验:</label>
+                                <div class="selectbox">
+                                    <select name="work_year">
+                                        <option value="0">不限</option>
+                                        <?php for ($i=1; $i < 11; $i++):?>
+                                        <option value="<?php echo $i;?>" <?php if($filters['work_year'] == $i):?>selected="selected"<?php endif;?>><?php echo $i.'年';?></option>
+                                        <?php endfor;?>
+                                    </select>
+                                </div>
+                                <div class="selectbox">
+                                    <select name="work_year_level">
+                                        <option value="0" <?php if($filters['work_year_level'] == 0):?>selected="selected"<?php endif;?>>及以上</option>
+                                        <option value="1" <?php if($filters['work_year_level'] == 1):?>selected="selected"<?php endif;?>>以上</option>
+                                        <option value="2" <?php if($filters['work_year_level'] == 2):?>selected="selected"<?php endif;?>>以下</option>
+                                        <option value="3" <?php if($filters['work_year_level'] == 3):?>selected="selected"<?php endif;?>>及以下</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label>性别:</label>
+                                <div class="selectbox" style="width: 246px;">
+                                    <select name="sex">
+                                        <option value="0" <?php if($filters['sex'] == 0):?>selected="selected"<?php endif;?>>不限</option>
+                                        <option value="1" <?php if($filters['sex'] == 1):?>selected="selected"<?php endif;?>>男</option>
+                                        <option value="2" <?php if($filters['sex'] == 2):?>selected="selected"<?php endif;?>>女</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label>毕业院校:</label>
+                                <input type="text" name="college" value="<?php echo $filters['college'];?>" placeholder="请输入院校名称 如:浙江大学" style="width: 246px;">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <button class="btn btn-search register_first_submit" style="width: 90%;font-size:14px;">开始搜索</button>
+                    </div>
+                </div>
+            </form>
+            <!-- 简历搜索结束 -->
+
+            <!-- 人才列表开始 -->
+            <div class="searchResult whiteWrap">
+                <?php if($pageinfo['count'] > 1000):?>
+                <p>为您搜索出
+                    <i class="col-yellow">1000+</i> 份简历</p>
+                <?php else:?>
+                <p>为您搜索出
+                    <i class="col-yellow"><?php echo $pageinfo['count'];?></i> 份简历</p>
+                <?php endif;?>
+                <p class="text-right">解锁简历消耗一点简历解锁点，解锁后可邀请面试或下载</p>
+
+                <div class="table___wrap" id="tableWrap">
+                    <div class="table__tr table__tr--header">
+                        <div class="table__tr--wrap">
+                            <div class="table__th">姓名</div>
+                            <div class="table__th">性别</div>
+                            <div class="table__th">年龄</div>
+                            <div class="table__th">学历</div>
+                            <div class="table__th">职位</div>
+                            <div class="table__th">期望城市</div>
+                            <div class="table__th">更新时间</div>
+                        </div>
+                        <div class="table__th table__tr--contact">联系方式</div>
+                        <div class="table__th table__tr--action">操作</div>
+                    </div>
+                    <?php foreach($jober_list as $value):?>
+                    <div class="table__tr">
+                        <a href="<?php echo U('index/userinfo',array('user_id'=>$value['user_id']));?>" class="table__tr--wrap load_url">
+                            <div class="table__td"><?php echo $value['name'];?></div>
+                            <div class="table__td"><?php if($value['gender'] === '1'):?>男<?php else:?>女<?php endif;?></div>
+                            <div class="table__td"><?php echo $value['birthday'];?></div>
+                            <div class="table__td"><?php echo $value['highest_degree_name'];?></div>
+                            <div class="table__td"><?php echo cut_str($value['occupation'],10);?></div>
+                            <div class="table__td"><?php echo $value['city_name'] ? $value['city_name'] : session("location_city");?></div>
+                            <div class="table__td"><?php if($pageinfo['current'] <= 50):?>今天<?php else:?><?php echo formatDatetime($value['update_time'], 'Y.m.d');?><?php endif;?></div>
+                        </a>
+                        <div class="table__td table__tr--contact"><?php if($value['isInvited']):?><?php echo $value['phone_number'];?><?php else:?>解锁或邀请面试后显示<?php endif;?></div>
+                        <div class="table__td table__tr--action">
+                            <?php if(!$value['isInvited']):?>
+                            <a href="javascript: void(0);" class="btn-red tmpUnlock" data-userid="<?php echo $value['user_id']; ?>" data-page="<?php echo $pageinfo['current'];?>">解锁</a>
+                            <?php else:?>
+                            <a href="<?php echo U('index/userinfo',array('user_id'=>$value['user_id']));?>" class="btn-yellow load_download">下载</a>
+                            <?php endif;?>
+                            <!--<a href="<?php echo U('index/apply_interview',array('user_id'=>$value['user_id']));?>" class="btn-yellow load_url">邀请面试</a>-->
+                            <!--a href="<?php echo U('index/apply_interview',array('user_id'=>$value['user_id']));?>" class="btn-yellow">邀请面试</a-->
+                        </div>
+                    </div>
+                    <?php endforeach;?>
+                </div>
+
+                <?php echo helper()->page2($pageinfo);?>
+            </div>
+            <!-- 人才列表结束 -->
+
+        </div>
+
+    </div>
+
+    <!-- 解锁的简历期望的职位弹窗 开始 -->
+    <div class="mask" id="maskExceptedPosition">
+        <div class="mask__wrap">
+            <div class="modal__wrap900 modal__special">
+                <div class="special__top">
+                    <div>
+                        <span class="special__title">期望职位</span>
+                        <span class="special__title--sub">(最多选择三个)</span>
+                    </div>
+                    <div>
+                        <span class="modal__head--close">×</span>
+                    </div>
+                </div>
+                <div class="special__search">
+                    <input type="text" placeholder="请输入关键词查找职位" class="search__input">
+                    <div class="search__bt">确定</div>
+                </div>
+                <div class="special__content">
+                    <div class="content__left">
+                        <div class="left__item">
+                            <span>销售&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;销售主管</span>
+                        </div>
+                        <div class="left__item--active">
+                            <span>销售&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;销售主管</span>
+                        </div>
+                        <div class="left__item">
+                            <span>销售&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;销售主管</span>
+                        </div>
+                        <div class="left__item">
+                            <span>销售&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;销售主管</span>
+                        </div>
+                        <div class="left__item">
+                            <span>销售&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;销售主管</span>
+                        </div>
+                        <div class="left__item">
+                            <span>销售&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;销售主管</span>
+                        </div>
+                        <div class="left__item">
+                            <span>销售&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;销售主管</span>
+                        </div>
+                        <div class="left__item">
+                            <span>销售&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;销售主管</span>
+                        </div>
+                        <div class="left__item">
+                            <span>销售&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;销售主管</span>
+                        </div>
+                    </div>
+                    <div class="content__right">
+                        <div class="right__item">
+                            <div class="right__title">销售</div>
+                            <div class="right__list">
+                                <div class="right__list--item">销售专员</div>
+                                <div class="right__list--item">销售专员</div>
+                                <div class="right__list--item">销售专员</div>
+                                <div class="right__list--item">销售专员</div>
+                                <div class="right__list--item">销售专员</div>
+                                <div class="right__list--item">销售专员</div>
+                                <div class="right__list--item">销售专员</div>
+                                <div class="right__list--item">销售专员</div>
+                                <div class="right__list--item">销售专员</div>
+                                <div class="right__list--item">销售专员</div>
+                                <div class="right__list--item">销售专员</div>
+                                <div class="right__list--item">销售专员</div>
+                                <div class="right__list--item">销售专员</div>
+                                <div class="right__list--item">销售专员</div>
+                                <div class="right__list--item">销售专员</div>
+                            </div>
+                        </div>
+                        <div class="right__item">
+                            <div class="right__title">销售</div>
+                            <div class="right__list">
+                                <div class="right__list--item">销售专员</div>
+                                <div class="right__list--item">销售专员</div>
+                                <div class="right__list--item">销售专员</div>
+                                <div class="right__list--item">销售专员</div>
+                                <div class="right__list--item">销售专员</div>
+                                <div class="right__list--item">销售专员</div>
+                                <div class="right__list--item">销售专员</div>
+                                <div class="right__list--item">销售专员</div>
+                                <div class="right__list--item">销售专员</div>
+                                <div class="right__list--item">销售专员</div>
+                                <div class="right__list--item">销售专员</div>
+                                <div class="right__list--item">销售专员</div>
+                                <div class="right__list--item">销售专员</div>
+                                <div class="right__list--item">销售专员</div>
+                                <div class="right__list--item">销售专员</div>
+                            </div>
+                        </div>
+                        <div class="right__item">
+                            <div class="right__title">销售</div>
+                            <div class="right__list">
+                                <div class="right__list--item">销售专员</div>
+                                <div class="right__list--item">销售专员</div>
+                                <div class="right__list--item">销售专员</div>
+                                <div class="right__list--item">销售专员</div>
+                                <div class="right__list--item">销售专员</div>
+                                <div class="right__list--item">销售专员</div>
+                                <div class="right__list--item">销售专员</div>
+                                <div class="right__list--item">销售专员</div>
+                                <div class="right__list--item">销售专员</div>
+                                <div class="right__list--item">销售专员</div>
+                                <div class="right__list--item">销售专员</div>
+                                <div class="right__list--item">销售专员</div>
+                                <div class="right__list--item">销售专员</div>
+                                <div class="right__list--item">销售专员</div>
+                                <div class="right__list--item">销售专员</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 解锁的简历期望的职位弹窗 结束 -->
+
+</div>
+
+<script>
+    //提交搜索
+    $(document).on("click", ".register_first_submit",function () {
+        var occupation = $('select[name="occupation_first"]').val();
+        var keyword = $('input[name="keyword"]').val();
+        var experience = $('input[name="experience"]').val();
+        var college = $('input[name="college"]').val();
+        var text = '请至少保证职位、关键词、毕业院校及所在公司中任意一项筛选条件存在';
+        console.log(occupation, keyword, experience, college);
+        if(occupation !== '0' || keyword || experience || college){
+            $("#add_staff_form").submit();
+            return
+        }
+        alert(text);return false;
+    });
+    (function () {
+        // 期望职位弹窗
+        function expectedPositionModal() {
+            $("#expectedPosition").click(function () {
+                $('#maskExceptedPosition').show()
+            });
+            $('#maskExceptedPosition').find(".modal__head--close").click(function () {
+                $('#maskExceptedPosition').hide()
+            })
+        }
+        expectedPositionModal()
+
+        // 职位联动select
+        $(document).on("change","#occupation_parent",function () {
+            $('#occupation_child option:first').prop("selected", 'selected');
+            var parent=$(this).find('option:selected');
+            $('#occupation_child option').css('display','none');
+            $('#occupation_child option').each(function(){
+                if($(this).data('parent')==parent.data('id') && $(this).text()!='请选择'){
+                    $(this).css('display','block');
+                }
+            });
+            $('#occupation_child').attr('disabled',false);
+        });
+
+        $('.tmpUnlock').click(function () {
+            var userId = $(this).data('userid');
+            var currentPage = $(this).data('page');
+            var taskId = 183;
+            var interviewTime = '2018-03-28 10:00:00';
+            var refer = '';
+            $post("<?php echo U('square/apply_interview_unlock');?>",{task_id:taskId, user_id:userId, interview_time:interviewTime,refer:refer, page: currentPage});
+        })
+    })();
+</script>

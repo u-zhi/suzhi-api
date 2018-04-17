@@ -1,0 +1,23 @@
+
+
+<?php if(isset($pageinfo["total"]) && $pageinfo["total"]>1):?>
+<div class="pager">
+    <?php if(isset($pageinfo["first"]) && $pageinfo["first"]):?>
+    <a href='<?php echo $link.$pageinfo["first"]; ?>'>首页</a>
+    <?php endif; ?>
+    <?php if(isset($pageinfo["previous"]) && $pageinfo["previous"]):?>
+    <a href='<?php echo $link.$pageinfo["previous"]; ?>'>上一页</a>
+    <?php endif; ?>
+    <span>
+        <?php foreach($pageinfo['range'] as $value):?>
+        <a class="<?php if($value==$pageinfo['current']): ?> current<?php endif;?>" href='<?php echo $link.$value; ?>'><?php echo $value;?></a>
+        <?php endforeach;?>
+    </span>
+    <?php if(isset($pageinfo["next"]) && $pageinfo["next"]):?>
+    <a href='<?php echo $link.$pageinfo["next"]; ?>'>下一页</a>
+    <?php endif; ?>
+    <?php if(isset($pageinfo["last"]) && $pageinfo["last"]):?>
+    <a href='<?php echo $link.$pageinfo["last"]; ?>'>末页</a>
+    <?php endif; ?>
+</div>
+<?php endif;?>

@@ -1,0 +1,45 @@
+<div class="bg-fff">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>编号</th>
+                <th>内容</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <?php foreach($content as $value):?>
+            <tr>
+            <td class="message_bumber"><?php echo $value['id'];?></td>
+            <td class="message_content"><?php echo $value['content'];?></td>
+            <td>
+                <a href="javascript:;" class="load_url view_info">查看详情</a>
+                <div style="display: none;" data-id="<?php echo $value['id'];?>" is_read="<?php echo $value['is_read'];?>"><?php echo $value['content'];?></div>
+            </td>
+            </tr>
+            <?php endforeach;?>
+
+        </tbody>
+    </table>
+    <?php echo helper()->page($pageinfo);?>
+</div>
+<script>
+    //查看详情
+    $(".view_info").on("click",function () {
+        var div_obj=$(this).closest("td").find("div");
+        var html=div_obj.html();
+        $box(html);
+        //标记为已读
+        if(div_obj.attr("is_read")==0){
+            $.ajax({
+                url:"<?php echo U('index/message_read');?>",
+                type:"post",
+                data:{"id":div_obj.attr("data-id")},
+                success:function(){
+                    div_obj.attr("is_read",1);
+                }
+            });
+        }
+    });
+</script>

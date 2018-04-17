@@ -1,0 +1,61 @@
+<div class="bg-fff" style="padding-bottom: 12px;overflow-x:auto;">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>编号</th>
+                <th>职位</th>
+                <th>模式</th>
+                <th>佣金</th>
+                <th>失败原因</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach($content as $value):?>
+            <tr>
+                <td><?php echo $value['id'];?></td>
+                <td><?php echo $value['name'];?></td>
+                <td><?php echo $value['recruit_type'];?></td>
+                <td><?php echo ($value['recruit_type_inner']==1 && $value['recruit_type_hunter']==1)?'--':$value['commission']/100;?></td>
+                <td>未支付佣金</td>
+                <td>
+                    <a href="javascript:task_info('<?php echo $value["id"];?>');">详情</a>
+                    <a href="javascript:pay_money(<?php echo $value['id'];?>,<?php echo $value['commission']*$value['person_demand']/100;?>);">支付佣金</a>
+                    <a href="<?php echo U('task/delete');?>" data="task_id=<?php echo $value['id'];?>" class="sure_commit" title="确认删除该职位">删除</a>
+                </td>
+            </tr>
+            <?php endforeach;?>
+        </tbody>
+    </table>
+    <?php echo helper()->page($pageinfo);?>
+</div>
+<script>
+//查看职位详情
+function task_info(task_id) {
+    $.ajax({
+        url:"<?php echo U('task/info');?>",
+        type:"get",
+        async:false,
+        data:{"task_id":task_id},
+        success:function (data) {
+            $box({title:"职位详情",width:750,msg:data});
+        }
+    });
+}
+//支付佣金
+function pay_money(task_id,total){
+    var html='<p class="buy_server_tip">金额：'+total.toFixed(2)+'元</p><p class="buy_server_tip">账户余额：'+$user_info().money+'元<a href="<?php echo U('user/safe');?>" target="_blank">充值</a></p>';
+    $confirm({msg:html,title:"支付",close:false},function(){
+        if($user_info().money<total){
+            layer_close=false;
+            $flash("金额不足,请前往充值");
+            setTimeout(function () {
+                window.open('<?php echo U("user/safe");?>');
+            },1000);
+            return false;
+        }else{
+            $post('<?php echo U("task/pay_deposit");?>',{task_id:task_id});
+        }
+    });
+}
+</script>

@@ -1,0 +1,51 @@
+<div class="bg-fff" style="margin-top: 24px;">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>编号</th>
+                <th>职位</th>
+                <th>模式</th>
+                <th>工作年限</th>
+                <th>学历</th>
+                <th>薪资</th>
+                <th>人数</th>
+                <th>速职报价</th>
+                <th>已完成人数</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach($content as $value):?>
+            <tr>
+                <td><?php echo $value['id'];?></td>
+                <td><?php echo $value['name'];?></td>
+                <td><?php echo $value['recruit_need'];?></td>
+                <td><?php echo $value['work_year'];?></td>
+                <td><?php echo $value['education_type'];?></td>
+                <td><?php $buffer=explode(",",$value['salary_range']);?><?php echo $buffer[0]."-".$buffer[1];?>K</td>
+                <td><?php echo $value["person_demand"];?></td>
+                <td><?php echo $value['offer_money'];?></td>
+                <td><?php echo $value["has_number"];?></td>
+                <td>
+                    <a href="javascript:task_info('<?php echo $value["id"];?>');">详情</a>
+                    <a href="<?php echo U('outsourcing/stop');?>" data="task_id=<?php echo $value['id'];?>" title="确认终止该项目" class="sure_commit">终止</a>
+                </td>
+            </tr>
+            <?php endforeach;?>
+        </tbody>
+    </table>
+</div>
+<script>
+    //查看职位详情
+    function task_info(task_id) {
+        $.ajax({
+            url:"<?php echo U('outsourcing/info');?>",
+            type:"get",
+            async:false,
+            data:{"task_id":task_id},
+            success:function (data) {
+                $box({title:"职位详情",width:750,msg:data});
+            }
+        });
+    }
+</script>

@@ -1,0 +1,175 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache"/>
+    <!--当网站添加到主屏幕快速启动方式，将网站添加到主屏幕快速启动方式-->
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv=X-UA-Compatible content="IE=edge,chrome=1">
+    <meta content="always" name="referrer">
+
+    <meta name='keywords' content="速职"/>
+    <meta name='description' content="速职平台"/>
+    <title>速职招聘系统</title>
+    <script type="text/javascript" src="/js/jquery-1.8.3.min.js"></script>
+    <!--<link rel="stylesheet" href="/css/common.css"/>-->
+    <script type="text/javascript" src="/js/common.js"></script>
+    <link rel="stylesheet" type="text/css" href="/v1/css/layui.css"/>
+    <link rel="stylesheet" type="text/css" href="/v1/css/font.css"/>
+    <link rel="stylesheet" type="text/css" href="/v1/css/xadmin.css"/>
+    <link rel="stylesheet" type="text/css" href="/v1/css/common.css"/>
+    <script type="text/javascript" src="/js/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
+    <script type="text/javascript" src="/v1/layui.js"></script>
+    <script type="text/javascript" src="/v1/js/xadmin.js"></script>
+    <!--美化滚动条-->
+    <!--<link rel="stylesheet" href="/js/malihu-custom-scrollbar-plugin-master/jquery.mCustomScrollbar.min.css"/>-->
+    <script src="/js/malihu-custom-scrollbar-plugin-master/jquery-ui-1.10.4.min.js"></script>
+    <script src="/js/malihu-custom-scrollbar-plugin-master/jquery.mousewheel.min.js"></script>
+    <script src="/js/malihu-custom-scrollbar-plugin-master/jquery.mCustomScrollbar.js"></script>
+    <!--datetimepicker-->
+    <link rel="stylesheet" type="text/css" href="/js/datetimepicker/jquery.datetimepicker.css"
+    / >
+    <script src="/js/datetimepicker/jquery.datetimepicker.full.js"></script>
+</head>
+<body class="layui-layout-body">
+<!-- 顶部开始 -->
+<div class="layui-layout layui-layout-admin">
+    <header>
+        <div class="wrap">
+            <div class="head layui-header" style="background-color: #ef841c">
+                <div class="head-log">
+                    <a href="/"><img src="/v1/images/base/logo.png">
+                    <em>|&nbsp;&nbsp;人工智能招聘系统</em></a>
+                </div>
+                <div class="head-right">
+                    <ul class="layui-nav" style="background-color: #ef841c">
+                        <li class="layui-nav-item layui-this">
+                            <a href="<?php echo U('user/index');?>" class="h-nav"><i class="icon icon-user"></i><em style="cursor: pointer;color: #666"><?php echo helper()->name();?></em></a>
+                            <ul class="layui-nav-child dropdown">
+                                <li><a href="<?php echo U('user/info');?>">企业资料</a></li>
+                                <li><a href="<?php echo U('server/index');?>">我的服务</a></li>
+                                <li><a href="<?php echo U('user/safe');?>">账户安全</a></li>
+                                <li><a href="<?php echo U('login/logout');?>">退出登录</a></li>
+                            </ul>
+                        </li>
+                        <li class="layui-nav-item"><a class="h-nav" href="<?php echo U('/index/message.html');?>">
+                            <i class="icon icon-notice"></i><em style="cursor: pointer;color: #666">通知(<?php echo helper()->message_num();?>)</em></a>
+                        </li>
+                        <li class="layui-nav-item to-index"><a href="<?php echo U('/index/exold');?>"><span style="cursor: pointer;color: #666">返回旧版</span></a></li>
+                    </ul>
+                </div>
+            </div>
+            <nav class="navbar">
+                <div class="nav-adress">
+                    <span><?php echo session("location_city");  ?></span>
+                    <a href="javascript:;" class="changecity charge"><i class="icon icon-user"></i><em>切换城市</em></a>
+                </div>
+                <ul class="nav-menu">
+                    <li class="active"><a href="/">首页</a></li>
+                    <li>
+                        <a href="javascript:;">职位管理</a>
+                        <ul class="dropdown">
+                            <li><a href="<?php echo U('task/add');?>?tab=1">发布职位</a></li>
+                            <li><a href="<?php echo U('task/add');?>?tab=2">普通职位</a></li>
+                            <li><a href="<?php echo U('task/add');?>?tab=3">悬赏职位</a></li>
+                            <li><a href="<?php echo U('task/add');?>?tab=4">内推职位</a></li>
+                            <li><a href="<?php echo U('task/add');?>?tab=5">求职者跟进</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="javascript:;">简历管理</a>
+                        <ul class="dropdown">
+                            <li><a href="<?php echo U('index/resume');?>">收到的简历</a></li>
+                            <li><a href="">解锁的简历</a></li>
+                            <li><a href="<?php echo U('index/wait_interview');?>">面试邀请记录</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="javascript:;">简历库</a>
+                        <ul class="dropdown">
+                            <li><a href="<?php echo U('square/lists');?>">简历搜索</a></li>
+                            <li><a href="<?php echo U('square/lists');?>">智能匹配人才</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="javascript:;">增值服务</a>
+                        <ul class="dropdown">
+                            <li><a href="">内推系统</a></li>
+                            <li><a href="<?php echo U('square/job_fair');?>">招聘会</a></li>
+                            <li><a href="<?php echo U('outsourcing/lists');?>">招聘外包</a></li>
+                            <li><a href="/">智能HR</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <div class="container-new">
+        <div class="content">
+            {__CONTENT__}
+        </div>
+    </div>
+    <script>
+        //页面框架高度
+        layui.use(["layer", "element","form"], function () {
+            var layer = layui.layer;
+            var form = layui.form;
+            $(".changecity").on("click", function () {
+                text = $("#cityform").html();
+                layer.open({
+                    type: 1,
+                    skin: 'kefu-skin',
+                    title: "切换城市"
+                    , offset: "auto" //具体配置参考：http://www.layui.com/doc/modules/layer.html#offset
+                    , id: 'layerDemo' + "auto" //防止重复弹出
+                    , content: text
+                    , btnAlign: 'c' //按钮居中
+                    , shade: 0 //不显示遮罩
+                    , yes: function () {
+                        layer.closeAll();
+                    }
+                });
+            });
+
+
+        });
+        $(function () {
+            var width_height = getViewportSize();//浏览器宽高
+            $(".sidebar").css("height", width_height.h + "px");
+            $(".content").css("height", width_height.h + "px");
+            $(".main").css("height", (width_height.h - 110) + "px");
+            $(".sidebar_menu").css("height", (width_height.h - 84) + "px");
+        });
+        //根据地址栏展开菜单
+        $(function () {
+            var location_url = '<?php echo strtolower(MODULE_NAME."_".ACTION_NAME);?>';
+            var current_menu = $("#href_" + location_url);
+            var menu_group = current_menu.attr("menu-group");
+            if (typeof menu_group != "undefined" && menu_group != "" && menu_group != current_menu.attr("id")) {
+                current_menu = $("#" + current_menu.attr("menu-group"));
+            }
+            current_menu.addClass("current");
+            current_menu.closest(".li_ul").show();
+            current_menu.closest(".li_ul").prev().addClass("current");
+            $(".sidebar_menu a").each(function () {
+                var menu_group = $(this).attr("menu-group");
+                if (typeof menu_group != "undefined" && menu_group != "" && menu_group != $(this).attr("id")) {
+                    $(this).hide();
+                }
+            });
+        });
+        //美化滚动条样式
+        $(function () {
+            if (!/webkit/.test(navigator.userAgent.toLowerCase())) {
+                $.mCustomScrollbar.defaults.scrollButtons.enable = true; //enable scrolling buttons by default
+                $.mCustomScrollbar.defaults.axis = "yx"; //enable 2 axis scrollbars by default
+                $(".sidebar_menu").mCustomScrollbar({theme: "dark"});
+            }
+        });
+    </script>
+    <script src="/v1/js/common.js"></script>
+</div>
+</body>
+</html>

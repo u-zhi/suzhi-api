@@ -1,0 +1,224 @@
+<div class="w960 margin20">
+    <div class="changeTab">
+        <h2>服务中心</h2>
+    </div>
+
+    <div class="p-service">
+        <!-- 左边购买区域开始 -->
+        <div class="w600 service__shadow service__left">
+            <div class="left__item">
+                <div class="left__title">会员特权
+                    <span class="left__title--info">（无限发布岗位）</span>
+                </div>
+                <div class="left__radios">
+                    <label class="left__radios--item">
+                        <input type="radio" />
+                        <span>90天 500元</span>
+                    </label>
+                    <label class="left__radios--item">
+                        <input type="radio" />
+                        <span>180天 900元</span>
+                    </label>
+                    <label class="left__radios--item">
+                        <input type="radio" />
+                        <span>365天 1600元</span>
+                    </label>
+                </div>
+            </div>
+            <div class="left__item">
+                <div class="left__title">简历点
+                    <span class="left__title--info">（用于解锁简历）</span>
+                </div>
+                <div class="left__radios">
+                    <label class="left__radios--item">
+                        <input type="radio" />
+                        <span>300点 500元</span>
+                    </label>
+                    <label class="left__radios--item">
+                        <input type="radio" />
+                        <span>1500点 2000元</span>
+                    </label>
+                    <label class="left__radios--item">
+                        <input type="radio" />
+                        <span>3000点 3800元</span>
+                    </label>
+                </div>
+            </div>
+            <div class="left__item">
+                <div class="left__title">面试邀请点
+                    <span class="left__title--info">（用于短信邀约及解锁简历）</span>
+                </div>
+                <div class="left__radios">
+                    <label class="left__radios--item">
+                        <input type="radio" />
+                        <span>500点 500元</span>
+                    </label>
+                    <label class="left__radios--item">
+                        <input type="radio" />
+                        <span>2500点 2200元</span>
+                    </label>
+                    <label class="left__radios--item">
+                        <input type="radio" />
+                        <span>5000点 4000元</span>
+                    </label>
+                </div>
+            </div>
+            <div class="left__shop">确定购买</div>
+        </div>
+        <!-- 左边购买区域结束 -->
+
+        <!-- 右边账户概况开始 -->
+        <div class="p-home" class="service__shadow">
+            <div class="side__wrap right-part">
+                <div class="part-one" style="width: 296px;">
+                    <h2>账户概况</h2>
+                    <div class=" gaikwrap ">
+                        <ul class="gaik ">
+                            <li>
+                                <p class="gray ">账户余额</p>
+                                <p class="gaikTxt ">1000.00元</p>
+                                <a href="javascript: void(0);" id="recharge">充值</a>
+                            </li>
+                            <li>
+                                <p class="gray ">会员有效期</p>
+                                <p class="gaikTxt ">剩余365天</p>
+                                <p class="gray ">2017.12.10-2018.12.10</p>
+                            </li>
+                            <li>
+                                <p class="gray ">智能HR</p>
+                                <p class="gaikTxt ">剩余365天</p>
+                                <p class="gray ">2017.12.10-2018.12.10</p>
+                            </li>
+                        </ul>
+                        <div class="gaik2 ">
+                            <dl>
+                                <dt class="gaikTxt ">简历点：3000点</dt>
+                                <dd class="process ">
+                                    <div class="line " style="width: 10% "></div>
+                                </dd>
+                                <dd>已使用80点
+                                    <span>剩余
+                                        <em>2920</em>点</span>
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt class="gaikTxt ">面试邀请点：5000点</dt>
+                                <dd class="process ">
+                                    <div class="line " style="width: 10% "></div>
+                                </dd>
+                                <dd>已使用80点
+                                    <span>剩余
+                                        <em>4920</em>点
+                                    </span>
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 右边账户概况结束 -->
+    </div>
+</div>
+
+
+<script type="text/plain" id="innerpush_template"><form action="" method="post" id="handle_form">
+<div class="buy_server_list" style="height:unset;border:none;width:unset;margin-left:50px;margin-top:20px;">
+    <?php foreach($innerpush_list as $value):?>
+    <label class="innerpush_label"><input type="radio" name="mix_id" value="innerpush_<?php echo $value['id'];?>"<?php if(!$value["allow_buy"]):?> disabled<?php endif;?> data-money="<?php echo $value['money']/100;?>"/><span class="s1"><?php echo $value['number'];?>人</span><span><?php echo $value['money']/100;?>元/年</span></label>
+    <?php endforeach;?>
+</div>
+<div style="text-align:center;color:#ff8903;margin-top:-10px;" id="discount" data-money="<?php echo $discount/100;?>">升级可抵消费用<?php echo $discount/100;?>元</div>
+<div style="text-align:center;color:#666666;line-height:17px;font-size:12px;letter-spacing: 0.7px;">计算公式：剩余时间／365天 x 服务价</div>
+<div class="btn" style="width:295px;margin:20px auto;display:block;" id="innerpush_submit">升级</div></form>
+</script>
+<script type="text/plain" id="interview_template"><form action="" method="post" id="handle_form">
+<div class="buy_server_list" style="height:unset;border:none;width:unset;margin-left:50px;margin-top:20px;">
+    <?php foreach($interview_list as $value):?>
+    <label class="interview_label"><input type="radio" name="interview_id" value="<?php echo $value['id'];?>"<?php if(!$value["allow_buy"]):?> disabled<?php endif;?> data-money="<?php echo $value['money']/100;?>"/><span class="s1"><?php echo $value['number'];?>人</span><span><?php echo $value['money']/100;?>元/年</span></label>
+    <?php endforeach;?>
+    <div id="discount" data-money="0" style="display:none;width:0;height:0;"></div>
+</div>
+<div class="btn" style="width:295px;margin:20px auto;display:block;" id="interview_submit">升级</div></form>
+</script>
+<script type="text/plain" id="suzhicoin_template"><form action="" method="post" id="handle_form">
+<div class="buy_server_list" style="height:unset;border:none;width:unset;margin-left:50px;margin-top:20px;">
+    <?php foreach($suzhicoin_list as $value):?>
+    <label class="interview_label">
+        <input type="radio" name="suzhicoin_id" value="<?php echo $value['id'];?>" data-money="<?php echo $value['money']/100;?>">
+        <span class="s1"><?php echo $value['number'];?>个</span></label>
+    <?php endforeach;?>
+
+    <div id="discount" data-money="0" style="display:none;width:0;height:0;"></div>
+</div>
+<div class="btn" style="width:295px;margin:20px auto;display:block;" id="suzhicoin_submit">购买</div></form>
+</script>
+<script>
+    //购买企业内推
+    function innerpush_buy() {
+        var html = $("#innerpush_template").html();
+        $box({ title: "企业内推系统", msg: html });
+    }
+    //确认购买
+    $(document).on("click", "#interview_submit", function () {
+        if ($("input[name='interview_id']:checked").length > 0) {
+            goto_submit('interview_id');
+        } else {
+            $alert("请选择服务");
+        }
+    });
+</script>
+<script>
+    //购买邀面
+    function interview_buy() {
+        var html = $("#interview_template").html();
+        $box({ title: "速职人才库邀请面试", msg: html });
+    }
+    //确认购买
+    $(document).on("click", "#innerpush_submit", function () {
+        if ($("input[name='mix_id']:checked").length > 0) {
+            goto_submit('mix_id');
+        } else {
+            $alert("请选择服务");
+        }
+    });
+</script>
+<script>
+    //购买邀面
+    function suzhicoin_buy() {
+        var html = $("#suzhicoin_template").html();
+        $box({ title: "速职币", msg: html });
+    }
+    //确认购买
+    $(document).on("click", "#suzhicoin_submit", function () {
+        if ($("input[name='suzhicoin_id']:checked").length > 0) {
+            goto_submit('suzhicoin_id');
+        } else {
+            $alert("请选择购买数量");
+        }
+    });
+</script>
+
+
+<script>
+    //提交表单
+    function goto_submit(server_type) {
+        //计算金额
+        var total = 0;
+        total += parseFloat($("input[name='" + server_type + "']:checked").attr("data-money"));
+        total -= parseFloat($("#discount").attr("data-money"));
+        var select_html = '<input type="hidden" name="' + server_type + '" value="' + $("input[name='" + server_type + "']:checked").val() + '"/>';
+        var html = '<form id="submit_form" method="post" action="<?php echo U('server/buy');?>">'+select_html+'<p class="buy_server_tip">金额：'+total.toFixed(2)+'元</p > <p class="buy_server_tip">账户余额：'+$user_info().money+'元<a href="<?php echo U('user/safe');?>" target="_blank">充值</a></p></form > ';
+        $confirm({ msg: html, title: "支付" }, function () {
+            layer_close = false;
+            if ($user_info().money < total) {
+                $alert("金额不足,请前往充值", function () {
+                    layer_close = null;
+                    window.open('<?php echo U("user/safe");?>');
+                }); return false;
+            } else {
+                $("#submit_form").submit();
+            }
+        });
+    }
+</script>

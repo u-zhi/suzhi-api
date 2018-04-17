@@ -1,0 +1,290 @@
+<div class="bg-fff" style="padding-bottom: 35px;padding-top: 35px;"><form action="" method="post">
+    <div class="register_first_column fix_width_column">
+        <label class="register_first_label">职位名称</label>
+        <input type="text" class="register_first_input" name="name" placeholder="请填写职位名称"/>
+        <span class="register_frist_error"></span>
+    </div>
+    <div class="register_first_column fix_width_column">
+        <label class="register_first_label">职位类别</label>
+        <select class="register_first_select" style="width:110px;" name="occupation_id"><?php foreach($occupation_type as $key=>$value):?><option value="<?php echo $key;?>"><?php echo $value['name'];?></option><?php endforeach;?></select>
+        <select class="register_first_select" style="width:110px;margin-left: 10px;" name="occupation_two_id"></select>
+        <span class="register_frist_error"></span>
+    </div>
+    <div class="register_first_column fix_width_column">
+        <label class="register_first_label">工作地点</label>
+        <select class="register_first_select" style="width: 64px;margin-right: 8px;" name="work_address_province_id">
+
+        </select><select class="register_first_select" style="width: 64px;margin-right: 8px;" name="work_address_city_id">
+
+        </select><select class="register_first_select" style="width: 64px;" name="work_address_country_id">
+
+        </select>
+        <span class="register_frist_error"></span>
+    </div>
+    <div class="register_first_column fix_width_column">
+        <label class="register_first_label"></label>
+        <textarea class="register_first_textarea" placeholder="请填写详细地址" rows="4" name="work_address"></textarea>
+        <span class="register_frist_error"></span>
+    </div>
+    <div class="register_first_column fix_width_column">
+        <label class="register_first_label">学历要求</label>
+        <select class="register_first_select" name="education_type"><?php foreach($education_type as $key=>$value):?><option value="<?php echo $key;?>"><?php echo $value;?></option><?php endforeach;?></select>
+    </div>
+    <div class="register_first_column fix_width_column">
+        <label class="register_first_label">工作年限要求</label>
+        <select class="register_first_select" name="work_year"><?php foreach($work_year as $key=>$value):?><option value="<?php echo $key;?>"><?php echo $value;?></option><?php endforeach;?></select>
+    </div>
+    <div class="register_first_column fix_width_column">
+        <label class="register_first_label">薪资范围</label>
+        <select class="register_first_select" style="width:103px;" name="salary_min"><option value="0">--请选择--</option><?php for($i=1;$i<=50;$i++):?><option value="<?php echo $i;?>"><?php echo $i;?></option><?php endfor;?></select><span class="register_first_link">-
+        </span><select class="register_first_select" style="width:102px;" name="salary_max"><option value="0">--请选择--</option></select>
+        <span class="register_frist_error"></span>
+    </div>
+    <div class="register_first_column fix_width_column">
+        <label class="register_first_label">工作时间</label>
+        <input type="text" class="register_first_input" name="work_time" placeholder="请填写工作时间" value=""/>
+        <span class="register_frist_error"></span>
+    </div>
+    <div class="register_first_column fix_width_column">
+        <label class="register_first_label">职位描述</label>
+        <textarea class="register_first_textarea" placeholder="请填写职位描述" rows="4" name="job_description"></textarea>
+        <span class="register_frist_error"></span>
+    </div>
+    <?php if(isset($readd_work["skill_need"])):?><?php $skill_need=json_decode($readd_work["skill_need"],true);?><?php else:?><?php $skill_need=array('','','');?><?php endif;?>
+    <div class="register_first_column fix_width_column">
+        <label class="register_first_label">任职要求</label>
+        <div class="register_first_input disabled_label" style="width: 55px;height:20px;display: inline-block;position: relative;margin-right: 14px;"><?php if($skill_need[0]):?><span class="label_span"><?php echo $skill_need[0];?></span><i class="label_close"></i><?php endif;?><input type="hidden" class="register_first_input" id="skill_need" name="skill_need[]" value="<?php echo $skill_need[0];?>" autocomplete="off"/><span class="label_add"></span></div>
+        <div class="register_first_input disabled_label" style="width: 55px;height:20px;display: inline-block;position: relative;margin-right: 14px;"><?php if($skill_need[1]):?><span class="label_span"><?php echo $skill_need[1];?></span><i class="label_close"></i><?php endif;?><input type="hidden" class="register_first_input" name="skill_need[]" value="<?php echo $skill_need[1];?>" autocomplete="off"/><span class="label_add"></span></div>
+        <div class="register_first_input disabled_label" style="width: 55px;height:20px;display: inline-block;position: relative;margin-right: 14px"><?php if($skill_need[2]):?><span class="label_span"><?php echo $skill_need[2];?></span><i class="label_close"></i><?php endif;?><input type="hidden" class="register_first_input" name="skill_need[]" value="<?php echo $skill_need[2];?>" autocomplete="off"/><span class="label_add"></span></div>
+        <span class="register_frist_error"></span>
+    </div>
+    <div class="register_first_column fix_width_column">
+        <label class="register_first_label"></label>
+        <textarea class="register_first_textarea" placeholder="请填写任职要求" rows="4" name="duty_description"><?php echo isset($readd_work['duty_description'])?$readd_work['duty_description']:'';?></textarea>
+        <span class="register_frist_error"></span>
+    </div>
+    <div class="register_first_column fix_width_column">
+        <label class="register_first_label">面试联系人</label>
+        <input type="text" class="register_first_input" name="link_name" placeholder="请填写面试联系人"/>
+        <span class="register_frist_error"></span>
+    </div>
+    <div class="register_first_column fix_width_column">
+        <label class="register_first_label">联系方式</label>
+        <input type="text" class="register_first_input" name="link_mobile" placeholder="请填写联系方式"/>
+        <span class="register_frist_error"></span>
+    </div>
+    <div class="register_first_column fix_width_column">
+        <label class="register_first_label">面试结果通知时间</label>
+        <select class="register_first_select" name="notify_time"><?php foreach($notify_time as $key=>$value):?><option value="<?php echo $key;?>"><?php echo $value;?></option><?php endforeach;?></select>
+    </div>
+    <div class="register_first_column fix_width_column">
+        <label class="register_first_label">招聘需求</label>
+        <select class="register_first_select" name="recruit_need"><?php foreach($recruit_need as $key=>$value):?><option value="<?php echo $key;?>"><?php echo $value;?></option><?php endforeach;?></select>
+    </div>
+    <div class="register_first_column fix_width_column person_demand">
+        <label class="register_first_label">人数</label>
+        <input type="text" class="register_first_input" name="person_demand" placeholder="请填写人数"/>&nbsp;人
+        <span class="register_frist_error"></span>
+    </div>
+    <div class="register_first_column fix_width_column" style="margin-top: 50px;">
+        <label class="register_first_label"></label>
+        <div class="register_first_next register_first_submit">完成</div>
+    </div></form>
+</div>
+<script>
+//提交表单
+$(".register_first_submit").click(function () {
+    var flag=true;
+    var name=$("input[name='name']").val();
+    if(name==""){
+        flag=false;
+        $("input[name='name']").closest(".register_first_column").find(".register_frist_error").text("请填写职位名称");
+    }else{
+        $("input[name='name']").closest(".register_first_column").find(".register_frist_error").text("");
+    }
+    var work_address_country_id=$("select[name='work_address_country_id']").val();
+    if(work_address_country_id=="" || work_address_country_id=="0"){
+        flag=false;
+        $("select[name='work_address_country_id']").closest(".register_first_column").find(".register_frist_error").text("请选择工作地点");
+    }else{
+        $("select[name='work_address_country_id']").closest(".register_first_column").find(".register_frist_error").text("");
+    }
+    var work_address=$("textarea[name='work_address']").val();
+    if(work_address==""){
+        flag=false;
+        $("textarea[name='work_address']").closest(".register_first_column").find(".register_frist_error").text("请填写详细工作地址");
+    }else{
+        $("textarea[name='work_address']").closest(".register_first_column").find(".register_frist_error").text("");
+    }
+    var salary_min=$("select[name='salary_min']").val();
+    var salary_max=$("select[name='salary_max']").val();
+    if(salary_min=="" || !/^\d+$/.test(salary_min)){
+        flag=false;
+        $("select[name='salary_min']").closest(".register_first_column").find(".register_frist_error").text("请填写正确的薪资范围");
+    }else{
+        if(salary_max=="" || !/^\d+$/.test(salary_max)){
+            flag=false;
+            $("select[name='salary_max']").closest(".register_first_column").find(".register_frist_error").text("请填写正确的薪资范围");
+        }else{
+            if(parseInt(salary_min)>=parseInt(salary_max)){
+                flag=false;
+                $("select[name='salary_max']").closest(".register_first_column").find(".register_frist_error").text("请填写正确的薪资范围");
+            }else{
+                $("select[name='salary_max']").closest(".register_first_column").find(".register_frist_error").text("");
+            }
+        }
+    }
+    var job_description=$("textarea[name='job_description']").val();
+    if(job_description==""){
+        flag=false;
+        $("textarea[name='job_description']").closest(".register_first_column").find(".register_frist_error").text("请填写职位描述");
+    }else{
+        $("textarea[name='job_description']").closest(".register_first_column").find(".register_frist_error").text("");
+    }
+//    var skill_need=$("#skill_need").val();
+//    if(skill_need==""){
+//        flag=false;
+//        $("#skill_need").closest(".register_first_column").find(".register_frist_error").text("请填写任职要求");
+//    }else{
+//        $("#skill_need").closest(".register_first_column").find(".register_frist_error").text("");
+//    }
+    var duty_description=$("textarea[name='duty_description']").val();
+    if(duty_description==""){
+        flag=false;
+        $("textarea[name='duty_description']").closest(".register_first_column").find(".register_frist_error").text("请填写任职要求");
+    }else{
+        $("textarea[name='duty_description']").closest(".register_first_column").find(".register_frist_error").text("");
+    }
+    var link_name=$("input[name='link_name']").val();
+    if(link_name==""){
+        flag=false;
+        $("input[name='link_name']").closest(".register_first_column").find(".register_frist_error").text("请填写面试联系人");
+    }else{
+        $("input[name='link_name']").closest(".register_first_column").find(".register_frist_error").text("");
+    }
+    var link_mobile=$("input[name='link_mobile']").val();
+    if(link_mobile==""){
+        flag=false;
+        $("input[name='link_mobile']").closest(".register_first_column").find(".register_frist_error").text("请填写联系方式");
+    }else{
+        $("input[name='link_mobile']").closest(".register_first_column").find(".register_frist_error").text("");
+    }
+    var person_demand=$("input[name='person_demand']").val();
+    if(person_demand=="" || !/^\d+$/.test(person_demand) || parseInt(person_demand)<=0){
+        flag=false;
+        $("input[name='person_demand']").closest(".register_first_column").find(".register_frist_error").text("请填写正确招聘人数");
+    }else{
+        $("input[name='person_demand']").closest(".register_first_column").find(".register_frist_error").text("");
+    }
+    if(flag==false){
+        $flash("填写信息有误,请检查重新填写后提交");
+        return false;
+    }
+    $("form").submit();
+});
+</script>
+<script>
+    <?php if(isset($readd_work['salary_range'])):?><?php $salary_range=explode(",",$readd_work['salary_range']);?><?php else:?><?php $salary_range=array('','');?><?php endif;?>
+    //期望薪资选择
+    $("select[name='salary_min']").val('<?php echo $salary_range[0];?>');
+    salary_change();
+    $("select[name='salary_max']").val('<?php echo $salary_range[1];?>').trigger("change");
+    function salary_change(){
+        var min_salary=parseInt($("select[name='salary_min']").val());
+    var max_object=$("select[name='salary_max']");
+    max_object.find("option").not(":first").remove();
+        if(min_salary<=0){return;}
+        var html='';
+        for(var i=min_salary+2;i<=min_salary+10;i++){
+            html+='<option value="'+i+'">'+i+'</option>';
+        }
+        max_object.append(html);
+    }
+    $("select[name='salary_min']").on("change",function(){
+        salary_change();
+    });
+</script>
+<script>var occupation_type=<?php echo json_encode($occupation_type);?>;</script>
+<script>
+//职位类别修改
+$(function () {
+    occupation_id_change();
+    function occupation_id_change(){
+        var html='';
+        $.each(occupation_type[$("[name='occupation_id']").val()].children,function (item,temp) {
+            html+='<option value="'+item+'">'+temp+'</option>';
+        });
+        $("[name='occupation_two_id']").html(html);
+    }
+    $("[name='occupation_id']").on("change",function () {
+        occupation_id_change();
+    });
+})
+</script>
+<script type="text/javascript">
+    //省市县三级联动
+    $(function () {
+        $province_city_country($("select[name='work_address_province_id']"),$("select[name='work_address_city_id']"),$("select[name='work_address_country_id']"));
+        $province_city_country($("select[name='interview_address_province_id']"),$("select[name='interview_address_city_id']"),$("select[name='interview_address_country_id']"));
+    })
+</script>
+<script>
+    //添加职位标签
+    $(".disabled_label .label_add").click(function () {
+        var html='<input type="text" class="register_first_input" id="tag_name" style="width: 345px;" placeholder="请填写任职技能标签"/>';
+        var obj=$(this).closest(".disabled_label");
+        $confirm({msg:html},function(){
+            var tag_name=$("#tag_name").val();
+            if(tag_name==""){
+                alert("请填写任职技能标签");return false;
+            }
+            var html='<span class="label_span">'+tag_name+'</span><i class="label_close"></i>';
+            obj.find("input[name='skill_need[]']").val(tag_name);
+            obj.append(html);
+        });
+    });
+    //删除标签
+    $(document).on("click",".disabled_label .label_close",function () {
+        var obj=$(this).closest(".disabled_label");
+        obj.find(".label_close").remove();
+        obj.find(".label_span").remove();
+        obj.find("input[name='skill_need[]']").val("");
+    });
+</script>
+<style>
+    .disabled_label .label_add{
+        background: url("/images/add_bg.png") center no-repeat #eeeeee;
+        cursor: pointer;
+        display: block;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+    }
+    .label_span{
+        position: absolute;
+        display:block;
+        left: 1px;
+        top:0;
+        width: 82px;
+        height: 40px;
+        background: #ffffff;
+        text-align: center;
+        line-height: 40px;
+        font-size: 18px;
+        color: #ff8903;
+        z-index: 99;
+    }
+    .label_close{
+        position: absolute;
+        display: block;
+        width: 23px;
+        height: 24px;
+        background: url("/images/close1.png") center no-repeat;
+        top:-11px;
+        right:-10px;
+        z-index:100;
+        cursor: pointer;
+    }
+</style>

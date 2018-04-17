@@ -1,0 +1,48 @@
+<div class="container2">
+    <div class="changeTab">
+        <h2>通知</h2>
+    </div>
+    <div class="changeContent">
+        <ul class="notices">
+            <li>
+                <a href="#">有新的简历投递至您的岗位，待处理
+                    <span>》》》》</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">有新的面试邀请反馈，待处理
+                    <span>》》》》</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">有新的求职者更进，待处理
+                    <span>》》》》</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">您购买的会员即将到期，待处理
+                    <span>》》》》</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+<script>
+    //查看详情
+    $(".view_info").on("click", function () {
+        var div_obj = $(this).closest("td").find("div");
+        var html = div_obj.html();
+        $box(html);
+        //标记为已读
+        if (div_obj.attr("is_read") == 0) {
+            $.ajax({
+                url: "<?php echo U('index/message_read');?>",
+                type: "post",
+                data: { "id": div_obj.attr("data-id") },
+                success: function () {
+                    div_obj.attr("is_read", 1);
+                }
+            });
+        }
+    });
+</script>

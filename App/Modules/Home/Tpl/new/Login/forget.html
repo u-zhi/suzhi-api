@@ -1,0 +1,130 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache"/>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv=X-UA-Compatible content="IE=edge,chrome=1">
+    <meta content="always" name="referrer">
+    <meta name='keywords' content="速职"/>
+    <meta name='description' content="速职"/>
+    <title>速职</title>
+    <link rel="shortcut icon" href="/images/logo1.png" type="image/png">
+    <link rel="stylesheet" type="text/css" href="/css/common.css"/>
+    <script type="text/javascript" src="/js/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
+</head>
+<body>
+    <div class="login_header" style="border-bottom: 1px solid #cccccc"><a href="<?php echo U('login/index');?>"></a></div>
+    <div class="register_second" style="width:550px;text-align: center;">
+        <form action="" method="post" id="register_second_form">
+        <div class="register_first_column" style="margin-top: 20px;">
+            <label class="register_first_label">验证手机号</label>
+            <input type="text" class="register_first_input" name="mobile" value=""/>
+            <span class="register_frist_error"></span>
+        </div>
+        <div class="register_first_column">
+            <label class="register_first_label">旧手机验证码</label>
+            <input type="text" class="register_first_input" style="width:120px;" name="code" placeholder=""/><span class="register_get_code">确认发送</span>
+            <span class="register_frist_error"></span>
+        </div>
+        <div class="register_first_column">
+            <label class="register_first_label">新密码</label>
+            <input type="password" class="register_first_input" name="password" placeholder=""/>
+            <span class="register_frist_error"></span>
+            <!-- <div class="password_tips">
+                <div class="password_tips_bg"></div>
+                <p class="password_1">6-15个字符</p>
+                <p class="password_2">只能包含字母、数字以及下划线</p>
+                <p class="password_3">字母、数字以及下划线至少包含两种</p>
+            </div> -->
+        </div>
+        <div class="register_first_column">
+            <label class="register_first_label">两次输入新密码</label>
+            <input type="password" class="register_first_input" name="password" placeholder=""/>
+            <span class="register_frist_error"></span>
+        </div>
+        <div class="register_first_column" style="margin-top: 20px;text-align: center;margin-left:-60px;">
+            <label class="register_first_label"></label><div class="register_first_next register_second_submit">确定</div>
+        </div>
+        <!-- <div class="register_first_column" style="margin-top: 20px;">
+            <label class="register_first_label"></label><a class="register_first_next" href="<?php echo U('login/index');?>" style="background-color: #e5e5e5;color:#666666;">返回登录</a>
+        </div> -->
+        </form>
+    </div>
+<style>
+.register_first_input{height: 35px;}
+.register_first_next{width: 135px;}
+.register_first_column{margin-top: 11px;}
+.register_second_submit{text-align: center;}
+</style>
+<script type="text/javascript">
+//确认保存
+$(".register_second_submit").on("click",function(){
+    var flag=true;
+    var mobile=$("input[name='mobile']").val();
+    if(mobile=="" || !$mobile(mobile)){
+        flag=false;
+        $("input[name='mobile']").closest(".register_first_column").find(".register_frist_error").text("请填写正确手机号");
+    }
+    var password=$("input[name='password']").val();
+    if(password.length<6 || password.length>15){
+        flag=false;
+        $(".password_1").addClass("wrong").removeClass("ok");
+    }else{
+        $(".password_1").addClass("ok").removeClass("wrong");
+    }
+    if(!/^[0-9A-Za-z_]{6,15}$/.test(password)){
+        flag=false;
+        $(".password_2").addClass("wrong").removeClass("ok");
+    }else{
+        $(".password_2").addClass("ok").removeClass("wrong");
+    }
+    if(password!=""){
+        if(/^\d{6,15}$/.test(password) || /^[a-zA-Z]{6,15}$/.test(password) || /^_{6,15}$/.test(password)){
+            flag=false;
+            $(".password_3").addClass("wrong").removeClass("ok");
+        }else{
+            $(".password_3").addClass("ok").removeClass("wrong");
+        }
+    }else{
+        $(".password_3").addClass("wrong").removeClass("ok");
+    }
+    var code=$("input[name='code']").val();
+    if(code==""){
+        flag=false;
+        $("input[name='code']").closest(".register_first_column").find(".register_frist_error").text("请填写验证码");
+    }else{
+        $("input[name='code']").closest(".register_first_column").find(".register_frist_error").text("");
+    }
+    if(flag==false){return false;}
+    $("#register_second_form").submit();
+});
+</script>
+<script type="text/javascript">
+//发送短信验证码
+$(".register_get_code").click(function(){
+    if($(this).hasClass("on_disabeld")){return;}
+    var mobile=$("input[name='mobile']").val();
+    if(mobile=="" || !$mobile(mobile)){
+        $flash("请填写正确手机号");return false;
+    }
+    var obj=$(this);
+    $(this).addClass("on_disabeld");
+    $send_sms(mobile,5,function(object){
+        //$("input[name='code']").val(object.code);
+        down_count(obj,120);
+    })
+});
+function down_count(obj,count){
+    if(count==0){
+        obj.text("点击重新发送").removeClass("on_disabeld");
+    }else{
+        obj.text(count+"后重新发送");
+        count--;
+        setTimeout(function(){down_count(obj,count);},1000);
+    }
+}
+</script>
+</body>
+</html>

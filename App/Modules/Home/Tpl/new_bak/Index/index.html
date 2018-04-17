@@ -1,0 +1,193 @@
+<div class="content">
+<section class="cardbiao">
+    <div class="card-h">
+        <h2>智能推荐人才</h2>
+        <span onclick="window.location='<?php echo U('index/resume');?>'" style="cursor: pointer">最新收到的简历(<?php echo $receive_resume;?>)</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="<?php echo U('task/add');?>">发布职位</a>
+    </div>
+    <table class="card-t">
+        <thead>
+        <tr>
+            <th>姓名</th>
+            <th>性别</th>
+            <th>年龄</th>
+            <th>学历</th>
+            <th>职位</th>
+            <th>所在地</th>
+            <th>联系方式</th>
+            <th>更新时间</th>
+        </tr>
+        </thead>
+    </table>
+    <p class="card-m">
+        <a target="_blank" href="#">更多智能推荐人才&nbsp;>&nbsp;</a>
+    </p>
+</section>
+<section class="cardbiao">
+    <div class="card-h mb20" style="margin-bottom: 30px;">
+        <h2 style="display:inline-block;">杭州招聘会</h2>
+    </div>
+    <?php foreach($content as $value):?>
+    <dl class="dlcard">
+        <dt class="title">
+            <?php echo $value['name'];?>
+            <span><?php echo date("Y.m.d",strtotime($value["begin_time"]));?>—<?php echo date("Y.m.d",strtotime($value["end_time"]));?></span>
+        </dt>
+        <dd class="text">
+            <div class="layui-row">
+                <div class="layui-col-md9">
+                    <p class="txt">主题： <?php echo $value['name'];?></p>
+                    <p class="tabs"><em>报名求职者：<?php echo $value['join_user'];?>人</em><em>报名企业家：<?php echo $value['join_company'];?>家</em></p>
+                </div>
+                <div class="layui-col-md3">
+                <?php if($value['has_join']):?>
+                    <div class="ljcj" style="cursor: pointer"  onclick="window.location='<?php echo U('square/jobfair_user',array('jobfair_id'=>$value['id']));?>'">会场求职人才</div>
+                    <?php elseif($value['status']==3):?>
+                    <a class="ljcj" style="cursor: pointer" >已结束</a>
+                    <?php elseif($value["allow_post"]):?>
+                    <div class="ljcj" style="cursor: pointer" onclick="window.location='<?php echo U('task/jobfair_add',array('jobfair_id'=>$value['id']));?>'">发布职位</div>
+                    <?php elseif(in_array($value['status'],array(1,2))):?>
+                    <a class="ljcj" style="cursor: pointer" href="javascript:;" onclick="buy_position(<?php echo $value['id'];?>);">立即参会</a>
+                    <?php else:?>
+                    <div class="ljcj" style="cursor: pointer" >已结束</div>
+                    <?php endif;?>
+                </div>
+            </div>
+        </dd>
+    </dl>
+    <?php endforeach;  ?>
+    <p class="card-m"><a href="<?php echo U('square/job_fair');?>"> 更多招聘会&nbsp;> </a></p>
+</section>
+</div>
+<div class="right-part">
+    <div class="part-one">
+        <h2>账户概况</h2>
+        <ul class="gaik">
+            <li>
+                <p class="gray">账户余额</p>
+                <p><?php echo $company_row['money']/100;?>元</p>
+                <a href="javascript:;" class="goto_recharge">充值</a>
+            </li>
+            <?php if($innerpush):?>
+            <li>
+                <p class="gray">会员有效期</p>
+                <p>剩余<?php echo $innerpush['expire_day'];?>天</p>
+                <p class="gray"><?php echo date("Y.m.d",time()-$innerpush['expire_day']*3600*24)."-".date("Y.m.d");?></p>
+                <a  href="javascript:innerpush_buy();">续费</a>
+            </li>
+            <?php else:?>
+            <li>
+                <p class="gray">开通会员</p>
+                <a  href="javascript:innerpush_buy();">购买</a>
+            </li>
+            <?php endif;?>
+
+            <li>
+                <p class="gray">智能HR</p>
+                <p>暂未开放</p>
+                <!--<p class="gray">2017.12.10-2018.12.10</p>-->
+                <!--<a href="#">续费</a>-->
+            </li>
+        </ul>
+        <div class="gaik2">
+            <dl>
+                <dt>简历点：3000点</dt>
+                <dd class="process">
+                    <div class="line" style="width: 10%"></div>
+                </dd>
+                <dd>已使用80点<span>剩余<em>2920</em>点</span></dd>
+            </dl>
+            <dl>
+                <dt>面试邀请点：5000点</dt>
+                <dd class="process">
+                    <div class="line" style="width: 10%"></div>
+                </dd>
+                <dd>已使用80点<span>剩余<em>4920</em>点</span></dd>
+            </dl>
+            <p class="sxed">授信额度：暂未开放<a href="#">提额</a></p>
+            <a class="buylink" href="<?php echo U('server/add');?>">服务购买》》 </a>
+        </div>
+    </div>
+    <div class="part-two">
+        <h2>您的专属服务顾问</h2>
+        <p><i><img src="/v1/images/base/official.png"></i>&nbsp;速职官方</p>
+        <p>电话：0571-87211611</p>
+        <p>微信：0571-87211611</p>
+        <p>邮箱：gbh@suzhi.work</p>
+    </div>
+    <div class="part-thr">
+        <p>速职专线：0571-87211611</p>
+    </div>
+<!-- <div class="index_list cp" onclick="window.location='<?php echo U('index/message');?>'">
+    <h6>通知</h6>
+    <div class="number"><?php echo $message_num;?></div>
+</div> -->
+</div>
+<script type="text/plain" id="innerpush_template"><form action="" method="post" id="handle_form">
+<div class="buy_server_list" style="height:unset;border:none;width:unset;margin-left:50px;margin-top:20px;">
+    <?php foreach($innerpush_list as $value):?>
+    <label class="innerpush_label"><input type="radio" name="mix_id" value="innerpush_<?php echo $value['id'];?>"<?php if(!$value["allow_buy"]):?> disabled<?php endif;?> data-money="<?php echo $value['money']/100;?>"/><span class="s1"><?php echo $value['number'];?>人</span><span><?php echo $value['money']/100;?>元/年</span></label>
+    <?php endforeach;?>
+</div>
+<div style="text-align:center;color:#ff8903;margin-top:-10px;" id="discount" data-money="<?php echo $discount/100;?>">升级可抵消费用<?php echo $discount/100;?>元</div>
+<div style="text-align:center;color:#666666;line-height:17px;font-size:12px;letter-spacing: 0.7px;">计算公式：剩余时间／365天 x 服务价</div>
+<div class="btn" style="width:295px;margin:20px auto;display:block;" id="innerpush_submit">升级</div></form>
+</script>
+<style>
+.part-two p i{float: left;margin-top: 6px;}
+.card-h{height: 40px;}
+.card-h span, .card-h a,.card-h h2{padding: 10px 10px;}
+.dlcard .text .tabs em{font-size: 15px;}
+.dlcard .text .ljcj{width: 95px;margin-left: 40px;}
+.layui-col-md3{padding: 10px;}
+.register_first_input{width: 120px;}
+.pay{background: #fff;}
+.pay:focus{color: #ff8903;}
+.td_l{float: right;}
+.fix_width_column{width: 400px;}
+.layui-layer-title{font-size:15px;font-weight: bold;color: #ff8903;}
+.gaik2 .buylink{margin: 20px 0px 10px 58px}
+</style>
+<script>
+    //充值
+    $(".goto_recharge").click(function () {
+        var html='<form action="<?php echo U('user/recharge');?>" method="post" id="recharge_form" style="margin-left:50px;"><div class="register_first_column fix_width_column" style="margin-top: 20px;">';
+        html+='</div><div class="register_first_column fix_width_column" style="margin-top: 18px;"><label class="register_first_label" style="width: 68px;">充值金额</label>';
+        html+='<input type="text" class="register_first_input" name="money" value=""/>&nbsp;&nbsp;元';
+        html+='</div><div class="register_first_column fix_width_column" style="margin-top: 16px;"><label class="register_first_label" style="width: 68px;">支付方式</label><input type="button" class="register_first_input pay" name="" value="支付宝"/><input type="button" class="register_first_input pay" name="" value="对公打账单"/ style="margin-left: 10px;"> </div>';
+        html+='<div style="padding: 20px;margin-left: 40px;"><table style="color: #cccccc;"><tr><td class="td_l">开户行：</td><td>浙江泰隆商业银行杭州分行营业部</td></tr><tr><td class="td_l">账号：</td><td>3302010120100049167</td></tr><tr><td class="td_l">户名：</td><td>杭州巨光网络科技有限公司</td></tr></table></div>';
+        html+='<span style="color: red;margin-left: 11px;padding-top: 50px;" id="recharge_form_error"></span><input type="submit" value="确认支付" class="btn" id="recharge_form_submit" style="float: left;margin-left: 120px;"/></form>';
+        // $box({title:'充值',msg:html});
+        layer.open({
+            type: 1,
+            skin: 'layui-layer-rim', //加上边框
+            area: ['450px', '300px'], //宽高
+            title: '账户余额充值',
+            content: html
+        });
+    });
+    //购买企业内推
+    function innerpush_buy(){
+        var html=$("#innerpush_template").html();
+        $box({title:"企业内推系统",msg:html});
+    }
+    //提交充值
+    $(document).on("submit","#recharge_form",function () {
+        var money=$(this).find('input[name="money"]').val();
+        if(money=="" || !$money(money)){
+            $("#recharge_form_error").text("请填写正确金额");return false;
+        }
+        if(parseFloat(money)>=1000000){
+            $("#recharge_form_error").text("金额不能大于100万");return false;
+        }
+    });
+    //确认购买
+    $(document).on("click","#innerpush_submit",function(){
+        if($("input[name='mix_id']:checked").length>0){
+            goto_submit('mix_id');
+        }else{
+            $alert("请选择服务");
+        }
+    });
+</script>
+</div>

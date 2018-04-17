@@ -1,0 +1,137 @@
+<div class="bg-fff job_fair_main">
+    <div class="dark_tip">线上招聘会简介：线上招聘会由速职发起，在求职端入口架设线上招聘会入口，每期参加招聘会企业可以所获得该招聘会投递简历的所有人才简历以及邀请面试权限。</div>
+    <div style="margin-top:19px;margin-bottom:62px;">
+        <form action="" method="get">
+            <label class="form_label"><span class="form_label_title">城市</span><select class="register_first_select" style="width: 112px;margin-right: 8px;" name="province_id">
+
+            </select><select class="register_first_select" style="width: 112px;" name="city_id">
+
+            </select></label>
+            <label class="form_label"><span class="form_label_title">名称</span><input type="text" placeholder="招聘会名称" name="name" class="form_label_input" value="<?php echo $name;?>"/></label>
+            <input type="submit" class="btn" value="搜索"/>
+        </form>
+    </div>
+    <div class="job_fair_ul">
+        <?php foreach($content as $value):?>
+        <div class="job_fair_list">
+            <h6><?php echo $value['name'];?></h6>
+            <p>时间：<?php echo date("Y-m-d",strtotime($value["begin_time"]));?>-<?php echo date("Y-m-d",strtotime($value["end_time"]));?> 职位：<?php implode(' ',json_decode($value["tag"],true));?>  参会求职者：<?php echo $value['join_user'];?>人 参会企业：<?php echo $value['join_company'];?>家</p>
+            <p>本期基础摊位价：<?php echo $value['base_money'];?>个速职币</p>
+            <p class="default">回报：会场求职人才邀请面试权限     招聘会职位发布</p>
+            <?php if($value['has_join']):?>
+            <div class="job_fair_btn empty" style="top: 33.33%;" onclick="window.location='<?php echo U('square/jobfair_user',array('jobfair_id'=>$value['id']));?>'">会场求职人才</div>
+            <?php if($value['status']==3):?>
+            <div class="job_fair_btn dark" style="top: 66.66%">已结束</div>
+            <?php else:?>
+            <?php if($value["allow_post"]):?>
+            <div class="job_fair_btn" style="top: 66.66%" onclick="window.location='<?php echo U('task/jobfair_add',array('jobfair_id'=>$value['id']));?>'">发布职位</div>
+            <?php endif;?>
+            <?php endif;?>
+            <?php else:?>
+            <?php if(in_array($value['status'],array(1,2))):?>
+            <div class="job_fair_btn" style="top: 33.33%" onclick="buy_position(<?php echo $value['id'];?>);">立即参加</div>
+            <?php else:?>
+            <div class="job_fair_btn dark" style="top: 33.33%">已结束</div>
+            <?php endif;?>
+            <?php endif;?>
+        </div>
+        <?php endforeach;?>
+
+    </div>
+</div>
+<script type="text/plain" id="suzhicoin_template"><form action="" method="post" id="handle_form">
+<div class="buy_server_list" style="height:unset;border:none;width:unset;margin-left:50px;margin-top:20px;">
+    <?php foreach($suzhicoin_list as $value):?>
+    <label class="interview_label">
+        <input type="radio" name="suzhicoin_id" value="<?php echo $value['id'];?>" data-money="<?php echo $value['money']/100;?>">
+        <span class="s1"><?php echo $value['number'];?>个</span></label>
+    <?php endforeach;?>
+
+    <div id="discount" data-money="0" style="display:none;width:0;height:0;"></div>
+</div>
+<div class="btn" style="width:295px;margin:20px auto;display:block;" id="suzhicoin_submit">购买</div></form>
+</script>
+<script>
+//购买邀面
+function suzhicoin_buy(){
+    var html=$("#suzhicoin_template").html();
+    $box({title:"速职币",msg:html});
+}
+//确认购买
+$(document).on("click","#suzhicoin_submit",function(){
+    if($("input[name='suzhicoin_id']:checked").length>0){
+        goto_submit('suzhicoin_id');
+    }else{
+        $alert("请选择购买数量");
+    }
+});
+//提交表单
+function goto_submit(server_type){
+    //计算金额
+    var total=0;
+    total+=parseFloat($("input[name='"+server_type+"']:checked").attr("data-money"));
+    total-=parseFloat($("#discount").attr("data-money"));
+    var select_html='<input type="hidden" name="'+server_type+'" value="'+$("input[name='"+server_type+"']:checked").val()+'"/>';
+    var html='<form id="submit_form" method="post" action="<?php echo U('server/buy');?>">'+select_html+'<p class="buy_server_tip">金额：'+total.toFixed(2)+'元</p><p class="buy_server_tip">账户余额：'+$user_info().money+'元<a href="<?php echo U('user/safe');?>" target="_blank">充值</a></p></form>';
+    $confirm({msg:html,title:"支付"},function(){
+        layer_close=false;
+        if($user_info().money<total){
+            $alert("金额不足,请前往充值",function(){
+                layer_close=null;
+                window.open('<?php echo U("user/safe");?>');
+            });return false;
+        }else{
+            $("#submit_form").submit();
+        }
+    });
+}
+//参加招聘会
+function buy_position(jobfair_id){
+    $.ajax({
+        url:"<?php echo U('square/get_position');?>",
+        type:"get",
+        async:false,
+        data:{"jobfair_id":jobfair_id},
+        dataType:"json",
+        success:function (obj) {
+            var html='<form action="<?php echo U('square/buy_position');?>" method="post" id="add_position_form">';
+            $.each(obj,function (item,temp) {
+                if(temp.is_top==1)
+                    temp.is_top="无置顶";
+                else
+                    temp.is_top="置顶";
+                html+='<p class="buy_server_tip"><label><input type="radio" name="position_id" value="'+temp.id+'" data-money="'+temp.money+'" style="margin-right: 5px;" '+(item==0?'checked':'')+'/>'+temp.name+'<span style="margin-left: 40px;">'+temp.money+'个速职币</span><span style="margin-left: 20px;" data-number="'+temp.left_number+'" id="position_left_number">剩余：'+temp.left_number+'个(邀请面试次数:'+tmp.interview_number+','+temp.is_top+')</span></label></p>';
+            });
+            html+='<p class="buy_server_tip">金额：<span id="position_money">'+obj[0].money+'</span>个速职币</p><p class="buy_server_tip">速职币余量:<?php echo $suzhicoin; ?>个<a href="javascript:suzhicoin_buy();" target="_blank">充值</a></p></form>';
+            var suzhiconin='<?php echo $suzhicoin; ?>';
+            $confirm({msg:html,title:"支付"},function(){
+                var left_number=$('#position_left_number').attr("data-number");
+                if(left_number<=0){
+                    alert("该摊位数量为0,不能购买");return false;
+                }
+                var total=parseFloat($("#position_money").text());
+                if(parseInt(suzhiconin)<parseInt(total)){
+                    layer_close=false;
+                    alert("速职币不足,请前往充值");return false;
+                }else{
+                    $("#add_position_form").submit();
+                }
+            });
+        }
+    });
+}
+//选择摊位
+$(document).on("click",".buy_server_tip label",function () {
+    var money=$(this).find("input").attr("data-money");
+    $("#position_money").html(money);
+});
+//城市搜索
+var area_option={province_id:0,city_id:0};
+<?php if($province_id):?>
+area_option.province_id=<?php echo $province_id; ?>;
+<?php endif;?>
+<?php if($city_id):?>
+area_option.city_id=<?php echo $city_id; ?>;
+<?php endif;?>
+$province_city($("select[name='province_id']"),$("select[name='city_id']"),area_option);
+</script>

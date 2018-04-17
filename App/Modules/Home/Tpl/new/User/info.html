@@ -1,0 +1,117 @@
+<div class="w960 margin20">
+    <div class="changeTab">
+        <h2>企业资料</h2>
+    </div>
+
+    <div class="p-company-detail">
+        <div class="information">
+            <div class="step2">
+                <h2 class="margin">企业基本资料填写</h2>
+                <div class="uploadlogo">
+                    <div class="uleft">
+                        <div class="row">
+                            <label>*企业logo</label>
+                            <div class="uploadfile"></div>
+                        </div>
+                    </div>
+                    <div class="uright">
+                        <div class="row">
+                            <label class="uplabel">*营业执照</label>
+                            <div class="uploadfile"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="info-group">
+                    <div class="row">
+                        <label>*企业名称</label>
+                        <div class="desc">
+                            <?php echo $company_row['name'];?>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label>*企业组织机构代码</label>
+                        <div class="desc">
+                            <?php echo $company_row['organization_code'];?>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label>*固定电话</label>
+                        <div class="desc">
+                            <?php echo $company_row['telephone'];?>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label>*公司行业</label>
+                        <div class="desc">
+                            <?php $buffer=explode(',',$company_row['type_classify']);?>
+                            <?php echo $type_classify[$buffer[0]]['name'];?>
+                            <?php echo $type_classify[$buffer[0]]['children'][$buffer[1]];?>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label>*融资情况</label>
+                        <div class="desc">
+                            <?php echo $financing[$company_row['financing']];?>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label>*公司人数</label>
+                        <div class="desc">
+                            <?php echo $scale_type[$company_row['scale_type']];?>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label>*公司地址</label>
+                        <div class="desc">
+                            <div class="selectbox small">
+                                浙江省x
+                            </div>
+                            <div class="selectbox small">
+                                杭州市x
+                            </div>
+                            <div class="selectbox small">
+                                西湖区x
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row addr clearfix">
+                        <label>&nbsp;</label>
+                        <div class="desc">
+                            <?php echo $company_row['address'];?>
+                        </div>
+                    </div>
+                    <div class="row clearfix">
+                        <label>公司简介</label>
+                        <div class="desc">请填写公司简介，不少于20个字请填写公司简介，不少于20个字请填写公司简，不少于20个字x</div>
+                    </div>
+                </div>
+                <h2>企业招聘负责人</h2>
+                <div class="info-group">
+                    <div class="row">
+                        <label>*联系人姓名</label>
+                        <div class="desc">干滨豪x</div>
+                    </div>
+                    <div class="row">
+                        <label>*联系人手机</label>
+                        <div class="desc">15168238865x</div>
+                    </div>
+                    <div class="row">
+                        <label>联系人邮箱</label>
+                        <div class="desc">924528929@qq.comx</div>
+                    </div>
+                </div>
+                <div class="row btn__wrap">
+                    <label>&nbsp;</label>
+                    <button class="btn btn__comp">返回首页</button>
+                    <button class="btn graybtn btn__jump">编辑</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script type="text/javascript">
+    //省市县信息
+    <? php $area_buffer = explode("#", $company_row['address_pro_city_coun']);?>
+        $("#area_name").text($area_name('<?php echo $area_buffer[1];?>') + ' ' + $area_name('<?php echo $area_buffer[2];?>') + ' ' + $area_name('<?php echo $area_buffer[3];?>'));
+</script>

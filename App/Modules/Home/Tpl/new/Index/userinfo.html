@@ -1,0 +1,389 @@
+<link rel="stylesheet" href="/assets/main.css?v=201803141458" type="text/css" media="screen" charset="utf-8">
+<script type="text/javascript" src="/js/js/canvg2.js"></script>
+<script type="text/javascript" src="/js/js/html2canvas-0.4.1.js"></script>
+<script type="text/javascript" src="/js/js/jspdf.min.js"></script>
+<script type="text/javascript" src="/js/js/jquery-2.1.4.min.js"></script>
+<div class="resume__wrap" id="pdfContainer" style="margin: 0 auto;">
+    <?php if($isDown !== 1):?>
+    <div class="resume__head">
+        <span>
+            <img src="/assets/images/logo.jpg" class="resume__image">
+        </span>
+        <span>
+            <?php if($isDown !== 1):?>
+            <img src="/assets/images/close.png" class="resume__close">
+            <?php endif;?>
+        </span>
+    </div>
+    <?php endif;?>
+    <!-- 弹窗头部结束 -->
+    <!-- 简历开始 -->
+    <div class="resume__main">
+        <?php if($isDown !== 1):?>
+        <div class="main__head">
+            <div class="head__left">
+                <span class="head__time">简历更新时间：
+                    <?php echo formatDatetime($user_resume['create_time']);?>
+                </span>
+                <?php if(!$isInvited):?>
+                <span class="head__small">解锁或邀请面试后可下载</span>
+                <?php endif;?>
+            </div>
+            <div class="head__right">
+                <?php if($isInvited):?>
+                <?php else:?>
+                <a href="javascript: void(0);" data-userid="<?php echo $order_row['user_id'];?>" class="head__invite tmpUnlock">解锁</a>
+                <a href="<?php echo U('index/apply_interview',array('user_id'=>$order_row['user_id']));?>" class="head__download load_url">邀请面试</a>
+                <?php endif;?>
+            </div>
+        </div>
+        <?php endif;?>
+        <div class="main__pdf">
+            <!-- 第一部分开始 -->
+            <div class="pdf__one">
+                <div class="pdf__one--left">
+                    <div class="pdf__name">
+                        <span class="pdf__name--name">
+                            <?php echo $user_row["nickname"];?>
+                        </span>
+                        <span class="pdf__name--work">
+                            <?php echo $cv_job_row['occupation']?$cv_job_row['occupation']:$extra_info["occupation"];?>
+                        </span>
+                    </div>
+                    <ul class="pdf__all">
+                        <li class="pdf__all--item"><?php echo $user_row['gender']?'男':'女';?></li>
+                        <li class="pdf__all--line">|</li>
+                        <li class="pdf__all--item">未婚</li>
+                        <li class="pdf__all--line">|</li>
+                        <li class="pdf__all--item"><?php echo getAgeByBirthday($user_row['birthday']);?>岁</li>
+                        <li class="pdf__all--line">|</li>
+                        <?php if($user_row['birthday']=="1970-01-01"):?>
+                        <li class="pdf__all--item">1995年7月</li>
+                        <li class="pdf__all--line">|</li>
+                        <?php else:?>
+                        <li class="pdf__all--item"><?php echo formatDatetime($user_row['birthday'], 'Y年m月');?></li>
+                        <li class="pdf__all--line">|</li>
+                        <?php endif;?>
+                        <li class="pdf__all--item"><?php echo $degree[$extra_info["highest_degree"]];?></li>
+                        <li class="pdf__all--line">|</li>
+                        <li class="pdf__all--item">国籍：中国</li>
+                        <li class="pdf__all--line">|</li>
+                        <li class="pdf__all--item">群众</li>
+                    </ul>
+                    <div class="pdf__content">
+                        <p class="pdf__normal">
+                            <span class="pdf__normal--title">工作经验：</span><?php echo $extra_info['work_year'];?> 年工作经验</p>
+                        <p class="pdf__normal">
+                            <span class="pdf__normal--title">现 居 地：</span>
+                            <span class="city_name" data-id="<?php echo $extra_info['city_id'];?>"></span>
+                        </p>
+                        <p class="pdf__normal">
+                            <span class="pdf__normal--title">户籍地：</span>
+                            <span class="city_name" data-id="<?php echo $extra_info['city_id'];?>"></span>
+                        </p>
+                        <p class="pdf__normal">
+                            <span class="pdf__normal--title">联系电话：</span>
+                            <?php echo get_apply($apply_interview,$user_row['phone_number']);?>
+                        </p>
+                        <p class="pdf__normal">
+                            <span class="pdf__normal--title">邮箱：</span>
+                            <?php echo get_apply($apply_interview,$extra_info['work_email']);?>
+                        </p>
+                    </div>
+                </div>
+                <div class="pdf__one--right">
+                    <img src="/assets/images/logo2.png" class="pdf__one--image">
+                </div>
+            </div>
+            <!-- 第一部分结束 -->
+
+            <!-- 第二部分开始 -->
+            <?php if(isset($cv_job_row['occupation'])):?>
+            <div class="pdf__two">
+                <div class="main__common">
+                    <div class="common__title">
+                        <span class="common__title--show">求职方向</span>
+                        <span class="common__title--line"></span>
+                    </div>
+                </div>
+                <div class="pdf__content">
+                    <p class="pdf__normal">
+                        <span class="pdf__normal--title">期望地点：</span><?php echo $cv_job_row['city'];?></p>
+                    <p class="pdf__normal">
+                        <span class="pdf__normal--title">期望职位：</span><?php echo $cv_job_row['occupation'];?></p>
+                    <p class="pdf__normal">
+                        <span class="pdf__normal--title">工作性质：</span>
+                        <?php if($cv_job_row['job_type_ori'] === '1'):?>
+                        全职
+                        <?php elseif($cv_job_row['job_type_ori'] === '2'):?>
+                        实习
+                        <?php else:?>兼职<?php endif;?>
+                    </p>
+                </div>
+            </div>
+            <?php endif;?>
+            <!-- 第二部分结束 -->
+
+            <!-- 第三部分开始 -->
+            <?php if(!empty($education_list)):?>
+            <div class="pdf__three">
+                <div class="main__common">
+                    <div class="common__title">
+                        <span class="common__title--show">教育经历</span>
+                        <span class="common__title--line"></span>
+                    </div>
+                </div>
+                <div class="pdf__content">
+                    <?php foreach($education_list as $key=>$value):?>
+                    <p class="pdf__normal <?php if(!isset($education_list[$key+1])):?>last<?php endif;?>">
+                        <span class="pdf__normal--title">
+                            <?php echo $value['end_time']?> &nbsp;&nbsp;&nbsp;&nbsp;
+                            <?php echo $value['school_name']?>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <?php echo $value['major']?>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <?php echo $value['degree']?>
+                        </span>
+                    </p>
+                    <?php endforeach;?>
+                </div>
+            </div>
+            <?php endif; ?>
+            <!-- 第三部分结束 -->
+
+            <!-- 第四部分开始 -->
+            <?php if($work_list):?>
+            <div class="pdf__four">
+                <div class="main__common">
+                    <div class="common__title">
+                        <span class="common__title--show">工作经历</span>
+                        <span class="common__title--line"></span>
+                    </div>
+                </div>
+
+                <?php foreach($work_list as $key=>$value):?>
+                <div class="pdf__content">
+                    <p class="pdf__normal">
+                        <span class="pdf__normal--dot"></span>
+                        <span class="pdf__normal--title">
+                            <?php echo date("Y.m",strtotime($value["start_time"]));?>-
+                            <?php echo date("Y.m",strtotime($value["end_time"]));?> &nbsp;&nbsp;&nbsp;
+                            <?php echo $value['firm_name']?>
+                        </span>
+                    </p>
+                    <p class="pdf__small">
+                        <span class="pdf__small--left">
+                            行业类别：
+                        </span>
+                        <span class="pdf__small--right">
+                            行业类别：互联网 | 企业性质：民营企业 | 规模：100—500人
+                        </span>
+                    </p>
+                    <p class="pdf__small">
+                        <span class="pdf__small--left">
+                            工作内容：
+                        </span>
+                        <span class="pdf__small--right">
+                            <?php echo $value['content']?>
+                        </span>
+                    </p>
+                </div>
+                <?php if(isset($work_list[$key+1])):?>
+                <div class="pdf__line"></div>
+                <?php endif;?>
+                <?php endforeach;?>
+            </div>
+            <?php endif;?>
+            <!-- 第四部分结束 -->
+
+            <!-- 第五部分开始 -->
+            <?php if($user_resume['work_list']):?>
+            <div class="pdf__five">
+                <div class="main__common">
+                    <div class="common__title">
+                        <span class="common__title--show">项目经历</span>
+                        <span class="common__title--line"></span>
+                    </div>
+                </div>
+                <?php foreach($user_resume["work_list"] as $key=>$value):?>
+                <div class="pdf__content">
+                    <p class="pdf__normal">
+                        <span class="pdf__normal--dot"></span>
+                        <span class="pdf__normal--title">
+                            <?php echo $value['time'];?> &nbsp;&nbsp;&nbsp;
+                            <?php echo $value['name'];?>
+                        </span>
+                    </p>
+                    <p class="pdf__small">
+                        <span class="pdf__small--left">
+                            工作内容：
+                        </span>
+                        <span class="pdf__small--right">
+                            <?php echo $value['desc'];?>
+                        </span>
+                    </p>
+                </div>
+                <?php if(isset($user_resume["work_list"][$key+1])):?>
+                <div class="pdf__line"></div>
+                <?php endif;?>
+                <?php endforeach;?>
+            </div>
+            <?php endif;?>
+            <!-- 第五部分结束 -->
+
+            <!-- 第六部分开始 -->
+            <?php if($self_intro['content']):?>
+            <div class="pdf__six">
+                <div class="main__common">
+                    <div class="common__title">
+                        <span class="common__title--show">自我描述</span>
+                        <span class="common__title--line"></span>
+                    </div>
+                </div>
+                <div class="pdf__content" style="padding: 0 30px;">
+                    <p class="pdf__small">
+                        <span class="pdf__small--left">
+                            工作内容：
+                        </span>
+                        <span class="pdf__small--right"><?php echo $self_intro['content']?$self_intro['content']:($user_resume?$user_resume["self_desc"]:"");?></span>
+                    </p>
+                </div>
+            </div>
+            <?php endif;?>
+            <!-- 第六部分结束 -->
+        </div>
+    </div>
+</div>
+
+<script>
+    $(".city_name").html($area_name($(".city_name").attr("data-id")));
+</script>
+<style>
+    .skill_need_label2 {
+        margin-bottom: 5px;
+    }
+</style>
+<script>
+    $(function () {
+        <?php if($isDown === 1):?>
+        downloadPdf()
+        <?php else:?>
+        $('#downloadPdf').click(function () {
+            downloadPdf()
+        })
+        <?php endif;?>
+
+        $('.tmpUnlock').click(function () {
+            var userId = $(this).data('userid');
+            var $item = $('#tableWrap').find('a[data-userid='+userId+']');
+            var currentPage = $item.data('page');
+            var taskId = 183;
+            var interviewTime = '2018-03-28 10:00:00';
+            var refer = '';
+            $post("<?php echo U('square/apply_interview_unlock');?>",{task_id:taskId, user_id:userId, interview_time:interviewTime,refer:refer, page: currentPage});
+        })
+    });
+
+    function downloadPdf() {
+        var flag = '<?php echo $apply_interview  ?>';
+        if (!flag) {
+            alert("邀请面试后,才能下载简历");
+            return false;
+
+        }
+        var targetDom = $("#pdfContainer");
+        //把需要导出的pdf内容clone一份，这样对它进行转换、微调等操作时才不会影响原来界面
+        var copyDom = targetDom.clone();
+        //新的div宽高跟原来一样，高度设置成自适应，这样才能完整显示节点中的所有内容（比如说表格滚动条中的内容）
+        copyDom.width(targetDom.width() + "px");
+        copyDom.height(targetDom.height() + "px");
+
+        $('body').append(copyDom);//ps:这里一定要先把copyDom append到body下，然后再进行后续的glyphicons2canvas处理，不然会导致图标为空
+
+        svg2canvas(copyDom);
+        html2canvas(copyDom, {
+            onrendered: function (canvas) {
+                var imgData = canvas.toDataURL('image/jpeg');
+                var img = new Image();
+                img.src = imgData;
+                //根据图片的尺寸设置pdf的规格，要在图片加载成功时执行，之所以要*0.225是因为比例问题
+                img.onload = function () {
+                    //此处需要注意，pdf横置和竖置两个属性，需要根据宽高的比例来调整，不然会出现显示不完全的问题
+                    if (this.width > this.height) {
+                        var doc = new jsPDF('l', 'mm', [this.width * 0.225, this.height * 0.225]);
+                    } else {
+                        var doc = new jsPDF('p', 'mm', [this.width * 0.225, this.height * 0.225]);
+                    }
+                    doc.addImage(imgData, 'jpeg', 0, 0, this.width * 0.225, this.height * 0.225);
+                    //根据下载保存成不同的文件名
+                    doc.save('pdf_' + new Date().getTime() + '.pdf');
+                };
+                //删除复制出来的div
+                copyDom.remove();
+            },
+            background: "#fff",
+            //这里给生成的图片默认背景，不然的话，如果你的html根节点没设置背景的话，会用黑色填充。
+            allowTaint: true //避免一些不识别的图片干扰，默认为false，遇到不识别的图片干扰则会停止处理html2canvas
+        });
+    }
+
+    function svg2canvas(targetElem) {
+        var svgElem = targetElem.find('svg');
+        svgElem.each(function (index, node) {
+            var parentNode = node.parentNode;
+            //由于现在的IE不支持直接对svg标签node取内容，所以需要在当前标签外面套一层div，通过外层div的innerHTML属性来获取
+            var tempNode = document.createElement('div');
+            tempNode.appendChild(node);
+            var svg = tempNode.innerHTML;
+            var canvas = document.createElement('canvas');
+            //转换
+            canvg(canvas, svg);
+            parentNode.appendChild(canvas);
+        });
+    }
+
+    function glyphicons2canvas(targetElem, fontClassName, fontFamilyName) {
+        var iconElems = targetElem.find('.' + fontClassName);
+        iconElems.each(function (index, inconNode) {
+            var fontSize = $(inconNode).css("font-size");
+            var iconColor = $(inconNode).css("color");
+            var styleContent = $(inconNode).attr('style');
+            //去掉"px"
+            fontSize = fontSize.replace("px", "");
+            var charCode = getCharCodeByGlyphiconsName(iconName);
+            var myCanvas = document.createElement('canvas');
+            //把canva宽高各增加2是为了显示图标完整
+            myCanvas.width = parseInt(fontSize) + 2;
+            myCanvas.height = parseInt(fontSize) + 2;
+            myCanvas.style = styleContent;
+            var ctx = myCanvas.getContext('2d');
+            //设置绘图内容的颜色
+            ctx.fillStyle = iconColor;
+            //设置绘图的字体大小以及font-family的名字
+            ctx.font = fontSize + 'px ' + fontFamilyName;
+            ctx.fillText(String.fromCharCode(charCode), 1, parseInt(fontSize) + 1);
+            $(inconNode).replaceWith(myCanvas);
+        });
+    }
+    //根据glyphicons/glyphicon图标的类名获取到对应的char code
+    function getCharCodeByGlyphiconsName(iconName) {
+        switch (iconName) {
+            case ("glyphicons-resize-full"):
+                return "0xE216";
+            case ("glyphicons-chevron-left"):
+                return "0xE225";
+            default:
+                return "";
+        }
+    }
+
+    //测试弹出框
+    function alertWarning() {
+        var title = '测试一下';
+        var fn = function () {
+            $(".modal__wrap--warning").remove()
+        }
+        $('.head__invite').click(function () {
+            $modalWarning(title, fn);
+        });
+    }
+    alertWarning();
+</script>

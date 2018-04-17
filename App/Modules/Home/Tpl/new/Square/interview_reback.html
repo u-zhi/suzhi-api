@@ -1,0 +1,35 @@
+<div class="bg-fff">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>编号</th>
+                <th>意向职位</th>
+                <th>期望薪资</th>
+                <th>求职者</th>
+                <th>工作年限</th>
+                <th>所在城市</th>
+                <th>邀面结果</th>
+                <th>人才来源</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach($interview_list as $value):?>
+            <tr>
+                <td><?php echo $value['id'];?></td>
+                <td><?php echo $value['occupation'];?></td>
+                <td><?php echo $value['lower'];?></td>
+                <td><?php echo $value['nickname'];?></td>
+                <td><?php echo $value['work_year'];?></td>
+                <td><?php echo $value['city_name'];?></td>
+                <td><?php echo $value['status']==4?"拒绝":"接受";?></td>
+                <td><?php echo $value['add_type_name'];?></td>
+                <td>
+                    <a href="<?php echo U('index/userinfo',array('order_id'=>$value['id']));?>" class="load_url">查看简历</a>
+                </td>
+            </tr>
+            <?php endforeach;?>
+        </tbody>
+    </table>
+    <?php echo helper()->page($pageinfo);?>
+</div>

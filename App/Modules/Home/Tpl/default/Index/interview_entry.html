@@ -1,0 +1,69 @@
+<div class="bg-fff">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>编号</th>
+                <th>职位</th>
+                <th>求职者</th>
+                <th>联系方式</th>
+                <th>来源</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach($content as $value):?>
+            <tr>
+                <td><?php echo $value['id'];?></td>
+                <td><?php echo $value['task_name'];?></td>
+                <td><?php echo $value['real_name'];?></td>
+                <td><?php echo $value["status"]==1?"邀请面试后会出现哦":$value['mobile'];?></td>
+                <td><?php echo $value["add_resource"];?></td>
+                <td>
+                    <a href="<?php echo U('index/userinfo',array('order_id'=>$value['id']));?>" class="load_url">查看简历</a>
+                    <a href="javascript:has_work(<?php echo $value['id'];?>,this);" data-money="<?php echo $value['commission'];?>">已入职</a>
+                    <a href="<?php echo U('index/no_work');?>" data="order_id=<?php echo $value['id'];?>" class="sure_commit" title="确认未入职？">未入职</a>
+                </td>
+            </tr>
+            <?php endforeach;?>
+        </tbody>
+    </table>
+    <?php echo helper()->page($pageinfo);?>
+</div>
+<script>
+    //已入职
+    function has_work(order_id,obj){
+        var commission=parseInt($(obj).attr("data-money"));
+        $confirm({msg:"确定已入职",title:"确定已入职？"},function(){
+            layer_close=false;
+            //佣金是否足够支付
+            $.ajax({
+                url:"<?php echo U('index/commission_enough_pay');?>",
+                type:"get",
+                data:{"order_id":order_id},
+                dataType:"json",
+                async:false,
+                success:function(data){
+                    if(data==1){
+                        layer_close=null;
+                        $post('<?php echo U("index/has_work");?>',{order_id:order_id});
+                    }else{
+                        if(confirm("佣金不足以支付,即将从余额进行支付?")){
+                            var money=parseInt($user_info().money);
+                            if(money<commission){
+                                alert("余额不足以支付,请充值后重试");
+                            }else{
+                                layer_close=null;
+                                $post('<?php echo U("index/has_work");?>',{order_id:order_id});
+                            }
+                        }else{
+                            layer_close=null;
+                        }
+                    }
+                }
+            });
+
+        },function(){
+            layer_close=null;
+        });
+    }
+</script>

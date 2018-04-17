@@ -1,0 +1,14 @@
+<div class="index_wrap">
+    <div class="index_list" style="height: 346px;cursor: pointer;" onclick="window.location='<?php echo U('square/lists');?>'">
+        <h6 style="margin-top: 110px;">速职人才库</h6>
+        <div class="index_list_small">累计</div>
+        <div class="index_list_small"><?php echo 872378+$user_sum;?></div>
+        <div class="index_list_small">名人才</div>
+    </div><div class="index_list" style="height: 346px;cursor: pointer;" onclick="window.location='<?php echo U('square/interview_reback');?>'">
+        <h6 style="margin-top: 110px;">邀面反馈</h6>
+        <div class="number"><?php echo $order_count;?></div>
+    </div><div class="index_list" style="height: 346px;cursor: pointer;" onclick="window.location='<?php echo U('square/job_fair');?>'">
+        <h6 style="margin-top: 110px;">线上招聘会</h6>
+        <div class="number"><?php echo $company_job_sum;?></div>
+    </div>
+</div>

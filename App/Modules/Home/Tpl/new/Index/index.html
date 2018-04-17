@@ -1,0 +1,445 @@
+<main class="p-home">
+    <div class="container">
+        <div class="main__wrap">
+            <div class="panel__wrap">
+                <div class="panel__header">
+                    <div class="header__left">智能推荐人才</div>
+                    <div class="header__right">
+                        <a href="<?php echo U('index/resume1');?>" class="btn btn-primary" style="color: #fff;">最新收到简历（
+                            <?php echo $receive_resume;?>）</a>
+                        <a href="<?php echo U('task/add?tab=1');?>" class="btn btn-primary btn-publish" style="color: #fff;">发布职位</a>
+                    </div>
+                </div>
+                <div class="panel__body">
+                    <table class="card-t">
+                        <thead>
+                            <tr>
+                                <th>姓名</th>
+                                <th>性别</th>
+                                <th>年龄</th>
+                                <th>学历</th>
+                                <th>职位</th>
+                                <th>所在地</th>
+                                <th>联系方式</th>
+                                <th>更新时间</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                    <p class="card-m">
+                        <a target="_blank" href="<?php echo U('index/resume1');?>">更多智能推荐人才&nbsp;&gt;&nbsp;</a>
+                    </p>
+                </div>
+            </div>
+
+            <div class="panel__wrap">
+                <div class="panel__header">
+                    <div class="header__left">
+                        <?php echo session("location_city"); ?>招聘会</div>
+                    <div class="header__right">
+                    </div>
+                </div>
+                <div class="panel__body">
+                    <div class="job__list">
+                        <?php foreach($content as $value):?>
+                        <dl class="dlcard">
+                            <dt class="title">
+                                <?php echo $value['name'];?>
+                                <span>
+                                    <?php echo date("Y.m.d",strtotime($value["begin_time"]));?>—
+                                    <?php echo date("Y.m.d",strtotime($value["end_time"]));?>
+                                </span>
+                            </dt>
+                            <dd class="text text__con">
+                                <div class="con__left">
+                                    <p class="txt">主题：
+                                        <?php echo $value['name'];?>
+                                    </p>
+                                    <p class="tabs">
+                                        <em>报名求职者：
+                                            <?php echo $value['join_user'];?>人</em>
+                                        <em>报名企业家：
+                                            <?php echo $value['join_company'];?>家</em>
+                                    </p>
+                                </div>
+                                <div class="con__right">
+                                    <?php if($value['has_join']):?>
+                                    <div class="ljcj" style="cursor: pointer" onclick="window.location='<?php echo U('square/jobfair_user',array('jobfair_id'=>$value['id']));?>'">会场求职人才</div>
+                                    <?php elseif($value['status']==3):?>
+                                    <a class="ljcj" style="cursor: pointer">已结束</a>
+                                    <?php elseif($value["allow_post"]):?>
+                                    <div class="ljcj" style="cursor: pointer" onclick="window.location='<?php echo U('task/jobfair_add',array('jobfair_id'=>$value['id']));?>'">发布职位</div>
+                                    <?php elseif(in_array($value['status'],array(1,2))):?>
+                                    <a class="ljcj" style="cursor: pointer" href="javascript:;" onclick="buy_position(<?php echo $value['id'];?>);">立即参会</a>
+                                    <?php else:?>
+                                    <div class="ljcj" style="cursor: pointer">已结束</div>
+                                    <?php endif;?>
+                                </div>
+                            </dd>
+                        </dl>
+                        <?php endforeach; ?>
+                    </div>
+                    <p class="card-m">
+                        <a href="<?php echo U('square/job_fair');?>">更多招聘会&nbsp;&gt;&nbsp;</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="side__wrap right-part">
+            <!-- 账户概况 start -->
+            <div class="part-one">
+                <h2>账户概况</h2>
+                <div class="gaikwrap">
+                    <ul class="gaik">
+                        <li>
+                            <p class="gray">账户余额</p>
+                            <p class="gaikTxt">
+                                <?php echo $company_row['money']/100;?>元</p>
+                            <a href="javascript: void(0);" id="recharge">充值</a>
+                        </li>
+                        <li>
+                            <p class="gray">会员有效期</p>
+                            <p class="gaikTxt">剩余
+                                <?php echo $innerpush['expire_day'];?>天</p>
+                            <p class="gray">
+                                <?php echo date("Y.m.d",time()-$innerpush['expire_day']*3600*24)."-".date("Y.m.d");?>
+                            </p>
+                        </li>
+                        <li>
+                            <p class="gray">智能HR</p>
+                            <p class="gaikTxt">暂未开放</p>
+                        </li>
+                    </ul>
+                    <div class="gaik2">
+                        <dl>
+                            <dt class="gaikTxt">简历点：3000点</dt>
+                            <dd class="process">
+                                <div class="line" style="width: 10%"></div>
+                            </dd>
+                            <dd>已使用80点
+                                <span>剩余
+                                    <em>2920</em>点</span>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt class="gaikTxt">面试邀请点：5000点</dt>
+                            <dd class="process">
+                                <div class="line" style="width: 10%"></div>
+                            </dd>
+                            <dd>已使用80点
+                                <span>剩余
+                                    <em>4920</em>点</span>
+                            </dd>
+                        </dl>
+                        <p class="sxed gaikTxt">授信额度：暂未开放</p>
+                        <div class="buywrap">
+                            <a class="buylink" href="<?php echo U('server/index');?>">服务购买》》 </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 账户概况 end -->
+
+            <!-- 您的专属服务顾问 start -->
+            <div class="part-two">
+                <h2>您的专属服务顾问</h2>
+                <?php
+                 if(!empty($company_row["help_info"]))
+                 {
+                   $help_info=json_decode($company_row["help_info"],true);
+                  }else{
+                $help_info=array(
+                 "help_name"=>"",
+                "help_phone"=>"",
+                "help_wx"=>"",
+                "help_email"=>"");
+                }
+                ?>
+                    <div class="item__wrap">
+                        <div class="item__label">
+                            <i class="icon-avatar-gray"></i>
+                        </div>
+                        <div class="item__txt">
+                            <?php echo $help_info["help_name"] ?>
+                        </div>
+                    </div>
+                    <div class="item__wrap">
+                        <div class="item__label">电话：</div>
+                        <div class="item__txt">
+                            <?php echo $help_info["help_phone"] ?>
+                        </div>
+                    </div>
+                    <div class="item__wrap">
+                        <div class="item__label">微信：</div>
+                        <div class="item__txt">
+                            <?php echo $help_info["help_wx"] ?>
+                        </div>
+                    </div>
+                    <div class="item__wrap">
+                        <div class="item__label">邮箱：</div>
+                        <div class="item__txt">
+                            <?php echo $help_info["help_email"] ?>
+                        </div>
+                    </div>
+            </div>
+            <!-- 您的专属服务顾问 end -->
+            <div class="part-thr">
+                <p class="hotline">速职专线：0571-87211611</p>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+<div class="content" style="display: none">
+    <section class="cardbiao">
+        <div class="card-h">
+            <h2>智能推荐人才</h2>
+            <span onclick="window.location='<?php echo U('index/resume');?>'" style="cursor: pointer">最新收到的简历(
+                <?php echo $receive_resume;?>)</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="<?php echo U('task/add');?>">发布职位</a>
+        </div>
+        <table class="card-t">
+            <thead>
+                <tr>
+                    <th>姓名</th>
+                    <th>性别</th>
+                    <th>年龄</th>
+                    <th>学历</th>
+                    <th>职位</th>
+                    <th>所在地</th>
+                    <th>联系方式</th>
+                    <th>更新时间</th>
+                </tr>
+            </thead>
+        </table>
+        <p class="card-m">
+            <a target="_blank" href="#">更多智能推荐人才&nbsp;>&nbsp;</a>
+        </p>
+    </section>
+    <section class="cardbiao">
+        <div class="card-h mb20" style="margin-bottom: 30px;">
+            <h2 style="display:inline-block;">杭州招聘会</h2>
+        </div>
+        <?php foreach($content as $value):?>
+        <dl class="dlcard">
+            <dt class="title">
+                <?php echo $value['name'];?>
+                <span>
+                    <?php echo date("Y.m.d",strtotime($value["begin_time"]));?>—
+                    <?php echo date("Y.m.d",strtotime($value["end_time"]));?>
+                </span>
+            </dt>
+            <dd class="text">
+                <div class="layui-row">
+                    <div class="layui-col-md9">
+                        <p class="txt">主题：
+                            <?php echo $value['name'];?>
+                        </p>
+                        <p class="tabs">
+                            <em>报名求职者：
+                                <?php echo $value['join_user'];?>人</em>
+                            <em>报名企业家：
+                                <?php echo $value['join_company'];?>家</em>
+                        </p>
+                    </div>
+                    <div class="layui-col-md3">
+                        <?php if($value['has_join']):?>
+                        <div class="ljcj" style="cursor: pointer" onclick="window.location='<?php echo U('square/jobfair_user',array('jobfair_id'=>$value['id']));?>'">会场求职人才</div>
+                        <?php elseif($value['status']==3):?>
+                        <a class="ljcj" style="cursor: pointer">已结束</a>
+                        <?php elseif($value["allow_post"]):?>
+                        <div class="ljcj" style="cursor: pointer" onclick="window.location='<?php echo U('task/jobfair_add',array('jobfair_id'=>$value['id']));?>'">发布职位</div>
+                        <?php elseif(in_array($value['status'],array(1,2))):?>
+                        <a class="ljcj" style="cursor: pointer" href="javascript:;" onclick="buy_position(<?php echo $value['id'];?>);">立即参会</a>
+                        <?php else:?>
+                        <div class="ljcj" style="cursor: pointer">已结束</div>
+                        <?php endif;?>
+                    </div>
+                </div>
+            </dd>
+        </dl>
+        <?php endforeach;  ?>
+        <p class="card-m">
+            <a href="<?php echo U('square/job_fair');?>"> 更多招聘会&nbsp;> </a>
+        </p>
+    </section>
+</div>
+
+<!-- <div class="index_list cp" onclick="window.location='<?php echo U('index/message');?>'">
+    <h6>通知</h6>
+    <div class="number"><?php echo $message_num;?></div>
+</div> -->
+</div>
+
+<!-- 账户余额充值弹窗开始 -->
+<div class="mask" id="maskRecharge">'
+    <form id="payform" action="<?php echo U('user/recharge');?>" method="post">
+        <div class="mask_wrap">
+            <div class="modal__wrap--normal">
+                <div class="modal__head">
+                    <span class="modal__head--title">提示</span>
+                    <span class="modal__head--close">×</span>
+                </div>
+                <div class="modal__content">
+                    <div class="modal__row">
+                        <span class="modal__text--small">充值金额：</span>
+                        <input type="text" name="money" class="modal__input">元
+                    </div>
+                    <div class="modal__row">
+                        <span class="modal__text--small">支付方式：</span>
+                        <span class="modal__money--active">支付宝</span>
+                        <span class="modal__money--normal">对公打款</span>
+                    </div>
+                    <div class="modal__company">
+                        <p class="modal__company--row">
+                            <span class="modal__company--key">开户行：</span>
+                            <span class="modal__company--value">浙江泰隆商业银行杭州分行营业部</span>
+                        </p>
+                        <p class="modal__company--row">
+                            <span class="modal__company--key">账号：</span>
+                            <span class="modal__company--value">3302010120100049167</span>
+                        </p>
+                        <p class="modal__company--row">
+                            <span class="modal__company--key">户名：</span>
+                            <span class="modal__company--value">杭州巨光网络科技有限公司</span>
+                        </p>
+                    </div>
+                    <div class="modal__bt--submit">确认支付</div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<!-- 账户余额充值弹窗结束 -->
+<script type="text/plain" id="innerpush_template"><form action="" method="post" id="handle_form">
+<div class="buy_server_list" style="height:unset;border:none;width:unset;margin-left:50px;margin-top:20px;">
+    <?php foreach($innerpush_list as $value):?>
+    <label class="innerpush_label"><input type="radio" name="mix_id" value="innerpush_<?php echo $value['id'];?>"<?php if(!$value["allow_buy"]):?> disabled<?php endif;?> data-money="<?php echo $value['money']/100;?>"/><span class="s1"><?php echo $value['number'];?>人</span><span><?php echo $value['money']/100;?>元/年</span></label>
+    <?php endforeach;?>
+</div>
+<div style="text-align:center;color:#ff8903;margin-top:-10px;" id="discount" data-money="<?php echo $discount/100;?>">升级可抵消费用<?php echo $discount/100;?>元</div>
+<div style="text-align:center;color:#666666;line-height:17px;font-size:12px;letter-spacing: 0.7px;">计算公式：剩余时间／365天 x 服务价</div>
+<div class="btn" style="width:295px;margin:20px auto;display:block;" id="innerpush_submit">升级</div></form>
+</script>
+<style>
+    .part-two p i {
+        float: left;
+        margin-top: 6px;
+    }
+
+    .card-h {
+        height: 40px;
+    }
+
+    .card-h span,
+    .card-h a,
+    .card-h h2 {
+        padding: 10px 10px;
+    }
+
+    .dlcard .text .tabs em {
+        font-size: 15px;
+    }
+
+    .dlcard .text .ljcj {
+        width: 95px;
+        margin-left: 40px;
+    }
+
+    .layui-col-md3 {
+        padding: 10px;
+    }
+
+    .register_first_input {
+        width: 120px;
+    }
+
+    .pay {
+        background: #fff;
+    }
+
+    .pay:focus {
+        color: #ff8903;
+    }
+
+    .td_l {
+        float: right;
+    }
+
+    .fix_width_column {
+        width: 400px;
+    }
+
+    .layui-layer-title {
+        font-size: 15px;
+        font-weight: bold;
+        color: #ff8903;
+    }
+
+    .gaik2 .buylink {
+        margin: 20px 0px 10px 58px
+    }
+</style>
+<script>
+    //充值
+    $(".goto_recharge").click(function () {
+        var html = '<form action="<?php echo U('user/recharge');?>" method="post" id="recharge_form" style="margin-left:50px;"><div class="register_first_column fix_width_column" style="margin-top: 20px;">';
+        html += '</div><div class="register_first_column fix_width_column" style="margin-top: 18px;"><label class="register_first_label" style="width: 68px;">充值金额</label>';
+        html += '<input type="text" class="register_first_input" name="money" value=""/>&nbsp;&nbsp;元';
+        html += '</div><div class="register_first_column fix_width_column" style="margin-top: 16px;"><label class="register_first_label" style="width: 68px;">支付方式</label><input type="button" class="register_first_input pay" name="" value="支付宝"/><input type="button" class="register_first_input pay" name="" value="对公打账单"/ style="margin-left: 10px;"> </div>';
+        html += '<div style="padding: 20px;margin-left: 40px;"><table style="color: #cccccc;"><tr><td class="td_l">开户行：</td><td>浙江泰隆商业银行杭州分行营业部</td></tr><tr><td class="td_l">账号：</td><td>3302010120100049167</td></tr><tr><td class="td_l">户名：</td><td>杭州巨光网络科技有限公司</td></tr></table></div>';
+        html += '<span style="color: red;margin-left: 11px;padding-top: 50px;" id="recharge_form_error"></span><input type="submit" value="确认支付" class="btn" id="recharge_form_submit" style="float: left;margin-left: 120px;"/></form>';
+        // $box({title:'充值',msg:html});
+        layer.open({
+            type: 1,
+            skin: 'layui-layer-rim', //加上边框
+            area: ['450px', '300px'], //宽高
+            title: '账户余额充值',
+            content: html
+        });
+    });
+    //购买企业内推
+    function innerpush_buy() {
+        var html = $("#innerpush_template").html();
+        $box({ title: "企业内推系统", msg: html });
+    }
+    //提交充值
+    $(document).on("submit", "#recharge_form", function () {
+        var money = $(this).find('input[name="money"]').val();
+        if (money == "" || !$money(money)) {
+            $("#recharge_form_error").text("请填写正确金额"); return false;
+        }
+        if (parseFloat(money) >= 1000000) {
+            $("#recharge_form_error").text("金额不能大于100万"); return false;
+        }
+    });
+    //确认购买
+    $(document).on("click", "#innerpush_submit", function () {
+        if ($("input[name='mix_id']:checked").length > 0) {
+            goto_submit('mix_id');
+        } else {
+            $alert("请选择服务");
+        }
+    });
+</script>
+<script type="text/javascript">
+    $(function () {
+        // 账户余额充值弹窗
+        function rechargeModal() {
+            $("#recharge").click(function () {
+                $('#maskRecharge').show()
+            });
+            $('#maskRecharge').find(".modal__head--close").click(function () {
+                $('#maskRecharge').hide()
+            })
+        }
+        rechargeModal()
+    })
+    $(".modal__bt--submit").on("click", function () {
+        $('#payform').submit();
+    })
+</script>
+</div>

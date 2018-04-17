@@ -1,0 +1,226 @@
+<script type="text/javascript" src="/js/js/canvg2.js"></script>
+<script type="text/javascript" src="/js/js/html2canvas-0.4.1.js"></script>
+<script type="text/javascript" src="/js/js/jspdf.min.js"></script>
+<!--<script type="text/javascript" src="/js/js/jquery-2.1.4.min.js"></script>-->
+<div class="userinfo_div" id="pdfContainer" style="background: #ffffff">
+    <div class="userinfo_left">
+        <img src="<?php echo $user_row['avatar_url'];?>" class="userinfo_head"/>
+        <div style="margin-top: 29px;margin-bottom: 45px;margin-left: 93px;line-height: 25px;font-size: 18px;color: #000000"><?php echo $user_row["nickname"];?></div>
+        <div style="margin-bottom: 27px;margin-left: 43px;font-size: 18px;line-height: 25px;color: #ff8903;">基本信息</div>
+        <p>性别：<?php echo $user_row['gender']?'男':'女';?></p>
+        <?php if($user_row['birthday']=="1970-01-01"):?>
+        <p>出生日期：</p>
+        <?php else:?>
+        <p>出生日期：<?php echo $user_row['birthday'];?></p>
+        <?php endif;?>
+        <p>学历：<?php echo $degree[$extra_info["highest_degree"]];?></p>
+        <p>毕业学校：<?php echo $extra_info['college'];?></p>
+        <p>专业：<?php echo $extra_info['major'];?></p>
+        <p>工作年限：<?php echo $extra_info['work_year'];?></p>
+        <p>所在城市：<span class="city_name" data-id="<?php echo $extra_info['city_id'];?>"></span></p>
+        <p>手机号码：<?php echo get_apply($apply_interview,$user_row['phone_number']);?></p>
+        <p>工作邮箱：<?php echo get_apply($apply_interview,$extra_info['work_email']);?></p>
+    </div>
+    <div class="userinfo_right" style="background: #ffffff">
+
+        <?php if(!empty($education_list)):?>
+            <div class="userinfo_title">教育经历</div>
+            <?php foreach($education_list as $key=>$value):?>
+            <div class="userinfo_li <?php if(!isset($education_list[$key+1])):?>last<?php endif;?>">
+                <p><?php echo $value['end_time']?>毕业</p>
+                <div class="info"><?php echo $value['school_name']?><br><?php echo $value['degree']?>,<?php echo $value['major']?></div>
+                <div class="li_style"><span></span></div>
+            </div>
+            <?php endforeach;?>
+        <?php endif; ?>
+      
+        <div class="userinfo_title">工作经历</div>
+          <?php if($work_list):?>
+
+            <?php foreach($work_list as $key=>$value):?>
+            <div class="userinfo_li"<?php if(!isset($work_list[$key+1])):?> last<?php endif;?>>
+                <p><?php echo $value['firm_name']?></p>
+                <div class="s1"><?php echo $value['occupation']?><span style="float: right;color:#ff8903;"><?php echo date("Y.m",strtotime($value["start_time"]));?>-<?php echo date("Y.m",strtotime($value["end_time"]));?></span></div>
+                <div class="info"><?php echo $value['content']?></div>
+                <div class="li_style"><span></span></div>
+            </div>
+            <?php endforeach;?>
+
+          <?php elseif($user_resume):?>
+
+            <?php foreach($user_resume["work_list"] as $key=>$value):?>
+            <div class="userinfo_li"<?php if(!isset($user_resume["work_list"][$key+1])):?> last<?php endif;?>>
+                <p><?php echo $value['time']?></p>
+                <div class="s1"><?php echo $value['project']?><span style="float: right;color:#ff8903;"><?php echo $value["company"];?></span></div>
+                <div class="info"><?php echo $value['desc']?></div>
+                <div class="li_style"><span></span></div>
+            </div>
+            <?php endforeach;?>
+
+        <?php endif;?>
+
+        <?php if($project_experience):?>
+        <div class="userinfo_title">项目经历</div>
+        <?php foreach($project_experience as $key=>$value):?>
+        <div class="userinfo_li"<?php if(!isset($project_experience[$key+1])):?> last<?php endif;?>>
+            <p><?php echo $value['project_name']?></p>
+            <div class="s1"><?php echo $value['responsibility']?></div>
+            <div class="info"><?php echo $value['description']?></div>
+            <div class="li_style"><span></span></div>
+        </div>
+        <?php endforeach;?>
+        <?php endif; ?>
+
+    </div>
+    <div class="userinfo_right" style="background: #ffffff">
+        <?php if(isset($cv_job_row['occupation'])):?>
+        <div class="userinfo_title">期望工作</div>
+        <div class="userinfo_li userinfo_li2">
+            <p><?php echo $cv_job_row['occupation']?$cv_job_row['occupation']:$extra_info["occupation"];?></p>
+            <div class="info"><?php echo $cv_job_row['job_type']?>／<?php echo $cv_job_row['city']?>／<?php echo $cv_job_row['wage_lower']?>－<?php echo $cv_job_row['wage_upper']?></div>
+        </div>
+        <?php endif;?>
+<!--         <div class="userinfo_title">项目经历</div>
+        <?php foreach($project_experience as $key=>$value):?>
+        <div class="userinfo_li"<?php if(!isset($project_experience[$key+1])):?> last<?php endif;?>>
+            <p><?php echo $value['project_name']?></p>
+            <div class="s1"><?php echo $value['responsibility']?></div>
+            <div class="info"><?php echo $value['description']?></div>
+            <div class="li_style"><span></span></div>
+        </div>
+        <?php endforeach;?> -->
+        <?php
+            //print_r(json_decode($extra_info['certificates']));exit;
+        ?>
+        <?php if(isset($extra_info['certificates'])&&empty($extra_info['certificates'])):?>
+            <div class="userinfo_title">技能证书</div>
+            <?php foreach(json_decode($extra_info['certificates'])->extract as $value):?>
+            <span class="skill_need_label skill_need_label2"><?php echo $value;?></span>
+            <?php endforeach;?>
+        <?php endif;?>
+        <?php if(isset($skill_tag) && count($skill_tag)):?>
+            <div class="userinfo_title">技能标签</div>
+            <?php foreach($skill_tag as $value):?>
+            <span class="skill_need_label skill_need_label2"><?php echo $value['tag'];?></span>
+            <?php endforeach;?>
+        <?php endif;?>
+        <?php if($self_intro['content']):?>
+            <div class="userinfo_title">自我描述</div>
+            <div class="userinfo_li userinfo_li2">
+                <div class="info"><?php echo $self_intro['content']?$self_intro['content']:($user_resume?$user_resume["self_desc"]:"");?></div>
+            </div>
+        <?php endif;?>
+<!--         <a href="javascript:save_image();" style="color:#ff8903;float: right">&darr;下载简历</a>
+        <br/>
+        <a href="<?php echo C('erp_url');?><?php echo $user_row['resume_file'];?>" style="color:#ff8903;float: right">&darr;下载附件简历</a> -->
+    </div>
+    <div style="float: left;width: 40px;height: 5px;"></div>
+    <div style="clear: both;margin-bottom: 25px;text-align: right;padding-right: 200px;" class="userinfo_btn">
+        <a href="<?php echo U('index/apply_interview',array('user_id'=>$value['user_id'],'refer'=>'1'));?>" class="load_url" title="邀面职位选择">邀请面试</a>
+        <a href="javascript:;"  class="dark" id="downloadPdf" >下载简历</a><!-- <span class="dark">不合适</span> -->
+    </div>
+</div>
+<script>
+    $(".city_name").html($area_name($(".city_name").attr("data-id")));
+</script>
+<style>
+    .skill_need_label2{
+        margin-bottom: 5px;
+    }
+</style>
+<script>
+    $(function () {
+        $("#downloadPdf").click(function () {
+            var flag='<?php echo $apply_interview  ?>';
+            if(!flag){
+                alert("邀请面试后,才能下载简历");
+                return false;
+
+            }
+            var targetDom = $("#pdfContainer");
+            //把需要导出的pdf内容clone一份，这样对它进行转换、微调等操作时才不会影响原来界面
+            var copyDom = targetDom.clone();
+            //新的div宽高跟原来一样，高度设置成自适应，这样才能完整显示节点中的所有内容（比如说表格滚动条中的内容）
+            copyDom.width(targetDom.width() + "px");
+            copyDom.height(targetDom.height() + "px");
+
+            $('body').append(copyDom);//ps:这里一定要先把copyDom append到body下，然后再进行后续的glyphicons2canvas处理，不然会导致图标为空
+
+            svg2canvas(copyDom);
+            html2canvas(copyDom, {
+                onrendered: function (canvas) {
+                    var imgData = canvas.toDataURL('image/jpeg');
+                    var img = new Image();
+                    img.src = imgData;
+                    //根据图片的尺寸设置pdf的规格，要在图片加载成功时执行，之所以要*0.225是因为比例问题
+                    img.onload = function () {
+                        //此处需要注意，pdf横置和竖置两个属性，需要根据宽高的比例来调整，不然会出现显示不完全的问题
+                        if (this.width > this.height) {
+                            var doc = new jsPDF('l', 'mm', [this.width * 0.225, this.height * 0.225]);
+                        } else {
+                            var doc = new jsPDF('p', 'mm', [this.width * 0.225, this.height * 0.225]);
+                        }
+                        doc.addImage(imgData, 'jpeg', 0, 0, this.width * 0.225, this.height * 0.225);
+                        //根据下载保存成不同的文件名
+                        doc.save('pdf_' + new Date().getTime() + '.pdf');
+                    };
+                    //删除复制出来的div
+                    copyDom.remove();
+                },
+                background: "#fff",
+                //这里给生成的图片默认背景，不然的话，如果你的html根节点没设置背景的话，会用黑色填充。
+                allowTaint: true //避免一些不识别的图片干扰，默认为false，遇到不识别的图片干扰则会停止处理html2canvas
+            });
+        });
+    });
+
+    function svg2canvas(targetElem) {
+        var svgElem = targetElem.find('svg');
+        svgElem.each(function (index, node) {
+            var parentNode = node.parentNode;
+            //由于现在的IE不支持直接对svg标签node取内容，所以需要在当前标签外面套一层div，通过外层div的innerHTML属性来获取
+            var tempNode = document.createElement('div');
+            tempNode.appendChild(node);
+            var svg = tempNode.innerHTML;
+            var canvas = document.createElement('canvas');
+            //转换
+            canvg(canvas, svg);
+            parentNode.appendChild(canvas);
+        });
+    }
+
+    function glyphicons2canvas(targetElem, fontClassName, fontFamilyName) {
+        var iconElems = targetElem.find('.' + fontClassName);
+        iconElems.each(function (index, inconNode) {
+            var fontSize = $(inconNode).css("font-size");
+            var iconColor = $(inconNode).css("color");
+            var styleContent = $(inconNode).attr('style');
+            //去掉"px"
+            fontSize = fontSize.replace("px", "");
+            var charCode = getCharCodeByGlyphiconsName(iconName);
+            var myCanvas = document.createElement('canvas');
+            //把canva宽高各增加2是为了显示图标完整
+            myCanvas.width = parseInt(fontSize) + 2;
+            myCanvas.height = parseInt(fontSize) + 2;
+            myCanvas.style = styleContent;
+            var ctx = myCanvas.getContext('2d');
+            //设置绘图内容的颜色
+            ctx.fillStyle = iconColor;
+            //设置绘图的字体大小以及font-family的名字
+            ctx.font = fontSize + 'px ' + fontFamilyName;
+            ctx.fillText(String.fromCharCode(charCode), 1, parseInt(fontSize) + 1);
+            $(inconNode).replaceWith(myCanvas);
+        });
+    }
+    //根据glyphicons/glyphicon图标的类名获取到对应的char code
+    function getCharCodeByGlyphiconsName(iconName) {
+        switch (iconName) {
+            case("glyphicons-resize-full"):
+                return "0xE216";
+            case ("glyphicons-chevron-left"):
+                return "0xE225";
+            default:
+                return "";
+        }
+    }
+</script>

@@ -1,0 +1,47 @@
+<a href="<?php echo U('task/add')?>" class="btn add_staff" style="margin-right: 20px;">发布内推职位</a>
+<div class="bg-fff" style="margin-top: 24px;">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>编号</th>
+                <th>职位</th>
+                <th>模式</th>
+                <th>佣金</th>
+                <th>收到简历</th>
+                <th>面试人数</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach($task_list as $value):?>
+            <tr>
+                <td><?php echo $value['id'];?></td>
+                <td><?php echo $value['name'];?></td>
+                <td>内推</td>
+                <td><?php echo $value['commission']/100;?></td>
+                <td><?php echo $value['order_number'];?></td>
+                <td><?php echo $value['interview_number'];?></td>
+                <td>
+                    <a href="javascript:task_info('<?php echo $value['id'];?>');">详情</a>
+                    <a class="sure_commit" href="<?php echo U('task/close_task',array('backurl'=>'innerpush'))?>" data="task_id=<?php echo $value['id'];?>">关闭</a>
+                </td>
+            </tr>
+            <?php endforeach;?>
+        </tbody>
+    </table>
+    <?php echo helper()->page($pageinfo);?>
+</div>
+<script type="text/javascript">
+//查看职位详情
+function task_info(task_id) {
+    $.ajax({
+        url:"<?php echo U('task/info');?>",
+        type:"get",
+        async:false,
+        data:{"task_id":task_id},
+        success:function (data) {
+            $box({title:"职位详情",width:750,msg:data});
+        }
+    });
+}
+</script>

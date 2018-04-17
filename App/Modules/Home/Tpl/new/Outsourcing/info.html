@@ -1,0 +1,29 @@
+<div class="task_info_div">
+    <div class="task_info_left">
+        <p>职位名称：<?php echo $task_row['name'];?></p>
+        <p>职位类别：<?php echo $task_row['occupation_type'];?></p>
+        <p>工作地点：<?php echo $task_row['work_address'];?></p>
+        <p>学历要求：<?php echo $task_row['education_type'];?></p>
+        <p>工作年限要求：<?php echo $task_row['work_year'];?></p>
+        <p>薪资范围：<?php echo $task_row['salary_range'];?></p>
+        <p>面试地点：<?php echo $task_row["interview_address"];?></p>
+        <p>面试联系人：<?php echo $task_row['link_name'];?></p>
+        <p>联系方式：<?php echo $task_row['link_mobile'];?></p>
+        <p>面试结果通知时间：<?php echo $task_row['notify_time'];?></p>
+        <p>招聘方式：<?php echo $task_row['recruit_need'];?></p>
+    </div>
+    <div class="task_info_right">
+        <div class="column">
+            <div class="s1">职位描述：</div>
+            <div class="s2"><?php echo $task_row['job_description'];?></div>
+        </div>
+        <div class="column" style="overflow: unset;">
+            <div class="s1">任职要求：</div>
+            <div class="s2" style="margin-top: -8px;"><?php foreach($task_row['skill_need'] as $value):?><span class="skill_need_label"><?php echo $value;?></span><?php endforeach;?></div>
+        </div>
+    </div>
+    <div style="clear: both;"></div>
+</div>
+<style>
+    .alert_title{color:#ff8903!important;}
+</style>

@@ -1,0 +1,167 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache"/>
+    <!--当网站添加到主屏幕快速启动方式，将网站添加到主屏幕快速启动方式-->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv=X-UA-Compatible content="IE=edge,chrome=1">
+    <meta content="always" name="referrer">
+
+    <meta name='keywords' content="速职"/>
+    <meta name='description' content="速职平台"/>
+    <title>速职招聘系统</title>
+    <script type="text/javascript" src="/js/jquery-1.8.3.min.js"></script>
+    <link rel="stylesheet" href="/css/common.css"/>
+    <script type="text/javascript" src="/js/common.js"></script>
+    <!--美化滚动条-->
+    <link rel="stylesheet" href="/js/malihu-custom-scrollbar-plugin-master/jquery.mCustomScrollbar.min.css"/>
+    <script src="/js/malihu-custom-scrollbar-plugin-master/jquery-ui-1.10.4.min.js"></script>
+    <script src="/js/malihu-custom-scrollbar-plugin-master/jquery.mousewheel.min.js"></script>
+    <script src="/js/malihu-custom-scrollbar-plugin-master/jquery.mCustomScrollbar.js"></script>
+    <!--datetimepicker-->
+    <link rel="stylesheet" type="text/css" href="/js/datetimepicker/jquery.datetimepicker.css"/ >
+    <script src="/js/datetimepicker/jquery.datetimepicker.full.js"></script>
+</head>
+<body>
+<div class="sidebar">
+    <div><img src="/images/logo1.png" style="width: 100%"></div>
+    <div class="sidebar_menu">
+        <div class="li">
+            <p onclick="window.location='<?php echo U('index/index');?>'">工作台</p>
+            <div class="li_ul">
+                <a href="<?php echo U('index/index');?>" id="href_index_index" style="display: none">整体概览</a>
+                <a href="<?php echo U('index/resume');?>" id="href_index_resume">收到的简历</a>
+                <a href="<?php echo U('index/wait_interview');?>" id="href_index_wait_interview">待面试</a>
+                <a href="<?php echo U('index/interview_handle');?>" id="href_index_interview_handle">面试后处理</a>
+                <a href="<?php echo U('index/interview_notice');?>" id="href_index_interview_notice">面试结果通知</a>
+                <a href="<?php echo U('index/interview_entry');?>" id="href_index_interview_entry">入职确定</a>
+                <a href="<?php echo U('index/message');?>" id="href_index_message">通知</a>
+            </div>
+        </div>
+        <div class="li">
+            <p onclick="window.location='<?php echo U('task/overview');?>'">招聘发布</p>
+            <div class="li_ul">
+                <a href="<?php echo U('task/overview');?>" id="href_task_overview" style="display: none">整体概览</a>
+                <a href="<?php echo U('task/add');?>" id="href_task_add">职位发布</a>
+                <a href="<?php echo U('task/lists');?>" id="href_task_lists">发布的职位</a>
+                <a href="<?php echo U('task/close');?>" id="href_task_close">关闭的职位</a>
+                <a href="<?php echo U('task/no_success');?>" id="href_task_no_success">未成功发布的职位</a>
+                <a href="" menu-group="href_task_add" id="href_task_edit">编辑</a>
+            </div>
+        </div>
+        <div class="li">
+            <p onclick="window.location='<?php echo U('innerpush/index');?>'">内推系统</p>
+            <div class="li_ul">
+                <a href="<?php echo U('innerpush/index');?>" id="href_innerpush_index" style="display: none">整体概览</a>
+                <a href="<?php echo U('innerpush/staff');?>" id="href_innerpush_staff">企业成员</a>
+                <a href="<?php echo U('innerpush/task');?>" id="href_innerpush_task">内推职位</a>
+            </div>
+        </div>
+        <div class="li">
+            <p onclick="window.location='<?php echo U('square/index');?>'">人才广场</p>
+            <div class="li_ul">
+                <a href="<?php echo U('square/index');?>" id="href_square_index" style="display: none">整体概览</a>
+                <a href="<?php echo U('square/lists');?>" id="href_square_lists">速职人才库</a>
+                <a href="<?php echo U('square/interview_reback');?>" id="href_square_interview_reback">邀面反馈</a>
+                <a href="<?php echo U('square/job_fair');?>" id="href_square_job_fair">线上招聘会</a>
+                <a href="<?php echo U('square/jobfair_user');?>" id="href_square_jobfair_user" menu-group="href_square_job_fair">招聘会人才</a>
+                <a href="<?php echo U('task/jobfair_add');?>" id="href_task_jobfair_add" menu-group="href_square_job_fair">招聘会职位发布</a>
+            </div>
+        </div>
+        <div class="li">
+            <p onclick="window.location='<?php echo U('outsourcing/index');?>'">速职人力外包服务</p>
+            <div class="li_ul">
+                <a href="<?php echo U('outsourcing/index');?>" id="href_outsourcing_index" style="display: none">整体概览</a>
+                <a href="<?php echo U('outsourcing/add');?>" id="href_outsourcing_add" menu-group="href_outsourcing_index">整体概览</a>
+                <a href="<?php echo U('outsourcing/lists');?>" id="href_outsourcing_lists">合作项目</a>
+                <a href="<?php echo U('outsourcing/callback');?>" id="href_outsourcing_callback">项目反馈</a>
+            </div>
+        </div>
+        <div class="li">
+            <p onclick="window.location='<?php echo U('user/index');?>'">企业中心</p>
+            <div class="li_ul">
+                <a href="<?php echo U('user/index');?>" id="href_user_index" style="display: none">整体概览</a>
+                <a href="<?php echo U('user/info');?>" id="href_user_info">企业资料</a>
+                <a href="<?php echo U('user/safe');?>" id="href_user_safe">账号安全</a>
+                <a href="<?php echo U('user/edit_info');?>" id="href_user_edit_info" menu-group="href_user_info">编辑资料</a>
+            </div>
+        </div>
+        <div class="li">
+            <p onclick="window.location='<?php echo U('server/index');?>'">我的服务</p>
+            <div class="li_ul">
+                <a href="<?php echo U('server/index');?>" id="href_server_index" style="display: none">整体概览</a>
+                <a href="<?php echo U('server/add');?>" id="href_server_add">开通新的服务</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="content">
+    <div class="header bg-fff">
+        <div class="header_menu">
+            <a href="<?php echo U('user/index');?>"><img src="/images/home.png"><span><?php echo helper()->name();?></span></a>
+            <a href="<?php echo U('/index/message.html');?>"><img src="/images/message.png"><span>通知<i>（<?php echo helper()->message_num();?>）</i></span></a>
+            <a href="<?php echo U('login/logout');?>"><img src="/images/logout.png"><span>退出</span></a>
+            <a href="<?php echo U('/index/exnew');?>"><span>体验新版</span></a>
+        </div>
+    </div>
+    <div class="main">
+        {__CONTENT__}
+    </div>
+</div>
+<style>
+    body{overflow: hidden;}
+    .mCSB_container_wrapper > .mCSB_container{
+        padding-right: 0!important;
+    }
+    .mCSB_container_wrapper{
+        margin-right: 0!important;
+    }
+</style>
+<script>
+    //左侧菜单展开收起
+//    $(".sidebar_menu p").click(function(){
+//        if($(this).next().is(":visible")){
+//            $(this).next().slideUp();return;
+//        }
+//        $(".li_ul").hide();
+//        $(this).next().slideToggle();
+//    });
+    //页面框架高度
+    $(function(){
+        var width_height=getViewportSize();//浏览器宽高
+        $(".sidebar").css("height",width_height.h+"px");
+        $(".content").css("height",width_height.h+"px");
+        $(".main").css("height",(width_height.h-110)+"px");
+        $(".sidebar_menu").css("height",(width_height.h-84)+"px");
+    });
+    //根据地址栏展开菜单
+    $(function () {
+        var location_url='<?php echo strtolower(MODULE_NAME."_".ACTION_NAME);?>';
+        var current_menu=$("#href_"+location_url);
+        var menu_group=current_menu.attr("menu-group");
+        if(typeof menu_group!="undefined" && menu_group!="" && menu_group!=current_menu.attr("id")){
+            current_menu=$("#"+current_menu.attr("menu-group"));
+        }
+        current_menu.addClass("current");
+        current_menu.closest(".li_ul").show();
+        current_menu.closest(".li_ul").prev().addClass("current");
+        $(".sidebar_menu a").each(function(){
+            var menu_group=$(this).attr("menu-group");
+            if(typeof menu_group!="undefined" && menu_group!="" && menu_group!=$(this).attr("id")){
+                $(this).hide();
+            }
+        });
+    });
+    //美化滚动条样式
+    $(function () {
+        if (!/webkit/.test(navigator.userAgent.toLowerCase())) {
+            $.mCustomScrollbar.defaults.scrollButtons.enable=true; //enable scrolling buttons by default
+            $.mCustomScrollbar.defaults.axis="yx"; //enable 2 axis scrollbars by default
+            $(".sidebar_menu").mCustomScrollbar({theme:"dark"});
+        }
+    });
+</script>
+</body>
+</html>

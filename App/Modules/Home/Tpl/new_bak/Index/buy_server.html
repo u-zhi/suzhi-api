@@ -1,0 +1,102 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache"/>
+    <meta name='keywords' content="速职"/>
+    <meta name='description' content="速职"/>
+    <title>速职</title>
+    <link rel="shortcut icon" href="/images/logo1.png" type="image/png">
+    <link rel="stylesheet" type="text/css" href="/css/common.css"/>
+    <script type="text/javascript" src="/js/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
+</head>
+<body>
+    <div class="login_header" style="border-bottom: 1px solid #cccccc"></div>
+    <form action="<?php echo U('server/buy');?>" method="post">
+    <div class="buy_server_div">
+        <div class="buy_server_list">
+            <h3>企业内推系统</h3>
+            <?php foreach($innerpush_list as $value):?>
+            <label class="innerpush_label"><input type="radio" name="mix_id" value="innerpush_<?php echo $value['id'];?>"<?php if(!$value["allow_buy"]):?> disabled<?php endif;?> data-money="<?php echo $value['money']/100;?>"/><span class="s1"><?php echo $value['number'];?>人</span><span><?php echo $value['money']/100;?>元/年</span></label>
+            <?php endforeach;?>
+            <div class="buy_server_link"><a href="javascript:;" data-id="1" class="view_info">系统介绍</a></div>
+        </div>
+        <div class="buy_server_list">
+            <h3>速职人才库邀请面试</h3>
+            <?php foreach($interview_list as $value):?>
+            <label class="interview_label"><input type="radio" name="interview_id" value="<?php echo $value['id'];?>"<?php if(!$value["allow_buy"]):?> disabled<?php endif;?> data-money="<?php echo $value['money']/100;?>"/><span class="s1"><?php echo $value['number'];?>人</span><span><?php echo $value['money']/100;?>元/年</span></label>
+            <?php endforeach;?>
+            <div class="buy_server_link"><a href="javascript:;" data-id="2" class="view_info">服务简介</a></div>
+        </div>
+        <div class="buy_server_list">
+            <h3>速职币</h3>
+            <?php foreach($coin_list as $value):?>
+            <label class="interview_label"><input type="radio" name="coin_id" value="<?php echo $value['id'];?>" data-money="<?php echo $value['money']/100;?>"/><span class="s1"><?php echo $value['number'];?>速职币</span><span><?php echo $value['money']/100;?>元</span></label>
+            <?php endforeach;?>
+            <div class="buy_server_link"><a href="javascript:;" data-id="2" class="view_info">服务简介</a></div>
+        </div>
+        <!--<div class="buy_server_list">-->
+            <!--<h3>人力外包服务</h3>-->
+            <!--<a href="<?php echo U('outsourcing/index');?>" class="buy_server_outling">进入</a>-->
+        <!--</div>-->
+    </div>
+    <div class="buy_server_div2">
+        <?php foreach($package_list as $value):?>
+        <label class="package_label"><input type="radio" name="mix_id" value="package_<?php echo $value['id'];?>"<?php if(!$value["allow_buy"]):?> disabled<?php endif;?> data-money="<?php echo $value['money']/100;?>"/><span><?php echo $value['innerpush_info']['number'];?>人一年企业内推系统  +  邀请面试  <?php echo $value['interview_info']['number'];?>次+速职币<?php echo $value['suzhicoin_info']['number'];?></span><i><?php echo $value['money']/100;?>元</i></label>
+        <?php endforeach;?>
+    </div>
+    <div style="margin-bottom: 9px;"><a href="javascript:;" class="buy_server_submit">开通</a></div>
+    <div style="text-align: center;padding-bottom: 95px;"><a href="<?php echo U('index/index');?>" class="buy_server_skip">跳过</a></div>
+    </form>
+<script>
+//提交表单
+$(".buy_server_submit").click(function () {
+    var max_id_select=$("input[name='mix_id']:checked").length;
+    var interview_id_select=$("input[name='interview_id']:checked").length;
+    var coin_id_select=$("input[name='coin_id']:checked").length;
+    if(max_id_select==0 && interview_id_select==0 && coin_id_select==0){
+        $alert("请选择购买服务");return false;
+    }
+    //计算金额
+    var total=0;
+    if(max_id_select>0){
+        total+=parseFloat($("input[name='mix_id']:checked").attr("data-money"));
+    }
+    if(interview_id_select>0){
+        total+=parseFloat($("input[name='interview_id']:checked").attr("data-money"));
+    }
+    if(coin_id_select>0){
+        total+=parseFloat($("input[name='coin_id']:checked").attr("data-money"));
+    }
+    var html='<p class="buy_server_tip">金额：'+total.toFixed(2)+'元</p><p class="buy_server_tip">账户余额：'+$user_info().money+'元<a href="<?php echo U('user/safe');?>" target="_blank">充值</a></p>';
+    $confirm({msg:html,title:"支付"},function(){
+        if($user_info().money<total){
+            layer_close=false;
+            $alert("金额不足,请前往充值",function(){
+                layer_close=null;
+                window.open('<?php echo U("user/safe");?>');
+            });return false;
+        }else{
+            $("form").submit();
+        }
+    });
+});
+</script>
+<script>
+    //查看介绍
+    $(".view_info").click(function () {
+        var data_type=$(this).attr("data-id");
+        var option={};
+        if(data_type=="1"){
+            option.title="系统介绍";
+            option.msg="详情";
+        }else if(data_type=="2"){
+            option.title="服务简介";
+            option.msg="详情";
+        }
+        $box(option);
+    });
+</script>
+</body>
+</html>

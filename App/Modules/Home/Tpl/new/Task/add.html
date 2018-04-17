@@ -1,0 +1,1064 @@
+<!-- 内容部分开始 -->
+<div class="container2 w960 p-job">
+    <ul class="changeTab w960">
+        <li class="<?php if($tabType === 1):?>active<?php endif;?>">
+            <a href="/index.php/task/add?tab=1">发布职位</a>
+        </li>
+        <li class="<?php if($tabType === 2):?>active<?php endif;?>">
+            <a href="/index.php/task/add?tab=2">普通职位</a>
+        </li>
+        <li class="<?php if($tabType === 3):?>active<?php endif;?>">
+            <a href="/index.php/task/add?tab=3">悬赏职位</a>
+        </li>
+        <li class="<?php if($tabType === 4):?>active<?php endif;?>">
+            <a href="/index.php/task/add?tab=4">内推职位</a>
+        </li>
+        <li class="<?php if($tabType === 5):?>active<?php endif;?>">
+            <a href="/index.php/task/add?tab=5">求职者跟进</a>
+        </li>
+    </ul>
+    <div class="changeContent">
+
+        <!-- 发布职位开始 -->
+        <?php if($tabType === 1):?>
+        <div class="tab1">
+            <form class="pubform show1 information">
+                <div class="fangs">
+                    <a class="publicStyle hide" href="javascript:;">智能发布职位 》</a>
+                </div>
+                <div class="row">
+                    <label>职位名称</label>
+                    <input type="text" placeholder="请填写职位名称">
+                </div>
+                <div class="row">
+                    <label>城市</label>
+                    <div class="selectbox normal">
+                        <select>
+                            <option value="">请选择</option>
+                        </select>
+                    </div>
+                    <div class="selectbox normal">
+                        <select>
+                            <option value="">请选择</option>
+                        </select>
+                    </div>
+                    <div class="selectbox normal">
+                        <select>
+                            <option value="">请选择</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <label>职位类别</label>
+                    <div class="selectbox normal">
+                        <select name="occupation_id">
+                            <?php foreach($occupation_type as $key=>$value):?>
+                            <option value="<?php echo $key;?>">
+                                <?php echo $value['name'];?>
+                            </option>
+                            <?php endforeach;?>
+                        </select>
+                    </div>
+                    <div class="selectbox normal">
+                        <select name="occupation_two_id">
+                        </select>
+                    </div>
+                    <div class="selectbox normal">
+                        <select name="occupation_two_id">
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <label>薪资</label>
+                    <div class="selectbox sectlong">
+                        <select>
+                            <option value="">请选择</option>
+                        </select>
+                    </div>
+                    <div class="selectbox sectlong">
+                        <select>
+                            <option value="">及以上</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <label>学历要求</label>
+                    <div class="selectbox sectlong">
+                        <select>
+                            <option value="">请选择学历要求</option>
+                        </select>
+                    </div>
+                    <div class="selectbox sectlong">
+                        <select>
+                            <option value="">及以上</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <label>工作年限要求</label>
+                    <div class="selectbox sectlong">
+                        <select>
+                            <option value="">工作年限要求</option>
+                        </select>
+                    </div>
+                    <div class="selectbox sectlong">
+                        <select>
+                            <option value="">及以上</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <label>工作时间</label>
+                    <div class="selectbox normal">
+                        <select>
+                            <option value="">周一</option>
+                        </select>
+                    </div>
+                    <span class="line">-</span>
+                    <div class="selectbox normal">
+                        <select>
+                            <option value="">周日</option>
+                        </select>
+                    </div>
+                    <br>
+                    <div class="selectbox normal" style="margin-left: 180px">
+                        <select>
+                            <option value="">00:00</option>
+                        </select>
+                    </div>
+                    <span class="line">-</span>
+                    <div class="selectbox normal">
+                        <select>
+                            <option value="">24:00</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <label>职位描述</label>
+                    <textarea placeholder="请填写详细要求"></textarea>
+                    <span class="underline">智能填写</span>
+                </div>
+                <div class="row">
+                    <label>任职要求</label>
+                    <textarea placeholder="请填写详细要求"></textarea>
+                    <span class="underline">智能填写</span>
+                </div>
+                <div class="row">
+                    <label>面试结果通知时间</label>
+                    <div class="selectbox sectlong">
+                        <select>
+                            <option value="">面试后多少时间给答复</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <label>职位类型(多选)</label>
+                    <div class="radioWrap">
+                        <input name="ty" type="checkbox" checked>速职平台发布&nbsp;&nbsp;
+                        <input name="ty" type="checkbox" checked>企业内推&nbsp;&nbsp;
+                        <input name="ty" type="checkbox" checked>全民猎头悬赏招聘
+                    </div>
+                </div>
+                <div class="row">
+                    <label>招聘需求</label>
+                    <div class="selectbox sectlong">
+                        <select>
+                            <option value="">收到简历</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <label>佣金</label>
+                    <input type="text" class="sm-input" placeholder="请输入佣金额"> / 人
+                </div>
+                <div class="row">
+                    <label>人数</label>
+                    <input type="text" class="sm-input" placeholder="请输入招聘人数" class="input-short"> 人
+                </div>
+                <div class="row">
+                    <label>押金支付方式</label>
+                    <button class="btn-pay">支付宝</button>
+                </div>
+                <div class="row notice__wrap">
+                    <label>&nbsp;</label>
+                    <p class="notice">注意：非会员至多发布5个职位，会员发布岗位无限制</p>
+                </div>
+                <div class="row btn__wrap">
+                    <label>&nbsp;</label>
+                    <button class="btn btn__pub">发布</button>
+                    <a class="btn" href="./job_detail.html">预览</a>
+                </div>
+            </form>
+            <form class="pubform show2">
+                <div class="fangs">
+                    <a class="publicStyle" href="javascript:;">普通发布职位 》</a>
+                </div>
+                <div class="intro">
+                    <h3>智能发布职位</h3>
+                    <p>
+                        智能发布职位智能发布职位智能发布职位智能发布职位智能发布职位智能发布职位智能发布职位智能发布职位智能发布职位智能发布职位智能发布职位智能发布职位智能发布职位智能发布职位智能发布职位智能发布职位智能发布职位智能发布职位智能发布职位</p>
+                </div>
+                <div class="warp">
+                    <div class="row">
+                        <button class="btn">+ 添加职位</button>
+                    </div>
+                    <table class="sztable">
+                        <thead>
+                            <tr>
+                                <th>职位</th>
+                                <th>城市</th>
+                                <th>基本薪资</th>
+                                <th>学历</th>
+                                <th>工作经验</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>销售经理</td>
+                                <td>杭州</td>
+                                <td>3k-5k</td>
+                                <td>本科</td>
+                                <td>3年</td>
+                                <td>
+                                    <a class="yellow" href="javascript:;">预览</a>
+                                    <a class="red" href="javascript:;">删除</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>销售经理</td>
+                                <td>杭州</td>
+                                <td>3k-5k</td>
+                                <td>本科</td>
+                                <td>3年</td>
+                                <td>
+                                    <a class="yellow" href="javascript:;">预览</a>
+                                    <a class="red" href="javascript:;">删除</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row text-center">
+                    <button class="btn">发布</button>
+                </div>
+            </form>
+        </div>
+        <?php endif;?>
+        <!-- 发布职位结束 -->
+
+        <!-- 普通职位开始 -->
+        <?php if($tabType === 2):?>
+        <div class="tab2">
+            <div class="row">
+                <a href="javascript:;" class="btn fbbtn">发布职位</a>
+            </div>
+            <table class="sztable sztable-ye">
+                <thead>
+                    <tr>
+                        <th>职位</th>
+                        <th>区域</th>
+                        <th>浏览次数</th>
+                        <th>收到简历</th>
+                        <th>面试人数</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach($content as $value):?>
+                    <tr>
+                        <td>
+                            <?php echo $value['name'];?>
+                        </td>
+                        <td>
+                            <?php echo $value['recruit_type'];?>
+                        </td>
+                        <td>
+                            <?php echo ($value['recruit_type_inner']==1 && $value['recruit_type_hunter']==1)?'--':$value['commission']/100;?>
+                        </td>
+                        <td>
+                            <?php echo $value['order_number'];?>
+                        </td>
+                        <td>
+                            <?php echo $value['interview_number'];?>
+                        </td>
+                        <td style="display: flex;">
+                            <a href="javascript:task_info('<?php echo $value[" id "];?>');">
+                                <span class="ope">匹配人才</span>
+                            </a>
+                            <a href="<?php echo U('task/close_task');?>" data="task_id=<?php echo $value['id'];?>" class="sure_commit" title="确认关闭该职位">
+                                <span class="ope">下架</span>
+                            </a>
+                            <?php if(!$value['is_top']):?>
+                            <a href="javascript:push_top(<?php echo $value['id'];?>);" data="task_id=<?php echo $value['id'];?>" title="确认置顶该职位">
+                                <span class="ope">置顶</span>
+                            </a>
+                            <?php endif;?>
+                        </td>
+                    </tr>
+                    <?php endforeach;?>
+                </tbody>
+            </table>
+            <?php echo helper()->page($pageinfo);?>
+        </div>
+        <?php endif;?>
+        <!-- 普通职位结束 -->
+
+        <!-- 悬赏职位开始 -->
+        <?php if($tabType === 3):?>
+        <div class="tab3">
+            <div class="row">
+                <a href="javascript:;" class="btn fbbtn">发布职位</a>
+            </div>
+            <table class="sztable sztable-ye">
+                <thead>
+                    <tr>
+                        <th>职位</th>
+                        <th>区域</th>
+                        <th>浏览次数</th>
+                        <th>收到简历</th>
+                        <th>面试人数</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach($content as $value):?>
+                    <tr>
+                        <td>
+                            <?php echo $value['name'];?>
+                        </td>
+                        <td>
+                            <?php echo $value['recruit_type'];?>
+                        </td>
+                        <td>
+                            <?php echo ($value['recruit_type_inner']==1 && $value['recruit_type_hunter']==1)?'--':$value['commission']/100;?>
+                        </td>
+                        <td>
+                            <?php echo $value['order_number'];?>
+                        </td>
+                        <td>
+                            <?php echo $value['interview_number'];?>
+                        </td>
+                        <td style="display: flex;">
+                            <a href="javascript:task_info('<?php echo $value[" id "];?>');">
+                                <span class="ope">匹配人才</span>
+                            </a>
+                            <a href="<?php echo U('task/close_task');?>" data="task_id=<?php echo $value['id'];?>" class="sure_commit" title="确认关闭该职位">
+                                <span class="ope">下架</span>
+                            </a>
+                            <?php if(!$value['is_top']):?>
+                            <a href="javascript:push_top(<?php echo $value['id'];?>);" data="task_id=<?php echo $value['id'];?>" title="确认置顶该职位">
+                                <span class="ope">置顶</span>
+                            </a>
+                            <?php endif;?>
+                        </td>
+                    </tr>
+                    <?php endforeach;?>
+                </tbody>
+            </table>
+            <?php echo helper()->page($pageinfo);?>
+        </div>
+        <?php endif;?>
+        <!-- 悬赏职位结束 -->
+
+        <!-- 内推职位开始 -->
+        <?php if($tabType === 4):?>
+        <div class="tab4">
+            <div style="margin: 0 20px">
+                <div class="row">
+                    <a href="javascript:;" class="btn btn-primary">发布职位</a>
+                </div>
+                <table class="sztable sztable-ye">
+                    <thead>
+                        <tr>
+                            <th>职位</th>
+                            <th>区域</th>
+                            <th>浏览次数</th>
+                            <th>收到简历</th>
+                            <th>面试人数</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach($content as $value):?>
+                        <tr>
+                            <td>
+                                <?php echo $value['name'];?>
+                            </td>
+                            <td>
+                                <?php echo $value['recruit_type'];?>
+                            </td>
+                            <td>
+                                <?php echo ($value['recruit_type_inner']==1 && $value['recruit_type_hunter']==1)?'--':$value['commission']/100;?>
+                            </td>
+                            <td>
+                                <?php echo $value['order_number'];?>
+                            </td>
+                            <td>
+                                <?php echo $value['interview_number'];?>
+                            </td>
+                            <td style="display: flex;">
+                                <a href="javascript:task_info('<?php echo $value[" id "];?>');">
+                                    <span class="ope">匹配人才</span>
+                                </a>
+                                <a href="<?php echo U('task/close_task');?>" data="task_id=<?php echo $value['id'];?>" class="sure_commit" title="确认关闭该职位">
+                                    <span class="ope">下架</span>
+                                </a>
+                                <?php if(!$value['is_top']):?>
+                                <a href="javascript:push_top(<?php echo $value['id'];?>);" data="task_id=<?php echo $value['id'];?>" title="确认置顶该职位">
+                                    <span class="ope">置顶</span>
+                                </a>
+                                <?php endif;?>
+                            </td>
+                        </tr>
+                        <?php endforeach;?>
+                    </tbody>
+                </table>
+                <?php echo helper()->page($pageinfo);?>
+            </div>
+        </div>
+        <?php endif;?>
+        <!-- 内推职位结束 -->
+
+        <!-- 求职者跟进开始 -->
+        <?php if($tabType === 5):?>
+        <div class="tab5">
+            <div class="messPanel">
+                <div class="mess-title">
+                    面试确定
+                    <i class="icon icon-down"></i>
+                </div>
+                <ul class="mess-list" style="display: none">
+                    <?php foreach($content_first as $key=>$value):?>
+                    <li>
+                        <p>
+                            <?php echo $value['real_name'];?>已经完成
+                            <?php echo $value['task_name'];?>岗位的面试请确定</p>
+                        <a href="<?php echo U('index/has_interview');?>" data="order_id=<?php echo $value['id'];?>" class="sure_commit" title="确认已面试？">已面试</a>
+                        <a href="<?php echo U('index/no_interview');?>" data="order_id=<?php echo $value['id'];?>" class="sure_commit" title="确认没来面试？">没来面试</a>
+                    </li>
+                    <?php endforeach;?>
+                    <?php echo null!==$pageinfo_first?helper()->page($pageinfo_first):"";?>
+                </ul>
+            </div>
+
+            <div class="messPanel">
+                <div class="mess-title">
+                    入职确定
+                    <i class="icon icon-down"></i>
+                </div>
+                <ul class="mess-list" style="display: none">
+                    <?php foreach($content_second as $value):?>
+                    <li>
+                        <p>
+                            <?php echo $value['real_name'];?>已经完成
+                            <?php echo $value['task_name'];?>岗位的面试请确定</p>
+                        <a href="<?php echo U('index/userinfo',array('order_id'=>$value['id']));?>" class="load_url">查看简历</a>
+                        <a href="javascript:notice_result(<?php echo $value['id'];?>);">结果通知</a>
+                    </li>
+                    <?php endforeach;?>
+                </ul>
+            </div>
+
+            <div class="messPanel">
+                <div class="mess-title">
+                    佣金支付确定
+                    <i class="icon icon-down"></i>
+                </div>
+                <ul class="mess-list" style="display: none">
+                </ul>
+            </div>
+        </div>
+        <?php endif;?>
+        <script>
+            $(function () {
+                $(".mess-title .icon-down").click(function () {
+                    $(this).parent().next().toggle();
+                });
+
+                $(".publicStyle").click(function () {
+                    $(this).parent().parent().hide();
+                    $(this).parent().parent().siblings().show();
+                });
+            })
+        </script>
+        <!-- 求职这跟进结束 -->
+
+    </div>
+</div>
+<!-- 内容部分结束 -->
+
+<script>
+    //提交表单
+    $('.fbbtn').click(function () {
+        location.href = "/index.php/task/add?tab=1";
+    });
+    $(".sub").click(function (e) {
+        e.preventDefault();//禁止表单提交 ；   禁止submit的默认提交行为。我们看到点击“提交”的时不再提交数据了。
+    })
+    $(".register_first_submit").click(function () {
+        var flag = true;
+        var name = $("input[name='name']").val();
+        if (name == "") {
+            flag = false;
+            $("input[name='name']").closest(".row").find(".error").text("请填写职位名称");
+        } else {
+            $("input[name='name']").closest(".row").find(".error").text("");
+        }
+        var work_address_country_id = $("select[name='work_address_country_id']").val();
+        if (work_address_country_id == "" || work_address_country_id == "0") {
+            flag = false;
+            $("select[name='work_address_country_id']").closest(".row").find(".error").text("请选择工作地点");
+        } else {
+            $("select[name='work_address_country_id']").closest(".row").find(".error").text("");
+        }
+        var work_address = $("textarea[name='work_address']").val();
+        if (work_address == "") {
+            flag = false;
+            $("textarea[name='work_address']").closest(".row").find(".error").text("请填写详细工作地址");
+        } else {
+            $("textarea[name='work_address']").closest(".row").find(".error").text("");
+        }
+        var salary_min = $("select[name='salary_min']").val();
+        var salary_max = $("select[name='salary_max']").val();
+        if (salary_min == "0" || !/^\d+$/.test(salary_min)) {
+            flag = false;
+            $("select[name='salary_min']").closest(".row").find(".error").text("请填写正确的薪资范围");
+        } else {
+            if (salary_max == "0" || !/^\d+$/.test(salary_max)) {
+                flag = false;
+                $("select[name='salary_max']").closest(".row").find(".error").text("请填写正确的薪资范围");
+            } else {
+                if (parseInt(salary_min) >= parseInt(salary_max)) {
+                    flag = false;
+                    $("select[name='salary_max']").closest(".row").find(".error").text("请填写正确的薪资范围");
+                } else {
+                    $("select[name='salary_max']").closest(".row").find(".error").text("");
+                }
+            }
+        }
+        var job_description = $("textarea[name='job_description']").val();
+        if (job_description == "") {
+            flag = false;
+            $("textarea[name='job_description']").closest(".row").find(".error").text("请填写职位描述");
+        } else {
+            $("textarea[name='job_description']").closest(".row").find(".error").text("");
+        }
+        //    var skill_need=$("#skill_need").val();
+        //    if(skill_need==""){
+        //        flag=false;
+        //        $("#skill_need").closest(".row").find(".error").text("请填写任职技能标签");
+        //    }else{
+        //        $("#skill_need").closest(".row").find(".error").text("");
+        //    }
+        var duty_description = $("textarea[name='duty_description']").val();
+        if (duty_description == "") {
+            flag = false;
+            $("textarea[name='duty_description']").closest(".row").find(".error").text("请填写任职要求");
+        } else {
+            $("textarea[name='duty_description']").closest(".row").find(".error").text("");
+        }
+        var interview_address_country_id = $("select[name='interview_address_country_id']").val();
+        if (interview_address_country_id == "" || interview_address_country_id == "0") {
+            flag = false;
+            $("select[name='interview_address_country_id']").closest(".row").find(".error").text("请选择面试地点");
+        } else {
+            $("select[name='interview_address_country_id']").closest(".row").find(".error").text("");
+        }
+        var interview_address = $("textarea[name='interview_address']").val();
+        if (interview_address == "") {
+            flag = false;
+            $("textarea[name='interview_address']").closest(".row").find(".error").text("请填写详细面试地址");
+        } else {
+            $("textarea[name='interview_address']").closest(".row").find(".error").text("");
+        }
+        //    var interview_time=$("#interview_time").val();
+        //    if(interview_time==""){
+        //        flag=false;
+        //        $("#interview_time").closest(".row").find(".error").text("请填写可面试时间");
+        //    }else{
+        //        $("#interview_time").closest(".row").find(".error").text("");
+        //    }
+        //    var link_name=$("input[name='link_name']").val();
+        //    if(link_name==""){
+        //        flag=false;
+        //        $("input[name='link_name']").closest(".row").find(".error").text("请填写面试联系人");
+        //    }else{
+        //        $("input[name='link_name']").closest(".row").find(".error").text("");
+        //    }
+        //    var link_mobile=$("input[name='link_mobile']").val();
+        //    if(link_mobile==""){
+        //        flag=false;
+        //        $("input[name='link_mobile']").closest(".row").find(".error").text("请填写联系方式");
+        //    }else{
+        //        $("input[name='link_mobile']").closest(".row").find(".error").text("");
+        //    }
+        var recruit_type_length = $("input:checkbox[name='recruit_type[]']:checked").length;
+        if (recruit_type_length > 0) {
+            $(".recruit_type_error").text("");
+        } else {
+            flag = false;
+            $(".recruit_type_error").text("请选择发布渠道");
+        }
+        if ($(".commission").is(":visible")) {
+            var commission = $("input[name='commission']").val();
+            if (commission == "" || !$money(commission) || parseFloat(commission) <= 0) {
+                flag = false;
+                $("input[name='commission']").closest(".row").find(".error").text("请填写正确佣金");
+            } else {
+                $("input[name='commission']").closest(".row").find(".error").text("");
+            }
+            var person_demand = $("input[name='person_demand']").val();
+            if (person_demand == "" || !/^\d+$/.test(person_demand) || parseInt(person_demand) <= 0) {
+                flag = false;
+                $("input[name='person_demand']").closest(".row").find(".error").text("请填写正确招聘人数");
+            } else {
+                $("input[name='person_demand']").closest(".row").find(".error").text("");
+            }
+        }
+        if (flag == false) {
+            $flash("填写信息有误,请检查重新填写后提交");
+            return false;
+        }
+        //ａｊａｘ提交表单
+        var result_data = $ajaxSubmit($("form"));
+        //企业内推和求职顾问推荐需要支付押金
+        if ($(".commission").is(":visible")) {
+            var total = parseFloat(commission) * parseInt(person_demand);
+            if ($("#pay_type").is(":visible") && $("input[name='pay_type']").val() == "1") {
+                $alert("发布成功", function () {
+                    window.location = '<?php echo U("task/lists");?>';
+                });
+            } else {
+                var html = '<p class="buy_server_tip">金额：' + total.toFixed(2) + '元</p><p class="buy_server_tip">账户余额：' + $user_info().money + '元<a href="<?php echo U('user/safe');?>" target="_blank">充值</a ></p > ';
+                $confirm({ msg: html, title: "支付", close: false }, function () {
+                    if ($user_info().money < total) {
+                        layer_close = false;
+                        $flash("金额不足,请前往充值");
+                        setTimeout(function () {
+                            window.open('<?php echo U("user/safe");?>');
+                        }, 1000);
+                        return false;
+                    } else {
+                        $post('<?php echo U("task/pay_deposit");?>', { task_id: result_data });
+                    }
+                }, function () {
+                    window.location = '<?php echo U("task/lists");?>';
+                });
+            }
+        } else {
+            $alert("发布成功", function () {
+                window.location = '<?php echo U("task/lists");?>';
+            });
+        }
+    });
+</script>
+<script>
+    //选择支付方式
+    $(".pay_type").click(function () {
+        $(".pay_type").removeClass("selected");
+        $(this).addClass("selected");
+        $("input[name='pay_type']").val($(this).attr("data-id"));
+    });
+</script>
+<script>
+    var has_open_server =<? php echo $has_open_server?'true': 'false' ?>;
+</script>
+<script>
+    //选择招聘方式
+    $(".recruit_type input.checkbox").click(function () {
+        //未开通服务提示去开通服务
+        if (!has_open_server && $(this).find("input[name='recruit_type[]']").val() == '2') {
+            var buffer_obj = $(this).find("input[name='recruit_type[]']");
+            $confirm("您尚未开通内推系统服务,无法使用企业内推招聘方式", function () {
+                window.location = '<?php echo U("server/add");?>'; return false;
+            }, function () {
+
+            });
+            buffer_obj.attr("checked", false);
+            return false;
+        }
+        var commission_person = false;
+        var pay_type = false;
+        var pay_type2 = false;
+        var guwen_show = false;
+        var recruit_need = false;
+        $("input[name='recruit_type[]']:checked").each(function () {
+            if ($(this).val() == "1" || $(this).val() == "2") {
+                commission_person = true;
+                recruit_need = true;
+            }
+            if ($(this).val() == "2") {
+                pay_type = true;
+            }
+            if ($(this).val() == "1") {
+                guwen_show = true;
+                pay_type2 = true;
+            }
+        });
+        if (recruit_need) {
+            $(".recruit_need_div").show();
+        } else {
+            $(".recruit_need_div").hide();
+        }
+        if (commission_person) {
+            $(".commission,.person_demand").show();
+        } else {
+            $(".commission,.person_demand").hide();
+        }
+        if (pay_type && !guwen_show) {
+            $("#pay_type").show();
+        } else {
+            $("#pay_type").hide();
+        }
+        if (pay_type2) {
+            $('#pay_type2').show();
+        } else {
+            $("#pay_type2").hide();
+        }
+
+    });
+</script>
+<script>
+    var occupation_type =<? php echo json_encode($occupation_type);?>
+</script>
+<script>
+        //职位类别修改
+        function occupation_id_change() {
+            var html = '';
+            if ($("[name='occupation_id']").val()) {
+                $.each(occupation_type[$("[name='occupation_id']").val()].children, function (item, temp) {
+                    html += '<option value="' + item + '">' + temp + '</option>';
+                });
+            }
+            $("[name='occupation_two_id']").html(html);
+        }
+    $("[name='occupation_id']").on("change", function () {
+        occupation_id_change();
+    });
+</script>
+<script>
+    <? php if (isset($readd_work['salary_range'])):?>
+        <? php $salary_range = explode(",", $readd_work['salary_range']);?>
+    <? php else:?>
+        <? php $salary_range = array('', '');?>
+    <? php endif;?>
+        //期望薪资选择
+        $("select[name='salary_min']").val('<?php echo $salary_range[0];?>');
+    salary_change();
+    $("select[name='salary_max']").val('<?php echo $salary_range[1];?>').trigger("change");
+    function salary_change() {
+        var min_salary = parseInt($("select[name='salary_min']").val());
+        var max_object = $("select[name='salary_max']");
+        max_object.find("option").not(":first").remove();
+        if (min_salary <= 0) { return; }
+        var html = '';
+        for (var i = min_salary + 2; i <= min_salary + 10; i++) {
+            html += '<option value="' + i + '">' + i + '</option>';
+        }
+        max_object.append(html);
+    }
+    $("select[name='salary_min']").on("change", function () {
+        salary_change();
+    });
+</script>
+
+<?php if(isset($readd_work["occupation_id"])):?>
+<script>
+    $("[name='occupation_id']").val('<?php echo $readd_work["occupation_id"];?>');
+    occupation_id_change();
+    $("[name='occupation_two_id']").val('<?php echo $readd_work["occupation_two_id"];?>').trigger("change");
+</script>
+<?php else:?>
+<script>
+    occupation_id_change();
+</script>
+<?php endif;?>
+
+<script type="text/javascript">
+    function settab(a) {
+        location.href = '/index.php/task/add?tab=' + a;
+    }
+    //省市县三级联动
+    $(function () {
+    <? php if (isset($readd_work["work_address_pro_cit_cou"])):?>
+    <? php $area_buffer = explode("#", $readd_work["work_address_pro_cit_cou"]);?>
+        var default_option = {
+            province_id:<? php echo $area_buffer[1];?>,
+            city_id: <?php echo $area_buffer[2];?>,
+                country_id:<? php echo $area_buffer[3];?>,
+    };
+    <? php else:?>
+        var default_option = {};
+    <? php endif;?>
+        var interview_address =<? php echo isset($readd_work['interview_address']) ? $readd_work['interview_address'] : "''";?>;
+    $province_city_country($("select[name='work_address_province_id']"), $("select[name='work_address_city_id']"), $("select[name='work_address_country_id']"), default_option);
+    $province_city_country($("select[name='interview_address_province_id']"), $("select[name='interview_address_city_id']"), $("select[name='interview_address_country_id']"), interview_address);
+    })
+</script>
+<script>
+    //添加职位标签
+    $(".disabled_label .label_add").click(function () {
+        var html = '<input type="text" class="register_first_input" id="tag_name" style="width: 345px;" placeholder="请填写任职技能标签"/>';
+        var obj = $(this).closest(".disabled_label");
+        $confirm({ msg: html }, function () {
+            var tag_name = $("#tag_name").val();
+            if (tag_name == "") {
+                alert("请填写任职技能标签"); return false;
+            }
+            var html = '<span class="label_span">' + tag_name + '</span><i class="label_close"></i>';
+            obj.find("input[name='skill_need[]']").val(tag_name);
+            obj.append(html);
+        });
+    });
+    //删除标签
+    $(document).on("click", ".disabled_label .label_close", function () {
+        var obj = $(this).closest(".disabled_label");
+        obj.find(".label_close").remove();
+        obj.find(".label_span").remove();
+        obj.find("input[name='skill_need[]']").val("");
+    });
+</script>
+</script>
+<style>
+    .disabled_label .label_add {
+        background: url("/images/add_bg.png") center no-repeat #eeeeee;
+        cursor: pointer;
+        display: block;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+    }
+
+    .label_span {
+        position: absolute;
+        display: block;
+        left: 1px;
+        top: 0;
+        width: 82px;
+        height: 40px;
+        background: #ffffff;
+        text-align: center;
+        line-height: 40px;
+        font-size: 18px;
+        color: #ff8903;
+        z-index: 99;
+    }
+
+    .label_close {
+        position: absolute;
+        display: block;
+        width: 23px;
+        height: 24px;
+        background: url("/images/close1.png") center no-repeat;
+        top: -11px;
+        right: -10px;
+        z-index: 100;
+        cursor: pointer;
+    }
+</style>
+<script type="text/plain" id="push_top_template"><form action="<?php echo U('task/top');?>" method="post" id="task_form">
+    <div class="buy_server_list" style="height:unset;border:none;width:50%;margin-left:50px;margin-top:20px;">
+    <input type="hidden" name="task_id" id="in_task_id" value="">
+    <label class="interview_label">
+    <input type="radio" name="top_data" id="top_data" value="1@10" data_money="10">
+    <span class="s1">置顶1天</span>10个速职币</label>
+<label class="interview_label">
+    <input type="radio" name="top_data" id="top_data" value="10@80" data_money="80">
+    <span class="s1">置顶10天</span>80个速职币</label>
+<p class="buy_server_tip" data_suzhicoin="<?php echo $suzhicoin;?>">速职币余量：<?php echo $suzhicoin;?>个<a href="javascript:suzhicoin_buy();" target="_blank">充值</a></p>
+</div>
+<div class="alert_btn"></div>
+    </form>
+</script>
+<script type="text/plain" id="suzhicoin_template"><form action="" method="post" id="handle_form">
+<div class="buy_server_list" style="height:unset;border:none;width:unset;margin-left:50px;margin-top:20px;">
+    <?php foreach($suzhicoin_list as $value):?>
+    <label class="interview_label">
+        <input type="radio" name="suzhicoin_id" value="<?php echo $value['id'];?>" data-money="<?php echo $value['money']/100;?>">
+        <span class="s1"><?php echo $value['number'];?>个</span></label>
+    <?php endforeach;?>
+
+    <div id="discount" data-money="0" style="display:none;width:0;height:0;"></div>
+</div>
+<div class="btn" style="width:295px;margin:20px auto;display:block;" id="suzhicoin_submit">购买</div></form>
+</script>
+<script>
+    //查看职位详情
+    function task_info(task_id) {
+        if (task_id != 0) {
+            $.ajax({
+                url: "<?php echo U('task/info');?>",
+                type: "get",
+                async: false,
+                data: { "task_id": task_id },
+                success: function (data) {
+                    $box({ title: "职位详情", width: 750, msg: data });
+                }
+            });
+        } else {
+            var data = $('.pubform').serialize();
+            $.ajax({
+                url: "<?php echo U('task/test_info');?>",
+                type: "post",
+                async: false,
+                data: { "data": data },
+                success: function (data) {
+                    $box({ title: "职位详情", width: 750, msg: data });
+                }
+            });
+        }
+    }
+    function push_top(task_id) {
+        var html = $("#push_top_template").html();
+        $confirm({ title: "支付", msg: html }, function () {
+            layer_close = false;
+            var top_data = $("input[name='top_data']:checked").attr("data_money");
+            var coin = $('.buy_server_tip').attr('data_suzhicoin');
+            if (typeof (top_data) == "undefined") {
+                alert("请选择置顶天数"); return false;
+            }
+            if (parseInt(top_data) > parseInt(coin)) {
+                alert("速职币不足,请充值"); return false;
+            }
+            $("#task_form").submit();
+
+
+        });
+        $('#in_task_id').val(task_id);
+    }
+
+
+</script>
+<script>
+    //购买邀面
+    function suzhicoin_buy() {
+        var html = $("#suzhicoin_template").html();
+        $box({ title: "速职币", msg: html });
+    }
+    //确认购买
+    $(document).on("click", "#suzhicoin_submit", function () {
+        if ($("input[name='suzhicoin_id']:checked").length > 0) {
+            goto_submit('suzhicoin_id');
+        } else {
+            $alert("请选择购买数量");
+        }
+    });
+</script>
+<script>
+    //提交表单
+    function goto_submit(server_type) {
+        //计算金额
+        var total = 0;
+        total += parseFloat($("input[name='" + server_type + "']:checked").attr("data-money"));
+        total -= parseFloat($("#discount").attr("data-money"));
+        var select_html = '<input type="hidden" name="' + server_type + '" value="' + $("input[name='" + server_type + "']:checked").val() + '"/>';
+        var html = '<form id="submit_form" method="post" action="<?php echo U('server/buy');?>">'+select_html+'<p class="buy_server_tip">金额：'+total.toFixed(2)+'元</p > <p class="buy_server_tip">账户余额：'+$user_info().money+'元<a href="<?php echo U('user/safe');?>" target="_blank">充值</a></p></form > ';
+        $confirm({ msg: html, title: "支付" }, function () {
+            layer_close = false;
+            if ($user_info().money < total) {
+                $alert("金额不足,请前往充值", function () {
+                    layer_close = null;
+                    window.open('<?php echo U("user/safe");?>');
+                }); return false;
+            } else {
+                $("#submit_form").submit();
+            }
+        });
+    }
+</script>
+<script type="text/html" id="notice_result_html">
+    <div class="register_first_column fix_width_column" style="margin-top: 0;">
+        <label class="register_first_label" style="width: 68px;">面试结果</label>
+        <select class="register_first_select" name="result_type"><option value="1">暂时不合适</option><option value="2">发offer</option></select>
+    </div>
+    <div class="register_first_column fix_width_column" id="result_content">
+        <label class="register_first_label" style="width: 68px;">原因</label>
+        <textarea class="register_first_textarea" name="content" rows="4"></textarea>
+    </div>
+    <div class="register_first_column fix_width_column result_notice_offer" style="display: none;">
+        <label class="register_first_label" style="width: 68px;">薪资</label>
+        <input type="text" class="register_first_input" name="salary" placeholder="请填写薪资" value=""/>
+    </div>
+    <div class="register_first_column fix_width_column result_notice_offer" style="display: none;">
+        <label class="register_first_label" style="width: 68px;">期望入职时间</label>
+        <input type="text" class="register_first_input" name="work_time" placeholder="请填写期望入职时间" value="" id="datetimepicker"/>
+    </div>
+    <div class="register_first_column fix_width_column result_notice_offer" style="display: none;">
+        <label class="register_first_label" style="width: 68px;">联系人</label>
+        <input type="text" class="register_first_input" name="contact" placeholder="请填写联系人" value=""/>
+    </div>
+    <div class="register_first_column fix_width_column result_notice_offer" style="display: none;">
+        <label class="register_first_label" style="width: 68px;">联系方式</label>
+        <input type="text" class="register_first_input" name="contact_tel" placeholder="请填写联系方式" value=""/>
+    </div>
+</script>
+<script>
+    //结果通知
+    function notice_result(order_id) {
+        var html = $("#notice_result_html").html();
+        $confirm({
+            msg: html, title: "结果通知", init: function () {
+                $.datetimepicker.setLocale('ch');
+                $('#datetimepicker').datetimepicker({
+                    lang: "ch", //语言选择中文 注：旧版本 新版方法：$.datetimepicker.setLocale('ch');
+                    format: "Y-m-d H:i:s",      //格式化日期
+                    timepicker: true,   //关闭时间选项
+                    todayButton: true,    //关闭选择今天按钮
+                    minDate: 0
+                });
+            }
+        }, function () {
+            var work_time = $("input[name='work_time']").val();
+            var content = $("textarea[name='content']").val();
+            var result_type = $("select[name='result_type']").val();
+            var salary = $("input[name='salary']").val();
+            var contact = $("input[name='contact']").val();
+            var contact_tel = $("input[name='contact_tel']").val();
+            if (result_type == 1) {
+                if (content == "") {
+                    layer_close = false; alert("请填写原因"); return false;
+                }
+            } else {
+                if (salary == "" || !/\d+/.test(salary)) {
+                    layer_close = false; alert("请填写正确的薪资"); return false;
+                }
+                if (contact == "") {
+                    layer_close = false; alert("请填写联系人"); return false;
+                }
+                if (contact_tel == "" || !$mobile(contact_tel)) {
+                    layer_close = false; alert("请填写正确的联系方式"); return false;
+                }
+                if (work_time == "" || !/^\d{4}\-\d{2}\-\d{2}\s\d{2}\:\d{2}\:\d{2}$/.test(work_time)) {
+                    layer_close = false;
+                    alert("请填写正确的时间Y-m-d H:i:s");
+                }
+            }
+            layer_close = null;
+            $post('<?php echo U("index/notice_interview");?>', {
+                order_id: order_id,
+                work_time: work_time,
+                content: content,
+                contact_tel: contact_tel,
+                contact: contact,
+                salary: salary,
+                result_type: result_type,
+            });
+        }, function () {
+            layer_close = null;
+        });
+    }
+    //更改面试结果
+    $(document).on("change", "select[name='result_type']", function () {
+        var result_type = $(this).val();
+        if (result_type == 1) {
+            $("#result_content").show();
+            $(".result_notice_offer").hide();
+        } else {
+            $("#result_content").hide();
+            $(".result_notice_offer").show();
+        }
+    });
+</script>

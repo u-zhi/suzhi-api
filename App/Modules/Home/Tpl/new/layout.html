@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache" />
+    <!--当网站添加到主屏幕快速启动方式，将网站添加到主屏幕快速启动方式-->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv=X-UA-Compatible content="IE=edge,chrome=1">
+    <meta content="always" name="referrer">
+
+    <meta name='keywords' content="速职" />
+    <meta name='description' content="速职平台" />
+    <title>速职招聘系统</title>
+    <link rel="stylesheet" href="/assets/main.css" type="text/css" media="screen" charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="/js/datetimepicker/jquery.datetimepicker.css" />
+    <script src="/assets/js/jquery.min.js"></script>
+    <!-- <script type="text/javascript" src="/js/common.js"></script> -->
+    <script type="text/javascript" src="/assets/js/common.js?v=201803141604"></script>
+    <script src="/js/datetimepicker/jquery.datetimepicker.full.js"></script>
+</head>
+
+<body>
+    <div id="root">
+        <!-- 网站头部 start -->
+        <header class="m-header">
+            <div class="container flexbox">
+                <div class="logo__wrap flexbox">
+                    <a href="./">
+                        <img class="logo__img" src="/assets/images/logo.jpg" />
+                    </a>
+                    <span class="logo__line">|</span>
+                    <span class="logo__title">人工智能招聘系统</span>
+                </div>
+                <div class="user__wrap flexbox">
+                    <i class="icon-avatar"></i>
+                    <div class="user__title flexbox">
+                        <div class="user__comp ellipsis">
+                            <?php echo helper()->name();?>
+                        </div>
+                        <i class="icon-arrowup"></i>
+                        <div class="subnav__wrap">
+                            <a href="/index.php/user/info" class="subnav__item">企业资料</a>
+                            <a href="/index.php/server/index" class="subnav__item">我的服务</a>
+                            <a href="/index.php/user/safe" class="subnav__item">账户安全</a>
+                            <a href="/index.php/login/logout" class="subnav__item">退出登录</a>
+                        </div>
+                    </div>
+                    <div class="user__msg flexbox">
+                        <i class="icon-bell"></i>
+                        <a href="<?php echo U('/index/message.html');?>" class="msg__txt">通知（
+                            <?php echo helper()->message_num();?>）</a>
+                    </div>
+                </div>
+            </div>
+            <div class="navbar__wrap">
+                <div class="navbar__item navbar__left"></div>
+                <div class="navbar__item navbar__main">
+                    <div class="city__wrap">
+                        <div class="city__current">
+                            <?php echo session("location_city");  ?>
+                        </div>
+                        <div class="city__switch" id="switchCity">
+                            <i class="icon-city"></i>
+                            <span>切换城市</span>
+                        </div>
+                    </div>
+                    <div class="tabnav__wrap">
+                        <a href="/" class="tabnav__item">首页</a>
+                        <div class="tabnav__item tabnav__item--active">
+                            <div class="tabnav__item--link">职位管理</div>
+                            <div class="subnav__wrap">
+                                <a href="/index.php/task/add?tab=1" class="subnav__item">发布职位</a>
+                                <a href="/index.php/task/add?tab=2" class="subnav__item">普通职位</a>
+                                <a href="/index.php/task/add?tab=3" class="subnav__item">悬赏职位</a>
+                                <a href="/index.php/task/add?tab=4" class="subnav__item">内推职位</a>
+                                <a href="/index.php/task/add?tab=5" class="subnav__item">求职者跟进</a>
+                            </div>
+                        </div>
+                        <div class="tabnav__item">
+                            <div class="tabnav__item--link">简历管理</div>
+                            <div class="subnav__wrap">
+                                <a href="/index.php/index/resume1" class="subnav__item">收到的简历</a>
+                                <a href="/index.php/index/resume2" class="subnav__item">解锁的简历</a>
+                                <a href="/index.php/index/resume3" class="subnav__item">面试邀请记录</a>
+                            </div>
+                        </div>
+                        <div class="tabnav__item">
+                            <div class="tabnav__item--link">简历库</div>
+                            <div class="subnav__wrap">
+                                <a href="/index.php/square/lists" class="subnav__item">简历搜索</a>
+                                <a href="/index.php/square/lists" class="subnav__item">智能匹配人才</a>
+                            </div>
+                        </div>
+                        <div class="tabnav__item">
+                            <div class="tabnav__item--link">增值服务</div>
+                            <div class="subnav__wrap">
+                                <a href="" class="subnav__item">内推系统</a>
+                                <a href="/index.php/square/job_fair" class="subnav__item">招聘会</a>
+                                <a href="/index.php/outsourcing/lists" class="subnav__item">招聘外包</a>
+                                <a href="" class="subnav__item">智能HR</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="navbar__item navbar__right"></div>
+            </div>
+        </header>
+        <!-- 网站头部 end -->
+
+        {__CONTENT__}
+
+    </div>
+
+    <!-- 选择城市开始 -->
+    <div class="mask" id="maskSwitchCity">
+        <div class="mask__wrap">
+            <div class="modal__wrap--normal">
+                <div class="modal__head">
+                    <span class="modal__head--title">选择城市</span>
+                    <span class="modal__head--close">×</span>
+                </div>
+                <div class="modal__content">
+                    <div class="modal__text--list">
+                        <span class="list__item--active">杭州</span>
+                        <span class="list__item">温州</span>
+                        <span class="list__item">宁波</span>
+                        <span class="list__item">上海</span>
+                        <span class="list__item">全国站</span>
+                    </div>
+                    <div class="modal__bt--wrap">
+                        <div class="modal__bt--submit">确定</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 选择城市开始 -->
+    <script type="text/javascript">
+        $(function () {
+            // 城市切换弹窗
+            function switchCityModal() {
+                $("#switchCity").click(function () {
+                    $('#maskSwitchCity').show()
+                });
+                $('#maskSwitchCity').find(".modal__head--close").click(function () {
+                    $('#maskSwitchCity').hide()
+                })
+            }
+            switchCityModal()
+        })
+    </script>
+</body>
+
+</html>

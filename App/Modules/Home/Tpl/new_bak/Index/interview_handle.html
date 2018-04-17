@@ -1,0 +1,31 @@
+<div class="bg-fff">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>编号</th>
+                <th>职位</th>
+                <th>求职者</th>
+                <th>联系方式</th>
+                <th>来源</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+        <?php foreach($content as $key=>$value):?>
+        <tr>
+            <td><?php echo $value['id'];?></td>
+            <td><?php echo $value['task_name'];?></td>
+            <td><?php echo $value['real_name'];?></td>
+            <td><?php echo $value['mobile'];?></td>
+            <td><?php echo $value["add_resource"];?></td>
+            <td>
+                <a href="<?php echo U('index/userinfo',array('order_id'=>$value['id']));?>" class="load_url">查看简历</a>
+                <a href="<?php echo U('index/has_interview');?>" data="order_id=<?php echo $value['id'];?>" class="sure_commit" title="确认已面试？">已面试</a>
+                <a href="<?php echo U('index/no_interview');?>" data="order_id=<?php echo $value['id'];?>" class="sure_commit" title="确认没来面试？">没来面试</a>
+            </td>
+        </tr>
+        <?php endforeach;?>
+        </tbody>
+    </table>
+    <?php echo helper()->page($pageinfo);?>
+</div>

@@ -1,0 +1,358 @@
+<div class="container2">
+  <ul class="changeTab nav3">
+    <li class="active">
+      <a href="/index.php/index/resume1">收到的简历</a>
+    </li>
+    <li>
+      <a href="/index.php/index/resume2">解锁的简历</a>
+    </li>
+    <li>
+      <a href="/index.php/index/resume3">面试邀请记录</a>
+    </li>
+  </ul>
+
+  <div class="box">
+    <!-- 收到的简历开始 -->
+    <div class="tab1">
+      <div class="changeContent w960">
+        <p class="zwlink">
+          <a class="col-yellow" href="#">招人更快，使用智能HR>>></a>
+        </p>
+        <div class="table___wrap">
+          <div class="table__tr table__tr--header">
+            <div class="table__tr--wrap">
+              <div class="table__th">姓名</div>
+              <div class="table__th">性别</div>
+              <div class="table__th">年龄</div>
+              <div class="table__th">学历</div>
+              <div class="table__th">岗位</div>
+              <div class="table__th">来源</div>
+            </div>
+            <div class="table__th table__tr--contact">联系方式</div>
+            <div class="table__th table__tr--time">投递时间</div>
+            <div class="table__th table__tr--action">操作</div>
+          </div>
+
+          <?php foreach($content as $value):?>
+          <div class="table__tr">
+            <div title="查看简历" class="table__tr--wrap viewResume">
+              <div class="table__td">
+                <?php echo $value['real_name'];?>
+              </div>
+              <div class="table__td">
+                <?php echo $value['gender'];?>
+              </div>
+              <div class="table__td">
+                <?php echo $value['birthday'];?>
+              </div>
+              <div class="table__td">
+                <?php echo $value['degree'];?>
+              </div>
+              <div class="table__td">
+                <?php echo $value['task_name'];?>
+              </div>
+              <div class="table__td">
+                <?php echo $value["add_resource"];?>
+              </div>
+            </div>
+            <div class="table__td table__tr--contact">
+              <?php echo $value["status"]==1?"邀请面试后会出现哦":$value['mobile'];?>
+            </div>
+            <div class="table__td table__tr--time">
+              <?php echo $value["create_time"];?>
+            </div>
+            <div class="table__td table__tr--action">
+              <a class="link-yellow">邀请面试</a>
+            </div>
+          </div>
+          <?php endforeach;?>
+
+          <?php foreach($interview_list as $value):?>
+          <div class="table__tr">
+            <div href="" class="table__tr--wrap viewResume">
+              <div class="table__td">
+                <a class="load_url load<?php echo $value['user_id'] ?>" href="/index/userinfo/user_id/2">
+                  <?php echo $value['nickname'];?>xx
+                </a>
+              </div>
+              <div class="table__td">男</div>
+              <div class="table__td">22</div>
+              <div class="table__td">本科</div>
+              <div class="table__td">
+                <?php echo $value['occupation'];?>
+              </div>
+              <div class="table__td">
+                <?php echo $value['add_type_name'];?>
+              </div>
+            </div>
+            <div class="table__td table__tr--contact">18672535879</div>
+            <div class="table__td table__tr--time">
+              <?php echo $value['create_time'];?>
+            </div>
+            <div class="table__td table__tr--action">
+              <a class="link-yellow">
+                <?php echo $value['status']==4?"拒绝":"接受";?>
+              </a>
+            </div>
+          </div>
+          <?php endforeach;?>
+        </div>
+        <?php echo helper()->page($pageinfo);?>
+        <div class="loadmore text-center">
+          <span>
+            <i class="icon icon-load"></i>加载更多</span>
+        </div>
+      </div>
+    </div>
+    <!-- 收到的简历结束 -->
+  </div>
+
+  <!-- 简历弹窗开始 -->
+  <div class="mask" id="maskResume">
+    <div class="resume__wrap">
+      <!-- 弹窗头部开始 -->
+      <div class="resume__head">
+        <span>
+          <img src="/assets/images/logo.jpg" class="resume__image">
+        </span>
+        <span>
+          <img src="/assets/images/close.png" class="resume__close">
+        </span>
+      </div>
+      <!-- 弹窗头部结束 -->
+
+      <!-- 简历开始 -->
+      <div class="resume__main">
+        <div class="main__head">
+          <div class="head__left">
+            <span class="head__time">简历更新时间：2018.02.02</span>
+            <span class="head__small">解锁或邀请面试后可下载</span>
+          </div>
+          <div class="head__right">
+            <span class="head__download">下载</span>
+            <span class="head__invite">邀请面试</span>
+          </div>
+        </div>
+        <div class="main__pdf">
+          <!-- 第一部分开始 -->
+          <div class="pdf__one">
+            <div class="pdf__one--left">
+              <div class="pdf__name">
+                <span class="pdf__name--name">张三</span>
+                <span class="pdf__name--work">销售专员/销售代表</span>
+              </div>
+              <ul class="pdf__all">
+                <li class="pdf__all--item">男 |</li>
+                <li class="pdf__all--item">未婚 |</li>
+                <li class="pdf__all--item">22岁 |</li>
+                <li class="pdf__all--item">1995年7月 |</li>
+                <li class="pdf__all--item">本科 |</li>
+                <li class="pdf__all--item">国籍：中国 |</li>
+                <li class="pdf__all--item">群众 |</li>
+              </ul>
+              <div class="pdf__content">
+                <p class="pdf__normal">
+                  <span class="pdf__normal--title">工作经验：</span>2年工作经验</p>
+                <p class="pdf__normal">
+                  <span class="pdf__normal--title">现 居 地：</span>杭州—下城区</p>
+                <p class="pdf__normal">
+                  <span class="pdf__normal--title">户籍地：</span>杭州</p>
+                <p class="pdf__normal">
+                  <span class="pdf__normal--title">联系电话：</span>1333333333</p>
+                <p class="pdf__normal">
+                  <span class="pdf__normal--title">邮箱：</span>12131212@qq.com</p>
+              </div>
+            </div>
+            <div class="pdf__one--right">
+              <img src="/assets/images/logo2.png" class="pdf__one--image" />
+            </div>
+          </div>
+          <!-- 第一部分结束 -->
+
+          <!-- 第二部分开始 -->
+          <div class="pdf__two">
+            <div class="main__common">
+              <div class="common__title">
+                <span class="common__title--show">求职方向</span>
+                <span class="common__title--line"></span>
+              </div>
+            </div>
+            <div class="pdf__content">
+              <p class="pdf__normal">
+                <span class="pdf__normal--title">期望地点：</span>杭州</p>
+              <p class="pdf__normal">
+                <span class="pdf__normal--title">期望职位：</span>销售代表 销售专员</p>
+              <p class="pdf__normal">
+                <span class="pdf__normal--title">工作性质：</span>全职</p>
+            </div>
+          </div>
+          <!-- 第二部分结束 -->
+
+          <!-- 第三部分开始 -->
+          <div class="pdf__three">
+            <div class="main__common">
+              <div class="common__title">
+                <span class="common__title--show">教育经历</span>
+                <span class="common__title--line"></span>
+              </div>
+            </div>
+            <div class="pdf__content">
+              <p class="pdf__normal">
+                <span class="pdf__normal--title">2013.9-2017.6 &nbsp;&nbsp;&nbsp;&nbsp;浙江大学&nbsp;&nbsp;&nbsp;&nbsp; 市场营销&nbsp;&nbsp;&nbsp;&nbsp; 研究生
+                </span>
+              </p>
+              <p class="pdf__normal">
+                <span class="pdf__normal--title">2013.9-2017.6 &nbsp;&nbsp;&nbsp;&nbsp;浙江大学&nbsp;&nbsp;&nbsp;&nbsp; 市场营销&nbsp;&nbsp;&nbsp;&nbsp; 本科
+                </span>
+              </p>
+              <p class="pdf__normal">
+              </p>
+            </div>
+          </div>
+          <!-- 第三部分结束 -->
+
+          <!-- 第四部分开始 -->
+          <div class="pdf__four">
+            <div class="main__common">
+              <div class="common__title">
+                <span class="common__title--show">工作经历</span>
+                <span class="common__title--line"></span>
+              </div>
+            </div>
+            <div class="pdf__content">
+              <p class="pdf__normal">
+                <span class="pdf__normal--dot"></span>
+                <span class="pdf__normal--title">2013.9-2017.6 &nbsp;&nbsp;&nbsp;网易科技（杭州）股份有限公司</span>
+              </p>
+              <p class="pdf__small">
+                <span class="pdf__small--left">
+                  行业类别：
+                </span>
+                <span class="pdf__small--right">
+                  行业类别：互联网 | 企业性质：民营企业 | 规模：100—500人
+                </span>
+              </p>
+              <p class="pdf__small">
+                <span class="pdf__small--left">
+                  工作内容：
+                </span>
+                <span class="pdf__small--right">
+                  工作内容：1、负责销售团队搭建1、负责销售团队搭建 1、负责销售团队搭建 1、负责销售团队搭建 1、负责销售团队 搭建 1、负责销售团队搭建 1、销售团队搭建 1、负责销售团队搭建1、负责销售团队搭建
+                </span>
+              </p>
+            </div>
+            <div class="pdf__line"></div>
+            <div class="pdf__content">
+              <p class="pdf__normal">
+                <span class="pdf__normal--dot"></span>
+                <span class="pdf__normal--title">2013.9-2017.6 &nbsp;&nbsp;&nbsp;网易科技（杭州）股份有限公司</span>
+              </p>
+              <p class="pdf__small">
+                <span class="pdf__small--left">
+                  行业类别：
+                </span>
+                <span class="pdf__small--right">
+                  行业类别：互联网 | 企业性质：民营企业 | 规模：100—500人
+                </span>
+              </p>
+              <p class="pdf__small">
+                <span class="pdf__small--left">
+                  工作内容：
+                </span>
+                <span class="pdf__small--right">
+                  工作内容：1、负责销售团队搭建1、负责销售团队搭建 1、负责销售团队搭建 1、负责销售团队搭建 1、负责销售团队 搭建 1、负责销售团队搭建 1、销售团队搭建 1、负责销售团队搭建1、负责销售团队搭建
+                </span>
+              </p>
+            </div>
+          </div>
+          <!-- 第四部分结束 -->
+
+          <!-- 第五部分开始 -->
+          <div class="pdf__five">
+            <div class="main__common">
+              <div class="common__title">
+                <span class="common__title--show">项目经历</span>
+                <span class="common__title--line"></span>
+              </div>
+            </div>
+            <div class="pdf__content">
+              <p class="pdf__normal">
+                <span class="pdf__normal--dot"></span>
+                <span class="pdf__normal--title">2013.9-2017.6 &nbsp;&nbsp;&nbsp;项目名称：阴阳师</span>
+              </p>
+              <p class="pdf__small">
+                <span class="pdf__small--left">
+                  工作内容：
+                </span>
+                <span class="pdf__small--right">
+                  工作内容：1、负责销售团队搭建1、负责销售团队搭建 1、负责销售团队搭建 1、负责销售团队搭建 1、负责销售团队 搭建 1、负责销售团队搭建 1、销售团队搭建 1、负责销售团队搭建1、负责销售团队搭建
+                </span>
+              </p>
+            </div>
+            <div class="pdf__line"></div>
+            <div class="pdf__content">
+              <p class="pdf__normal">
+                <span class="pdf__normal--dot"></span>
+                <span class="pdf__normal--title">2013.9-2017.6 &nbsp;&nbsp;&nbsp;网易科技（杭州）股份有限公司</span>
+              </p>
+              <p class="pdf__small">
+                <span class="pdf__small--left">
+                  工作内容：
+                </span>
+                <span class="pdf__small--right">
+                  工作内容：1、负责销售团队搭建1、负责销售团队搭建 1、负责销售团队搭建 1、负责销售团队搭建 1、负责销售团队 搭建 1、负责销售团队搭建 1、销售团队搭建 1、负责销售团队搭建1、负责销售团队搭建
+                </span>
+              </p>
+            </div>
+          </div>
+          <!-- 第五部分结束 -->
+
+          <!-- 第六部分开始 -->
+          <div class="pdf__six">
+            <div class="main__common">
+              <div class="common__title">
+                <span class="common__title--show">自我描述</span>
+                <span class="common__title--line"></span>
+              </div>
+            </div>
+            <div class="pdf__content" style="padding: 0 30px;">
+              <p class="pdf__small">
+                <span class="pdf__small--left">
+                  工作内容：
+                </span>
+                <span class="pdf__small--right">
+                  工作内容：1、负责销售团队搭建1、负责销售团队搭建 1、负责销售团队搭建 1、负责销售团队搭建 1、负责销售团队 搭建 1、负责销售团队搭建 1、销售团队搭建 1、负责销售团队搭建1、负责销售团队搭建
+                </span>
+              </p>
+            </div>
+          </div>
+          <!-- 第六部分结束 -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 简历弹窗结束 -->
+
+</div>
+
+<script>
+  $(function () {
+    // 查看简历弹窗
+    function viewResumeModal() {
+      $('.viewResume').click(function () {
+        $("#maskResume").show()
+      })
+      $("#maskResume").find('.resume__close').click(function () {
+        $("#maskResume").hide()
+      })
+    }
+    //viewResumeModal()
+
+
+    var userid = '<?php echo $userid  ?>';
+    if (userid) {
+      $('.load' + userid).click();
+
+    }
+  })
+</script>

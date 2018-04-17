@@ -1,0 +1,105 @@
+<div class="container2">
+    <ul class="changeTab" style="width: 360px;margin: 0 auto 30px">
+        <li  class="active" onclick="settab(1)">收到的简历</li>
+        <li  onclick="settab(2)">解锁的简历</li>
+        <li onclick="settab(3)">面试邀请记录</li>
+    </ul>
+    <div class="changeContent">
+        <div class="tab1" style="display: block;">
+            <p class="zwlink"><a class="col-yellow" href="#">招人更快，使用智能HR>>></a></p>
+            <table class="sztable">
+                <thead>
+                <tr>
+                    <th>姓名</th>
+                    <th>性别</th>
+                    <th>年龄</th>
+                    <th>学历</th>
+                    <th>职位</th>
+                    <th>来源</th>
+                    <th>联系方式</th>
+                    <th>投递时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach($content as $value):?>
+                <tr>
+                    <td><?php echo $value['real_name'];?></td>
+                    <td><?php echo $value['gender'];?></td>
+                    <td><?php echo $value['birthday'];?></td>
+                    <td><?php echo $value['degree'];?></td>
+                    <td><?php echo $value['task_name'];?></td>
+                    <td><?php echo $value["add_resource"];?></td>
+                    <td><?php echo $value["status"]==1?"邀请面试后会出现哦":$value['mobile'];?></td>
+                    <td><?php echo $value["create_time"];?></td>
+                    <td>
+                        <a href="<?php echo U('index/userinfo',array('order_id'=>$value['id']));?>" class="load_url">查看简历</a>
+                        <a href="javascript:inerview(<?php echo $value['id'];?>,this);" data-money="<?php echo $value['commission'];?>">邀请面试</a>
+                        <a href="<?php echo U('index/deny_interview');?>" data="order_id=<?php echo $value['id'];?>" class="sure_commit" title="确认不合适？">不合适</a>
+                    </td>
+                </tr>
+                <?php endforeach;?>
+                </tbody>
+            </table>
+            <div class="loadmore text-center">
+                <?php echo helper()->page($pageinfo);?>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function settab(a) {
+        location.href='/index.php/index/resume'+a;
+    }
+    //邀请面试
+    function inerview(order_id,obj){
+        var html='<div class="register_first_column fix_width_column" style="margin-top: 0;"><label class="register_first_label" style="width: 68px;">面试时间</label>';
+        html+='<input type="text" class="register_first_input" name="interview_time" placeholder="请填写面试时间" value="" id="datetimepicker"/></div>';
+        var commission=parseInt($(obj).attr("data-money"));
+        $confirm({msg:html,title:"确定邀请面试？",init:function(){
+            $.datetimepicker.setLocale('ch');
+            $('#datetimepicker').datetimepicker({
+                lang:"ch", //语言选择中文 注：旧版本 新版方法：$.datetimepicker.setLocale('ch');
+                format:"Y-m-d H:i:s",      //格式化日期
+                timepicker:true,   //关闭时间选项
+                todayButton:true,    //关闭选择今天按钮
+                minDate: 0
+            });
+        }},function(){
+            var interview_time=$("input[name='interview_time']").val();
+            if(interview_time=="" || !/^\d{4}\-\d{2}\-\d{2}\s\d{2}\:\d{2}\:\d{2}$/.test(interview_time)){
+                layer_close=false;
+                alert("请填写正确的时间Y-m-d H:i:s");
+            }else{
+                //佣金是否足够支付
+                $.ajax({
+                    url:"<?php echo U('index/commission_enough_pay');?>",
+                    type:"get",
+                    data:{"order_id":order_id},
+                    dataType:"json",
+                    async:false,
+                    success:function(data){
+                        if(data==1){
+                            layer_close=null;
+                            $post('<?php echo U("index/pass_interview");?>',{order_id:order_id,interview_time:interview_time});
+                        }else{
+                            if(confirm("佣金不足以支付,即将从余额进行支付?")){
+                                var money=parseInt($user_info().money);
+                                if(money<commission){
+                                    alert("余额不足以支付,请充值后重试");
+                                }else{
+                                    layer_close=null;
+                                    $post('<?php echo U("index/pass_interview");?>',{order_id:order_id,interview_time:interview_time});
+                                }
+                            }else{
+                                layer_close=null;
+                            }
+                        }
+                    }
+                });
+            }
+        },function(){
+            layer_close=null;
+        });
+    }
+</script>

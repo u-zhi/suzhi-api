@@ -1,0 +1,135 @@
+<script src="/assets/js/jquery.min.js"></script>
+<script src="/js/datetimepicker/jquery.datetimepicker.full.js"></script>
+<?php if($content):?>
+
+    <!--<div class="bg-fff" style="padding-bottom: 12px;overflow-x:auto;">-->
+        <!--<table class="table">-->
+            <!--<thead>-->
+            <!--<tr>-->
+                <!--<th>编号</th>-->
+                <!--<th>职位</th>-->
+                <!--<th>模式</th>-->
+                <!--<th>佣金</th>-->
+                <!--<th>收到简历</th>-->
+                <!--<th>面试人数</th>-->
+                <!--<th>操作</th>-->
+            <!--</tr>-->
+            <!--</thead>-->
+            <!--<tbody>-->
+            <!--<?php foreach($content as $value):?>-->
+            <!--<tr>-->
+                <!--<td><?php echo $value['id'];?></td>-->
+                <!--<td><?php echo $value['name'];?></td>-->
+                <!--<td><?php echo $value['recruit_type'];?></td>-->
+                <!--<td><?php echo ($value['recruit_type_inner']==1 && $value['recruit_type_hunter']==1)?'&#45;&#45;':$value['commission']/100;?></td>-->
+                <!--<td><?php echo $value['order_number'];?></td>-->
+                <!--<td><?php echo $value['interview_number'];?></td>-->
+                <!--<td>-->
+                    <!--<?php if($value["allow_apply_interview"]):?>-->
+                    <!--<a data-id="<?php echo $value['id'];?>" href="javascript:;" class="apply_interview_btn">选择该职位</a>-->
+                    <!--<?php else:?>-->
+                    <!--已投递-->
+                    <!--<?php endif;?>-->
+                <!--</td>-->
+            <!--</tr>-->
+            <!--<?php endforeach;?>-->
+            <!--</tbody>-->
+        <!--</table>-->
+        <!--<?php echo helper()->page($pageinfo);?>-->
+    <!--</div>-->
+    <div class="modal__wrap--normal" style="margin: 0;box-shadow: none;">
+        <div class="modal__head">
+        <span class="modal__head--title">邀请面试</span>
+        <span class="modal__head--close">×</span>
+        </div>
+        <div class="modal__content" id="applyInterview">
+            <div class="modal__row modal__row--interview">
+                <span class="modal__text--name">职位：</span>
+                <select class="modal__input--select applyInterviewSelect">
+                    <option value="">选择职位</option>
+                    <?php foreach($content as $value):?>
+                    <?php if($value["allow_apply_interview"]):?>
+                    <option value="<?php echo $value['id'];?>"><?php echo $value['name'];?></option>
+                    <?php else:?>
+                    <option value="<?php echo $value['id'];?>"><?php echo $value['name'];?>(已投递)</option>
+                    <?php endif;?>
+                    <?php endforeach;?>
+                </select>
+                <em class="tips hide"><i></i>未选择职位</em>
+            </div>
+            <div class="modal__row">
+                <span class="modal__text--name">面试时间：</span>
+                <input type="text" class="modal__input--time datetimePicker" style="padding-left: 14px;" placeholder="请填写面试时间">
+                <em class="tips hide"><i></i>时间格式错误</em>
+            </div>
+            <div class="modal__text--remind">邀请面试提示将会以短信形式发送。</div>
+            <div class="modal__bt--submit modal__bt--interview applyInterviewConfirm">确认</div>
+            <div class="showError hide" style="margin-top: 4px auto 0 auto;"><em class="tips"><i></i></em></div>
+        </div>
+    </div>
+    <?php if(!$nofirst):?>
+    <script>
+        $(function () {
+            var $applyInterview = $('#applyInterview');
+            var $applyInterviewSelect = $applyInterview.find('.applyInterviewSelect');
+            var $datetimePicker = $applyInterview.find('.datetimePicker');
+            var $applyInterviewConfirm = $applyInterview.find('.applyInterviewConfirm');
+            var $showError = $applyInterview.find('.showError');
+
+            $.datetimepicker.setLocale('ch');
+            $applyInterview.find('.datetimePicker').datetimepicker({
+                lang:"ch", //语言选择中文 注：旧版本 新版方法：$.datetimepicker.setLocale('ch');
+                format:"Y-m-d H:i:s",      //格式化日期
+                timepicker:true,   //关闭时间选项
+                todayButton:true,    //关闭选择今天按钮
+                minDate: 0
+            });
+
+            $applyInterviewConfirm.on('click', function () {
+                var taskId = $applyInterviewSelect.val();
+                var interviewTime = $datetimePicker.val();
+                var userId='<?php echo $user_row["id"];?>';
+                var refer='<?php echo $refer;?>';
+                $applyInterviewSelect.next().hide()
+                $datetimePicker.next().hide()
+                if (taskId <= 0) {
+                    $applyInterviewSelect.next().show()
+                    return
+                }
+                if(interviewTime === "" || !/^\d{4}\-\d{2}\-\d{2}\s\d{2}\:\d{2}\:\d{2}$/.test(interviewTime)) {
+                    $datetimePicker.next().show()
+                    return
+                }
+
+                $showError.hide();
+
+                $.ajax({
+                    url:"<?php echo U('square/allow_apply_interview');?>",
+                    type:"get",
+                    async:false,
+                    data:{"task_id":taskId,"user_id":userId},
+                    dataType:"json",
+                    success:function (obj) {
+                        if(obj.status=="fail"){
+                            $showError.show();
+                            $showError.find('.tips').html('<i></i>' + obj.msg);
+                        }else if(obj.status=="success"){
+                            layer_close=null;
+                            $post("<?php echo U('square/apply_interview');?>",{task_id:taskId, user_id:userId, interview_time:interviewTime,refer:refer});
+                        }
+                    }
+                });
+            })
+        });
+    </script>
+    <?php endif;?>
+
+<?php else:?>
+    <div class="bg-fff" style="padding-bottom: 12px;overflow-x:auto;width: 300px;padding-top: 35px;text-align: center">
+        <div style="text-align: center">您尚未开发布职位，无法进行职位邀请面试。</div>
+        <a href="<?php echo U('task/add');?>" class="btn" style="margin-top: 35px;">去发布职位</a>
+    </div>
+    <script>
+        $(".alert_title").html("提示");
+    </script>
+<?php endif;?>

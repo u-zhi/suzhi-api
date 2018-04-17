@@ -1,0 +1,1 @@
+php %cd%\crontab.php image/clean

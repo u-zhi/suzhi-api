@@ -1,0 +1,241 @@
+<div class="bg-fff" style="padding: 25px 0;">
+<form id="register_first_form" action="<?php echo U('user/edit_info');?>" method="post">
+    <div class="register_first_column fix_width_column">
+        <label class="register_first_label">上传企业logo</label>
+        <div class="register_first_img logo_div"><img src="<?php echo thumb_image($company_row['logo_url'],90,90);?>"/><span></span></div>
+        <input type="hidden" name="logo_url" value="<?php echo $company_row['logo_url'];?>"/>
+        <input type="file" name="logo" id="file_select_button"/>
+        <span class="register_frist_error register_frist_error1"></span>
+    </div>
+    <div class="register_first_column fix_width_column">
+        <label class="register_first_label">上传营业执照或名片</label>
+        <div class="register_first_img license_div"><img src="<?php echo thumb_image($company_row['license_url'],90,90);?>"/><span></span></div>
+        <input type="hidden" name="license_url" value="<?php echo $company_row['license_url'];?>"/>
+        <input type="file" name="license" id="file_select_button2"/>
+        <span class="register_frist_error register_frist_error1"></span>
+    </div>
+    <div class="register_first_column fix_width_column">
+        <label class="register_first_label">企业名称</label>
+        <input type="text" class="register_first_input" name="name" placeholder="请填写企业名称" value="<?php echo $company_row['name'];?>"/>
+        <span class="register_frist_error"></span>
+    </div>
+    <div class="register_first_column fix_width_column">
+        <label class="register_first_label">企业组织机构代码</label>
+        <input type="text" class="register_first_input" name="organization_code" placeholder="请填写企业组织机构代码" value="<?php echo $company_row['organization_code'];?>"/>
+        <span class="register_frist_error"></span>
+    </div>
+    <div class="register_first_column fix_width_column">
+        <label class="register_first_label">联系人</label>
+        <input type="text" class="register_first_input" name="contact" placeholder="请填写联系人" value="<?php echo $company_row['contact'];?>"/>
+        <span class="register_frist_error"></span>
+    </div>
+    <div class="register_first_column fix_width_column">
+        <label class="register_first_label">手机号</label>
+        <input type="text" class="register_first_input" name="phone_number" placeholder="请填写手机号" value="<?php echo $company_row['phone_number'];?>" readonly/>
+        <span class="register_frist_error"></span>
+    </div>
+    <div class="register_first_column fix_width_column">
+        <label class="register_first_label">固定电话</label><?php $buffer=explode('-',$company_row['telephone']);?>
+        <input type="text" class="register_first_input" style="width:32px;" name="telephone_code" placeholder="区号" value="<?php echo $buffer[0];?>"/><span class="register_first_link">-
+            </span><input type="text" class="register_first_input" style="width:173px;" name="telephone" placeholder="号码" value="<?php echo $buffer[1];?>"/>
+        <span class="register_frist_error"></span>
+    </div>
+    <div class="register_first_column fix_width_column">
+        <label class="register_first_label">公司行业</label>
+        <select class="register_first_select" style="width:110px;" name="type_classify_main"><?php foreach($type_classify as $key=>$value):?><option value="<?php echo $key;?>"><?php echo $value['name'];?></option><?php endforeach;?></select>
+        <select class="register_first_select" style="width:110px;" name="type_classify_sub"></select>
+    </div>
+    <div class="register_first_column fix_width_column">
+        <label class="register_first_label">融资情况</label>
+        <select class="register_first_select" name="financing" autocomplete="off"><?php foreach($financing as $key=>$value):?><option value="<?php echo $key;?>"<?php if($key==$company_row['financing']):?> selected<?php endif;?>><?php echo $value;?></option><?php endforeach;?></select>
+    </div>
+    <div class="register_first_column fix_width_column">
+        <label class="register_first_label">公司人数</label>
+        <select class="register_first_select" name="scale_type" autocomplete="off"><?php foreach($scale_type as $key=>$value):?><option value="<?php echo $key;?>"<?php if($key==$company_row['scale_type']):?> selected<?php endif;?>><?php echo $value;?></option><?php endforeach;?></select>
+    </div>
+    <div class="register_first_column fix_width_column">
+        <label class="register_first_label">公司地址</label>
+        <select class="register_first_select" style="width: 64px;margin-right: 8px;" name="province_id">
+
+        </select><select class="register_first_select" style="width: 64px;" name="city_id">
+
+        </select><select class="register_first_select" style="width: 64px;" name="country_id">
+
+        </select>
+        <span class="register_frist_error"></span>
+    </div>
+    <div class="register_first_column fix_width_column">
+        <label class="register_first_label"></label>
+        <textarea class="register_first_textarea" placeholder="请填写详细地址" rows="4" name="address"><?php echo $company_row['address'];?></textarea>
+        <span class="register_frist_error"></span>
+    </div>
+    <div class="register_first_column fix_width_column" style="margin-top: 50px;">
+        <label class="register_first_label"></label>
+        <div class="register_first_next register_first_submit">保存</div>
+    </div>
+</form>
+</div>
+<div id="file_upload_program" style="display:none;width:0;height: 0;"></div>
+<script type="text/javascript">
+    //保存第一步
+    $(".register_first_submit").on("click",function () {
+        var flag=true;
+        var logo_url=$("input[name='logo_url']").val();
+        if(logo_url==""){
+            flag=false;
+            $("input[name='logo_url']").closest(".register_first_column").find(".register_frist_error").text("请上传企业logo");
+        }else{
+            $("input[name='logo_url']").closest(".register_first_column").find(".register_frist_error").text("");
+        }
+        var license_url=$("input[name='license_url']").val();
+        if(license_url==""){
+            flag=false;
+            $("input[name='license_url']").closest(".register_first_column").find(".register_frist_error").text("请上传营业执照或名片");
+        }else{
+            $("input[name='license_url']").closest(".register_first_column").find(".register_frist_error").text("");
+        }
+        var name=$("input[name='name']").val();
+        if(name==""){
+            flag=false;
+            $("input[name='name']").closest(".register_first_column").find(".register_frist_error").text("请填写企业名称");
+        }else{
+            $("input[name='name']").closest(".register_first_column").find(".register_frist_error").text("");
+        }
+        var organization_code=$("input[name='organization_code']").val();
+        if(organization_code==""){
+            flag=false;
+            $("input[name='organization_code']").closest(".register_first_column").find(".register_frist_error").text("请填写企业组织机构代码");
+        }else{
+            $("input[name='organization_code']").closest(".register_first_column").find(".register_frist_error").text("");
+        }
+        var contact=$("input[name='contact']").val();
+        if(contact==""){
+            flag=false;
+            $("input[name='contact']").closest(".register_first_column").find(".register_frist_error").text("请填写联系人");
+        }else{
+            $("input[name='contact']").closest(".register_first_column").find(".register_frist_error").text("");
+        }
+        var phone_number=$("input[name='phone_number']").val();
+        if(phone_number=="" || !$mobile(phone_number)){
+            flag=false;
+            $("input[name='phone_number']").closest(".register_first_column").find(".register_frist_error").text("请填写正确的手机号");
+        }else{
+
+        }
+        var telephone_code=$("input[name='telephone_code']").val();
+        var telephone=$("input[name='telephone']").val();
+        if(telephone_code=="" || telephone==""){
+            flag=false;
+            $("input[name='telephone_code']").closest(".register_first_column").find(".register_frist_error").text("请填写固定电话");
+        }else{
+            $("input[name='telephone_code']").closest(".register_first_column").find(".register_frist_error").text("");
+        }
+        var country_id=$("select[name='country_id']").val();
+        if(country_id>0){
+            $("select[name='country_id']").closest(".register_first_column").find(".register_frist_error").text("");
+        }else{
+            flag=false;
+            $("select[name='country_id']").closest(".register_first_column").find(".register_frist_error").text("请选择公司所在区域");
+        }
+        var address=$("textarea[name='address']").val();
+        if(address==""){
+            flag=false;
+            $("textarea[name='address']").closest(".register_first_column").find(".register_frist_error").text("请填写公司详细地址");
+        }else{
+            $("textarea[name='address']").closest(".register_first_column").find(".register_frist_error").text("");
+        }
+        if(flag==false){return false;}
+        $("#register_first_form").submit();
+    });
+</script>
+<script>
+    $(function () {
+        //logo上传
+        $upload($('#file_select_button'),{
+            url:'/index.php/image/upload?thumb=1&width=90&height=90&file_key=uploadify&encrypt_key=<?php echo encrypt_password("ranmiaozai_mutouren");?>',
+            height:30,
+            width:90,
+            text:"重新上传",
+            name:"uploadify",
+            queue_id:"file_upload_program",
+            success:function (file, data) {
+                var obj=eval("("+data+")");
+                var html='<image src="'+obj.thumb+'"/><span></span>';
+                $('.logo_div').html(html);
+                $("input[name='logo_url']").val(obj.image);
+            },
+        });
+        //营业执照上传
+        $upload($('#file_select_button2'),{
+            url:'/index.php/image/upload?thumb=1&width=90&height=90&file_key=uploadify&encrypt_key=<?php echo encrypt_password("ranmiaozai_mutouren");?>',
+            height:30,
+            width:90,
+            text:"重新上传",
+            name:"uploadify",
+            queue_id:"file_upload_program",
+            success:function (file, data) {
+                var obj=eval("("+data+")");
+                var html='<image src="'+obj.thumb+'"/><span></span>';
+                $('.license_div').html(html);
+                $("input[name='license_url']").val(obj.image);
+            },
+        });
+    })
+</script>
+<script type="text/javascript">
+    //省市县三级联动
+    $(function () {
+        <?php $area_buffer=explode("#",$company_row["address_pro_city_coun"]);?>
+        var default_option={
+            province_id:<?php echo $area_buffer[1];?>,
+            city_id:<?php echo $area_buffer[2];?>,
+            country_id:<?php echo $area_buffer[3];?>,
+        };
+        $province_city_country($("select[name='province_id']"),$("select[name='city_id']"),$("select[name='country_id']"),default_option);
+    })
+</script>
+<script>var type_classify=<?php echo json_encode($type_classify);?>;</script>
+<script>
+    //公司行业修改
+    $(function () {
+        <?php $type_classify_buffer=explode(',',$company_row['type_classify']);?>
+        $("[name='type_classify_main']").val('<?php echo $type_classify_buffer[0];?>');
+        type_classify_main_change();
+        $("[name='type_classify_sub']").val('<?php echo $type_classify_buffer[1];?>').trigger("change");
+        function type_classify_main_change(){
+            var html='';
+            $.each(type_classify[$("[name='type_classify_main']").val()].children,function (item,temp) {
+                html+='<option value="'+item+'">'+temp+'</option>';
+            });
+            $("[name='type_classify_sub']").html(html);
+        }
+        $("[name='type_classify_main']").on("change",function () {
+            type_classify_main_change();
+        });
+    })
+</script>
+<style>
+    .swfupload{opacity: 0;}
+    .uploadify{display: inline-block;margin-top: 60px;margin-left: 20px;cursor: pointer;}
+    .uploadify-button{
+        background-color: #ffffff!important;
+        background-image: none;
+        border: 1px solid #ff8903;
+        border-radius: 3px;
+    }
+    .uploadify-button-text{
+        line-height: 30px;
+        color: #ff8903;
+        text-shadow: none;
+    }
+    .uploadifive-button{
+        left:80px;top:-35px;
+        background-color: #ffffff!important;
+        background-image: none!important;
+        border: 1px solid #ff8903!important;
+        border-radius: 3px!important;
+        color: #ff8903!important;
+        text-shadow: none!important;
+        cursor: pointer;
+    }
+</style>

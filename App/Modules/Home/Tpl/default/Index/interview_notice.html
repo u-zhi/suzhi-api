@@ -1,0 +1,121 @@
+<div class="bg-fff">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>职位</th>
+                <th>求职者</th>
+                <th>联系方式</th>
+                <th>来源</th>
+                <th>面试时间</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach($content as $value):?>
+            <tr>
+                <td><?php echo $value['task_name'];?></td>
+                <td><?php echo $value['real_name'];?></td>
+                <td><?php echo $value["status"]==1?"邀请面试后会出现哦":$value['mobile'];?></td>
+                <td><?php echo $value["add_resource"];?></td>
+                <td><?php echo $value['interview_time'];?></td>
+                <td>
+                    <a href="<?php echo U('index/userinfo',array('order_id'=>$value['id']));?>" class="load_url">查看简历</a>
+                    <a href="javascript:notice_result(<?php echo $value['id'];?>);">结果通知</a>
+                </td>
+            </tr>
+            <?php endforeach;?>
+        </tbody>
+    </table>
+    <?php echo helper()->page($pageinfo);?>
+</div>
+<script type="text/html" id="notice_result_html">
+    <div class="register_first_column fix_width_column" style="margin-top: 0;">
+        <label class="register_first_label" style="width: 68px;">面试结果</label>
+        <select class="register_first_select" name="result_type"><option value="1">暂时不合适</option><option value="2">发offer</option></select>
+    </div>
+    <div class="register_first_column fix_width_column" id="result_content">
+        <label class="register_first_label" style="width: 68px;">原因</label>
+        <textarea class="register_first_textarea" name="content" rows="4"></textarea>
+    </div>
+    <div class="register_first_column fix_width_column result_notice_offer" style="display: none;">
+        <label class="register_first_label" style="width: 68px;">薪资</label>
+        <input type="text" class="register_first_input" name="salary" placeholder="请填写薪资" value=""/>
+    </div>
+    <div class="register_first_column fix_width_column result_notice_offer" style="display: none;">
+        <label class="register_first_label" style="width: 68px;">期望入职时间</label>
+        <input type="text" class="register_first_input" name="work_time" placeholder="请填写期望入职时间" value="" id="datetimepicker"/>
+    </div>
+    <div class="register_first_column fix_width_column result_notice_offer" style="display: none;">
+        <label class="register_first_label" style="width: 68px;">联系人</label>
+        <input type="text" class="register_first_input" name="contact" placeholder="请填写联系人" value=""/>
+    </div>
+    <div class="register_first_column fix_width_column result_notice_offer" style="display: none;">
+        <label class="register_first_label" style="width: 68px;">联系方式</label>
+        <input type="text" class="register_first_input" name="contact_tel" placeholder="请填写联系方式" value=""/>
+    </div>
+</script>
+<script>
+    //结果通知
+    function notice_result(order_id){
+        var html=$("#notice_result_html").html();
+        $confirm({msg:html,title:"结果通知",init:function(){
+            $.datetimepicker.setLocale('ch');
+            $('#datetimepicker').datetimepicker({
+                lang:"ch", //语言选择中文 注：旧版本 新版方法：$.datetimepicker.setLocale('ch');
+                format:"Y-m-d H:i:s",      //格式化日期
+                timepicker:true,   //关闭时间选项
+                todayButton:true,    //关闭选择今天按钮
+                minDate: 0
+            });
+        }},function(){
+            var work_time=$("input[name='work_time']").val();
+            var content=$("textarea[name='content']").val();
+            var result_type=$("select[name='result_type']").val();
+            var salary=$("input[name='salary']").val();
+            var contact=$("input[name='contact']").val();
+            var contact_tel=$("input[name='contact_tel']").val();
+            if(result_type==1){
+                if(content==""){
+                    layer_close=false;alert("请填写原因");return false;
+                }
+            }else{
+                if(salary=="" || !/\d+/.test(salary)){
+                    layer_close=false;alert("请填写正确的薪资");return false;
+                }
+                if(contact==""){
+                    layer_close=false;alert("请填写联系人");return false;
+                }
+                if(contact_tel=="" || !$mobile(contact_tel)){
+                    layer_close=false;alert("请填写正确的联系方式");return false;
+                }
+                if(work_time=="" || !/^\d{4}\-\d{2}\-\d{2}\s\d{2}\:\d{2}\:\d{2}$/.test(work_time)){
+                    layer_close=false;
+                    alert("请填写正确的时间Y-m-d H:i:s");
+                }
+            }
+            layer_close=null;
+            $post('<?php echo U("index/notice_interview");?>',{
+                order_id:order_id,
+                work_time:work_time,
+                content:content,
+                contact_tel:contact_tel,
+                contact:contact,
+                salary:salary,
+                result_type:result_type,
+            });
+        },function(){
+            layer_close=null;
+        });
+    }
+    //更改面试结果
+    $(document).on("change","select[name='result_type']",function () {
+        var result_type=$(this).val();
+        if(result_type==1){
+            $("#result_content").show();
+            $(".result_notice_offer").hide();
+        }else{
+            $("#result_content").hide();
+            $(".result_notice_offer").show();
+        }
+    });
+</script>

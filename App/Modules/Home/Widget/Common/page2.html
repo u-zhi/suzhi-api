@@ -1,0 +1,23 @@
+<?php if(isset($pageinfo["total"]) && $pageinfo["total"]>1):?>
+<ul class="page">
+
+    <?php if(isset($pageinfo["previous"]) && $pageinfo["previous"]):?>
+    <li class="prev"><a href="<?php echo $link.$pageinfo['previous']; ?>">&lt;</a></li>
+    <?php endif; ?>
+
+    <?php foreach($pageinfo['range'] as $value):?>
+    <?php if($value === '······'):?>
+    <li><?php echo $value;?></li>
+    <?php else:?>
+    <li class="<?php if($value==$pageinfo['current']): ?>active<?php endif;?>"><a href="<?php echo $link.$value; ?>"><?php echo $value;?></a></li>
+    <?php endif;?>
+    <?php endforeach;?>
+
+    <?php if(isset($pageinfo["next"]) && $pageinfo["next"]):?>
+    <li class="next"><a href="<?php echo $link.$pageinfo['next']; ?>">&gt;</a></li>
+    <?php endif; ?>
+    <?php if(isset($pageinfo["first"]) && $pageinfo["first"]):?>
+    <li><a href="<?php echo $link.$pageinfo['first']; ?>">首页</a></li>
+    <?php endif; ?>
+</ul>
+<?php endif;?>
